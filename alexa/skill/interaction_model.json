@@ -1,0 +1,163 @@
+{
+  "manifest": {
+    "publishingInformation": {
+      "locales": {
+        "pt-PT": {
+          "name": "Kappy",
+          "summary": "O teu gestor financeiro pessoal por voz.",
+          "description": "Gere as tuas contas financeiras por voz com o Kappy. Cria, actualiza e apaga contas, e consulta os teus saldos.",
+          "examplePhrases": [
+            "Alexa, abre o Kappy",
+            "cria uma conta",
+            "quais são as minhas contas"
+          ],
+          "keywords": ["finanças", "contas", "dinheiro", "saldo"]
+        }
+      },
+      "isAvailableWorldwide": false,
+      "distributionCountries": ["PT", "BR"],
+      "category": "FINANCE",
+      "testingInstructions": "Diz: Alexa, abre o Kappy"
+    },
+    "apis": {
+      "custom": {
+        "endpoint": {
+          "uri": "arn:aws:lambda"
+        },
+        "interfaces": []
+      }
+    },
+    "manifestVersion": "1.0"
+  },
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "kappy",
+      "intents": [
+        {
+          "name": "CreateAccountIntent",
+          "slots": [
+            { "name": "accountName", "type": "AccountName" },
+            { "name": "accountType", "type": "AccountType" },
+            { "name": "balance",     "type": "AMAZON.NUMBER" },
+            { "name": "currency",    "type": "CurrencyType" }
+          ],
+          "samples": [
+            "criar conta",
+            "criar uma conta",
+            "criar conta {accountName}",
+            "criar uma conta {accountName}",
+            "criar conta {accountType}",
+            "criar uma conta {accountType}",
+            "criar conta {accountType} {accountName}",
+            "criar uma conta {accountType} {accountName}",
+            "criar {accountType} {accountName}",
+            "criar conta {accountName} saldo {balance}",
+            "criar conta {accountName} saldo {balance} {currency}",
+            "criar conta {accountType} {accountName} saldo {balance}",
+            "criar conta {accountType} {accountName} saldo {balance} {currency}",
+            "nova conta {accountName}",
+            "nova conta {accountType} {accountName}",
+            "adicionar conta {accountName}",
+            "adicionar conta {accountType} {accountName}"
+          ]
+        },
+        {
+          "name": "UpdateAccountIntent",
+          "slots": [
+            { "name": "accountName", "type": "AccountName" },
+            { "name": "newBalance",  "type": "AMAZON.NUMBER" },
+            { "name": "currency",    "type": "CurrencyType" }
+          ],
+          "samples": [
+            "actualizar conta",
+            "actualizar conta {accountName}",
+            "actualizar saldo {accountName}",
+            "actualizar saldo de {accountName}",
+            "actualizar {accountName} para {newBalance}",
+            "actualizar {accountName} para {newBalance} {currency}",
+            "mudar saldo {accountName}",
+            "mudar saldo de {accountName} para {newBalance}",
+            "mudar saldo de {accountName} para {newBalance} {currency}",
+            "alterar saldo {accountName} para {newBalance}",
+            "alterar saldo {accountName} para {newBalance} {currency}"
+          ]
+        },
+        {
+          "name": "DeleteAccountIntent",
+          "slots": [
+            { "name": "accountName", "type": "AccountName" }
+          ],
+          "samples": [
+            "apagar conta",
+            "apagar conta {accountName}",
+            "eliminar conta {accountName}",
+            "remover conta {accountName}",
+            "deletar conta {accountName}",
+            "excluir conta {accountName}"
+          ]
+        },
+        {
+          "name": "ListAccountsIntent",
+          "slots": [],
+          "samples": [
+            "listar contas",
+            "ver contas",
+            "minhas contas",
+            "quais são as minhas contas",
+            "lista as minhas contas",
+            "que contas tenho",
+            "mostrar contas",
+            "mostrar minhas contas",
+            "quais são os meus saldos",
+            "ver meus saldos"
+          ]
+        },
+        { "name": "AMAZON.HelpIntent" },
+        { "name": "AMAZON.CancelIntent" },
+        { "name": "AMAZON.StopIntent" },
+        { "name": "AMAZON.FallbackIntent" },
+        { "name": "AMAZON.NavigateHomeIntent" }
+      ],
+      "types": [
+        {
+          "name": "AccountName",
+          "values": [
+            { "name": { "value": "santander",         "synonyms": ["conta santander"] } },
+            { "name": { "value": "bcp",               "synonyms": ["conta bcp", "millenium"] } },
+            { "name": { "value": "cgd",               "synonyms": ["conta cgd", "caixa", "caixa geral"] } },
+            { "name": { "value": "novobanco",         "synonyms": ["conta novobanco", "novo banco"] } },
+            { "name": { "value": "itau",              "synonyms": ["conta itau", "itaú"] } },
+            { "name": { "value": "nubank",            "synonyms": ["conta nubank", "nu"] } },
+            { "name": { "value": "bradesco",          "synonyms": ["conta bradesco"] } },
+            { "name": { "value": "conta principal",   "synonyms": ["principal"] } },
+            { "name": { "value": "poupança férias",   "synonyms": ["ferias", "férias"] } },
+            { "name": { "value": "cartão visa",       "synonyms": ["visa"] } },
+            { "name": { "value": "cartão mastercard", "synonyms": ["mastercard"] } },
+            { "name": { "value": "investimentos",     "synonyms": ["conta investimentos"] } },
+            { "name": { "value": "reserva",           "synonyms": ["fundo reserva", "conta reserva"] } }
+          ]
+        },
+        {
+          "name": "AccountType",
+          "values": [
+            { "name": { "value": "conta corrente",    "synonyms": ["corrente"] } },
+            { "name": { "value": "poupança",          "synonyms": ["poupanca"] } },
+            { "name": { "value": "investimento",      "synonyms": ["investimentos"] } },
+            { "name": { "value": "cartão de crédito", "synonyms": ["cartao de credito", "crédito", "credito"] } },
+            { "name": { "value": "crédito pessoal",   "synonyms": ["credito pessoal"] } },
+            { "name": { "value": "crédito de carro",  "synonyms": ["credito de carro", "financiamento carro"] } },
+            { "name": { "value": "crédito habitação", "synonyms": ["credito habitacao", "hipoteca", "imóvel"] } }
+          ]
+        },
+        {
+          "name": "CurrencyType",
+          "values": [
+            { "name": { "value": "euros",   "synonyms": ["euro", "eur"] } },
+            { "name": { "value": "reais",   "synonyms": ["real", "brl"] } },
+            { "name": { "value": "dólares", "synonyms": ["dolar", "dolares", "usd"] } }
+          ]
+        }
+      ]
+    }
+  }
+}
