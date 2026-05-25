@@ -1,6 +1,7 @@
 // src/App.jsx
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate, NavLink } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useAccountsStore }   from "./store/accountsStore";
 import { useCategoriesStore } from "./store/categoriesStore";
 import { useGoalsStore }      from "./store/goalsStore";
@@ -24,19 +25,7 @@ function useBootstrap() {
   }, [loadAccounts, loadCategories, loadGoals]);
 }
 
-// ── Nav items ─────────────────────────────────────────────────
-
-const NAV_ITEMS = [
-  { to: "/accounts",   icon: "🏦", label: "Contas" },
-  { to: "/goals",      icon: "🎯", label: "Metas" },
-  { to: "/categories", icon: "🗂",  label: "Categorias" },
-  // { to: "/transactions", icon: "↕",  label: "Transações" },   ← Feature 4
-  // { to: "/budget",       icon: "📊", label: "Orçamento" },    ← Feature 5
-  // { to: "/investments",  icon: "📈", label: "Investimentos" },← Feature 6
-  // { to: "/dashboard",    icon: "◈",  label: "Dashboard" },    ← Feature 7
-];
-
-// ── Sidebar ───────────────────────────────────────────────────
+// ── NavItem ───────────────────────────────────────────────────
 
 function NavItem({ to, icon, label }) {
   return (
@@ -56,10 +45,23 @@ function NavItem({ to, icon, label }) {
   );
 }
 
+// ── Sidebar ───────────────────────────────────────────────────
+
 function Sidebar() {
+  const { t } = useTranslation();
+
+  const NAV_ITEMS = [
+    { to: "/accounts",   icon: "🏦", label: t("nav.accounts") },
+    { to: "/goals",      icon: "🎯", label: t("nav.goals") },
+    { to: "/categories", icon: "🗂",  label: t("nav.categories") },
+    // { to: "/transactions", icon: "↕",  label: t("nav.transactions") }, ← Feature 4
+    // { to: "/budget",       icon: "📊", label: t("nav.budget") },       ← Feature 5
+    // { to: "/investments",  icon: "📈", label: t("nav.investments") },  ← Feature 6
+    // { to: "/dashboard",    icon: "◈",  label: t("nav.dashboard") },    ← Feature 7
+  ];
+
   return (
     <aside className="w-[200px] bg-[#161820] border-r border-[#2a2d3a] flex flex-col shrink-0">
-
       {/* Logo */}
       <div className="px-4 py-5 border-b border-[#2a2d3a]">
         <div className="flex items-center gap-2.5">
@@ -82,30 +84,29 @@ function Sidebar() {
         ))}
       </nav>
 
-      {/* Definições — separado no rodapé */}
+      {/* Definições — rodapé */}
       <div className="p-2 border-t border-[#2a2d3a]">
-        <NavItem to="/settings" icon="⚙" label="Definições" />
+        <NavItem to="/settings" icon="⚙" label={t("nav.settings")} />
       </div>
-
     </aside>
   );
 }
 
-// ── Banner de configuração ────────────────────────────────────
+// ── Banner ────────────────────────────────────────────────────
 
 function ConfigBanner() {
+  const { t } = useTranslation();
   if (IS_CONFIGURED) return null;
   return (
     <div className="bg-[#1e1a0e] border-b border-[#f59e0b33] px-5 py-2 flex items-center gap-3 text-xs">
       <span>⚙️</span>
       <span className="text-[#fcd34d]">
-        Modo local — dados não persistidos.{" "}
+        {t("banner.localMode")}{" "}
         <span className="text-[#8a8fa8]">
-          Configura a Sheet em{" "}
+          {t("banner.configure")}{" "}
           <NavLink to="/settings" className="text-[#a5b4fc] underline">
-            Definições → Sheet Config
-          </NavLink>
-          .
+            {t("banner.sheetConfig")}
+          </NavLink>.
         </span>
       </span>
     </div>
@@ -125,12 +126,12 @@ export default function App() {
           <ConfigBanner />
           <main className="flex-1 overflow-auto p-7">
             <Routes>
-              <Route path="/"            element={<Navigate to="/accounts" replace />} />
-              <Route path="/accounts"    element={<AccountsPage />} />
-              <Route path="/goals"       element={<GoalsPage />} />
-              <Route path="/categories"  element={<CategoriesPage />} />
-              <Route path="/settings"    element={<SettingsPage />} />
-              <Route path="/settings/:section" element={<SettingsPage />} />
+              <Route path="/"                   element={<Navigate to="/accounts" replace />} />
+              <Route path="/accounts"           element={<AccountsPage />} />
+              <Route path="/goals"              element={<GoalsPage />} />
+              <Route path="/categories"         element={<CategoriesPage />} />
+              <Route path="/settings"           element={<SettingsPage />} />
+              <Route path="/settings/:section"  element={<SettingsPage />} />
             </Routes>
           </main>
         </div>

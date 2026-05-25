@@ -1,0 +1,239 @@
+{
+  "common": {
+    "save":        "Save",
+    "cancel":      "Cancel",
+    "delete":      "Delete",
+    "edit":        "Edit",
+    "add":         "Add",
+    "close":       "Close",
+    "confirm":     "Confirm",
+    "back":        "Back",
+    "loading":     "Loading...",
+    "error":       "Error",
+    "success":     "Success",
+    "yes":         "Yes",
+    "no":          "No",
+    "name":        "Name",
+    "type":        "Type",
+    "value":       "Value",
+    "date":        "Date",
+    "notes":       "Notes",
+    "currency":    "Currency",
+    "actions":     "Actions",
+    "noData":      "No data",
+    "comingSoon":  "Coming soon",
+    "required":    "Required",
+    "invalid":     "Invalid value",
+    "connectionError": "Connection error — check your connection",
+    "currencies": {
+      "EUR": "Euro",
+      "BRL": "Real",
+      "USD": "Dollar"
+    }
+  },
+  "nav": {
+    "accounts":     "Accounts",
+    "goals":        "Goals",
+    "categories":   "Categories",
+    "transactions": "Transactions",
+    "budget":       "Budget",
+    "investments":  "Investments",
+    "dashboard":    "Dashboard",
+    "settings":     "Settings"
+  },
+  "accounts": {
+    "title":       "My Accounts",
+    "add":         "New Account",
+    "edit":        "Edit Account",
+    "form": {
+      "name":        "Account Name",
+      "namePlaceholder": "E.g.: Main Account",
+      "type":        "Type",
+      "balance":     "Initial Balance",
+      "currency":    "Currency"
+    },
+    "types": {
+      "checking":        "Checking Account",
+      "savings":         "Savings Account",
+      "investment":      "Investment",
+      "credit_card":     "Credit Card",
+      "personal_credit": "Personal Credit",
+      "car_credit":      "Car Loan",
+      "housing_credit":  "Mortgage"
+    },
+    "balance": {
+      "positive": "✓ Positive balance",
+      "negative": "⚠ Negative balance"
+    },
+    "toast": {
+      "created": "Account created!",
+      "updated": "Account updated!",
+      "deleted": "Account deleted"
+    },
+    "empty": "No accounts yet. Create the first one!"
+  },
+  "goals": {
+    "title":  "My Goals",
+    "add":    "New Goal",
+    "edit":   "Edit Goal",
+    "form": {
+      "type":        "Goal Type",
+      "name":        "Goal Name",
+      "namePlaceholder": "E.g.: Financial Independence",
+      "targetValue": "Target Value",
+      "currency":    "Currency"
+    },
+    "types": {
+      "invested":  "Invested Capital",
+      "dividends": "Monthly Dividends"
+    },
+    "desc": {
+      "invested":  "Total in portfolio",
+      "dividends": "Passive income/month"
+    },
+    "card": {
+      "real":      "Actual",
+      "target":    "Target",
+      "remaining": "Remaining",
+      "achieved":  "🎉 Goal achieved!",
+      "invested":  "Capital invested in portfolio",
+      "dividends": "Estimated passive income/month"
+    },
+    "sections": {
+      "invested":  "📈 Invested Capital",
+      "dividends": "💰 Monthly Dividends"
+    },
+    "toast": {
+      "created": "Goal created!",
+      "updated": "Goal updated!",
+      "deleted": "Goal deleted"
+    },
+    "empty": {
+      "title": "No goals defined yet",
+      "desc":  "Click \"+ New Goal\" to start tracking your progress"
+    }
+  },
+  "categories": {
+    "title":    "Categories",
+    "titleSub": "Subcategories",
+    "add":      "New Category",
+    "addSub":   "New Subcategory",
+    "edit":     "Edit Category",
+    "editSub":  "Edit Subcategory",
+    "form": {
+      "name":               "Name",
+      "namePlaceholder":    "E.g.: Food",
+      "namePlaceholderSub": "E.g.: Groceries",
+      "type":               "Type",
+      "parentCategory":     "Parent Category",
+      "selectCategory":     "Select category..."
+    },
+    "types": {
+      "income":           "Income",
+      "investment":       "Investment",
+      "fixed_expense":    "Fixed Expense",
+      "variable_expense": "Variable Expense"
+    },
+    "subcountLabel": "{{count}} sub.",
+    "toast": {
+      "created":    "Category created!",
+      "updated":    "Category updated!",
+      "deleted":    "Category deleted",
+      "createdSub": "Subcategory created!",
+      "updatedSub": "Subcategory updated!",
+      "deletedSub": "Subcategory deleted",
+      "deletedWithSubs": "Category and {{count}} subcategory(ies) deleted"
+    },
+    "empty":    "No categories. Create the first one!",
+    "emptySub": "No subcategories. Create the first one!"
+  },
+  "settings": {
+    "title": "Settings",
+    "sections": {
+      "language": {
+        "label": "Default Language",
+        "desc":  "Interface language"
+      },
+      "theme": {
+        "label": "Default Theme",
+        "desc":  "Application appearance"
+      },
+      "currency": {
+        "label": "Default Currency",
+        "desc":  "Currency used by default"
+      },
+      "sheet": {
+        "label": "Sheet Config",
+        "desc":  "Google Sheet URL and access key"
+      },
+      "backup": {
+        "label": "Backups",
+        "desc":  "Export and import data"
+      }
+    },
+    "language": {
+      "title":        "Default Language",
+      "label":        "Interface language",
+      "select":       "Select language",
+      "saved":        "Language saved!",
+      "saveButton":   "Save Language",
+      "instantApply": "💡 Language changes are applied immediately across the entire application.",
+      "languages": {
+        "pt-BR": "Português (Brasil)",
+        "pt-PT": "Português (Portugal)",
+        "en":    "English",
+        "es":    "Español"
+      }
+    },
+    "sheet": {
+      "url":            "Apps Script URL",
+      "urlPlaceholder": "https://script.google.com/macros/s/.../exec",
+      "urlHelp":        "Generated when publishing the Apps Script as a Web App.",
+      "urlHelpLink":    "How to get the URL →",
+      "apiKey":         "Access Key (API Key)",
+      "apiKeyPlaceholder": "Your secret key",
+      "apiKeyHelp":     "Recommended. Set a key in the Apps Script to protect your data.",
+      "securityNote":   "These credentials are stored only on your device. Kappy never sends them to external servers.",
+      "securityWarn":   "Never share the URL or the key.",
+      "configured":     "Configured",
+      "testButton":     "🔍 Test Connection",
+      "saveButton":     "Save",
+      "saved":          "✓ Saved!",
+      "testing":        "Testing connection...",
+      "testOk":         "Connection established! {{count}} account(s) found.",
+      "testError":      "Could not connect. Check the URL and try again.",
+      "comingSoonDesc": "is being developed. Stay tuned for upcoming Kappy updates.",
+      "manualSetup": {
+        "title": "How to configure manually:",
+        "step1": "Open the .env.local file in the project root",
+        "step2": "Set VITE_SHEETS_URL= with your URL",
+        "step3": "Set VITE_SHEETS_API_KEY= with your key",
+        "step4": "Restart the server with npm run dev"
+      },
+      "security": {
+        "title":   "Security information",
+        "message": "The URL and access key give full access to your financial data. Never share them with anyone. Store them in a password manager. Kappy stores these credentials only locally on your device."
+      },
+      "providers": {
+        "online":  "☁️ Online",
+        "offline": "💾 Offline",
+        "descs": {
+          "google_sheets":        "Google Drive",
+          "excel_365":            "Microsoft OneDrive",
+          "apple_numbers_cloud":  "Apple iCloud",
+          "airtable":             "Airtable Cloud",
+          "notion":               "Notion Database",
+          "excel_local":          "Local .xlsx file",
+          "libreoffice":          "LibreOffice / OpenOffice",
+          "apple_numbers_local":  "Apple Numbers local",
+          "csv":                  "Universal .csv file"
+        }
+      }
+    }
+  },
+  "banner": {
+    "localMode": "Local mode — data not persisted.",
+    "configure": "Configure the Sheet in",
+    "sheetConfig": "Settings → Sheet Config"
+  }
+}
