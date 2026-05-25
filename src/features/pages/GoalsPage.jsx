@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { useGoalsStore } from "../store/goalsStore";
-import { useInvestmentsStore } from "../store/investmentsStore";
-import { useToast } from "../hooks/useToast";
-import { CURRENCY_SYMBOLS } from "../data/constants";
-import { Button, Input, Select, Card } from "../components/ui";
-import { Toast } from "../components/ui/Toast";
+import { useGoalsStore } from "../../store/goalsStore";
+import { useInvestmentsStore } from "../../store/investmentsStore";
+import { useToast } from "../../hooks/useToast";
+import { CURRENCY_SYMBOLS } from "../../data/constants";
+import { Button, Input, Select, Card } from "../../components/ui";
+import { Toast } from "../../components/ui/Toast";
 
 function formatCurrency(amount, currency) {
   const sym = CURRENCY_SYMBOLS[currency] || currency;
