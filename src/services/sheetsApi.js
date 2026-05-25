@@ -1,4 +1,3 @@
-// src/services/sheetsApi.js
 const SHEETS_URL = import.meta.env.VITE_SHEETS_URL ?? "";
 export const IS_CONFIGURED = Boolean(SHEETS_URL && SHEETS_URL.startsWith("https://"));
 
@@ -63,4 +62,11 @@ export const subcategoriesApi = {
   save:    (row)  => upsert("subcategories", row),
   delete:  (id)   => remove("subcategories", id),
   seedAll: (rows) => bulkUpsert("subcategories", rows),
+};
+
+export const goalsApi = {
+  getAll:  ()     => getAll("goals"),
+  save:    (row)  => upsert("goals", row),
+  delete:  (id)   => remove("goals", id),
+  seedAll: (rows) => bulkUpsert("goals", rows),
 };

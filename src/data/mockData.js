@@ -1,8 +1,3 @@
-// src/data/mockData.js
-// Dados de demonstração usados como estado inicial enquanto
-// a Google Sheet não está configurada (ou como fallback offline).
-// À medida que migras features, adiciona as restantes entidades aqui.
-
 export const INITIAL_ACCOUNTS = [
   { id: 1, name: "Conta Principal", type: "checking",    balance: 2450.00,  currency: "EUR" },
   { id: 2, name: "Poupança Férias",  type: "savings",     balance: 1800.00,  currency: "EUR" },
@@ -23,4 +18,9 @@ export const INITIAL_SUBCATEGORIES = [
   { id: 3, name: "Renda",          categoryId: 3, type: "fixed_expense" },
   { id: 4, name: "Supermercado",   categoryId: 4, type: "variable_expense" },
   { id: 5, name: "S&P 500 ETF",    categoryId: 5, type: "investment" },
+];
+
+export const INITIAL_GOALS = [
+  { id: 1, type: "invested",  label: "Capital Investido",  targetValue: 10000, currency: "EUR" },
+  { id: 2, type: "dividends", label: "Dividendos Mensais", targetValue: 500,   currency: "EUR" },
 ];
