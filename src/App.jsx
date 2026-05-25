@@ -1,12 +1,16 @@
+// src/App.jsx
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate, NavLink } from "react-router-dom";
-import { useAccountsStore }    from "./store/accountsStore";
-import { useCategoriesStore }  from "./store/categoriesStore";
-import { useGoalsStore }       from "./store/goalsStore";
-import { IS_CONFIGURED }       from "./services/sheetsApi";
-import AccountsPage    from "./features/AccountsPage";
-import CategoriesPage  from "./features/CategoriesPage";
-import GoalsPage       from "./features/GoalsPage";
+import { useAccountsStore }   from "./store/accountsStore";
+import { useCategoriesStore } from "./store/categoriesStore";
+import { useGoalsStore }      from "./store/goalsStore";
+import { IS_CONFIGURED }      from "./services/sheetsApi";
+import AccountsPage   from "./features/AccountsPage";
+import CategoriesPage from "./features/CategoriesPage";
+import GoalsPage      from "./features/GoalsPage";
+import SettingsPage   from "./features/SettingsPage";
+
+// ── Carga inicial ─────────────────────────────────────────────
 
 function useBootstrap() {
   const loadAccounts   = useAccountsStore(s => s.load);
@@ -20,15 +24,42 @@ function useBootstrap() {
   }, [loadAccounts, loadCategories, loadGoals]);
 }
 
+// ── Nav items ─────────────────────────────────────────────────
+
 const NAV_ITEMS = [
   { to: "/accounts",   icon: "🏦", label: "Contas" },
   { to: "/goals",      icon: "🎯", label: "Metas" },
   { to: "/categories", icon: "🗂",  label: "Categorias" },
+  // { to: "/transactions", icon: "↕",  label: "Transações" },   ← Feature 4
+  // { to: "/budget",       icon: "📊", label: "Orçamento" },    ← Feature 5
+  // { to: "/investments",  icon: "📈", label: "Investimentos" },← Feature 6
+  // { to: "/dashboard",    icon: "◈",  label: "Dashboard" },    ← Feature 7
 ];
+
+// ── Sidebar ───────────────────────────────────────────────────
+
+function NavItem({ to, icon, label }) {
+  return (
+    <NavLink
+      to={to}
+      className={({ isActive }) => `
+        flex items-center gap-2.5 px-3 py-2.5 rounded-lg mb-0.5
+        text-sm font-medium transition-all border-l-[3px]
+        ${isActive
+          ? "bg-[#1e2235] border-[#6366f1] text-[#a5b4fc]"
+          : "border-transparent text-[#8a8fa8] hover:text-[#c4c0b8] hover:bg-[#1a1d2e]"}
+      `}
+    >
+      <span className="w-5 text-center text-base">{icon}</span>
+      {label}
+    </NavLink>
+  );
+}
 
 function Sidebar() {
   return (
     <aside className="w-[200px] bg-[#161820] border-r border-[#2a2d3a] flex flex-col shrink-0">
+
       {/* Logo */}
       <div className="px-4 py-5 border-b border-[#2a2d3a]">
         <div className="flex items-center gap-2.5">
@@ -36,10 +67,7 @@ function Sidebar() {
             src="/src/assets/kappy_logo.png"
             alt="Kappy"
             style={{
-              width: 36,
-              height: 36,
-              borderRadius: 10,
-              objectFit: "cover",
+              width: 36, height: 36, borderRadius: 10, objectFit: "cover",
               filter: "hue-rotate(-40deg) saturate(0.85) brightness(0.95)",
             }}
           />
@@ -47,37 +75,23 @@ function Sidebar() {
         </div>
       </div>
 
-      {/* Navegação */}
-      <nav className="flex-1 p-2">
+      {/* Navegação principal */}
+      <nav className="flex-1 p-2 overflow-y-auto">
         {NAV_ITEMS.map(item => (
-          <NavLink
-            key={item.to}
-            to={item.to}
-            className={({ isActive }) => `
-              flex items-center gap-2.5 px-3 py-2.5 rounded-lg mb-0.5
-              text-sm font-medium transition-all
-              border-l-[3px]
-              ${isActive
-                ? "bg-[#1e2235] border-[#6366f1] text-[#a5b4fc]"
-                : "border-transparent text-[#8a8fa8] hover:text-[#c4c0b8]"}
-            `}
-          >
-            <span className="w-5 text-center text-base">{item.icon}</span>
-            {item.label}
-          </NavLink>
+          <NavItem key={item.to} {...item} />
         ))}
       </nav>
 
-      {/* Rodapé */}
+      {/* Definições — separado no rodapé */}
       <div className="p-2 border-t border-[#2a2d3a]">
-        <div className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm text-[#5a5f78]">
-          <span className="w-5 text-center">⚙</span>
-          Definições
-        </div>
+        <NavItem to="/settings" icon="⚙" label="Definições" />
       </div>
+
     </aside>
   );
 }
+
+// ── Banner de configuração ────────────────────────────────────
 
 function ConfigBanner() {
   if (IS_CONFIGURED) return null;
@@ -87,13 +101,18 @@ function ConfigBanner() {
       <span className="text-[#fcd34d]">
         Modo local — dados não persistidos.{" "}
         <span className="text-[#8a8fa8]">
-          Configura <code className="text-[#a5b4fc]">VITE_SHEETS_URL</code> no{" "}
-          <code className="text-[#a5b4fc]">.env.local</code> para activar a sync.
+          Configura a Sheet em{" "}
+          <NavLink to="/settings" className="text-[#a5b4fc] underline">
+            Definições → Sheet Config
+          </NavLink>
+          .
         </span>
       </span>
     </div>
   );
 }
+
+// ── App ───────────────────────────────────────────────────────
 
 export default function App() {
   useBootstrap();
@@ -107,9 +126,11 @@ export default function App() {
           <main className="flex-1 overflow-auto p-7">
             <Routes>
               <Route path="/"            element={<Navigate to="/accounts" replace />} />
-              <Route path="/accounts"   element={<AccountsPage />} />
-              <Route path="/goals"      element={<GoalsPage />} />
-              <Route path="/categories" element={<CategoriesPage />} />
+              <Route path="/accounts"    element={<AccountsPage />} />
+              <Route path="/goals"       element={<GoalsPage />} />
+              <Route path="/categories"  element={<CategoriesPage />} />
+              <Route path="/settings"    element={<SettingsPage />} />
+              <Route path="/settings/:section" element={<SettingsPage />} />
             </Routes>
           </main>
         </div>
