@@ -1,6 +1,6 @@
-const SHEETS_URL = import.meta.env.VITE_SHEETS_URL || "";
-export const IS_CONFIGURED = Boolean(SHEETS_URL && !SHEETS_URL.includes("COLE_AQUI"));
-
+// src/services/sheetsApi.js
+const SHEETS_URL = import.meta.env.VITE_SHEETS_URL ?? "";
+export const IS_CONFIGURED = Boolean(SHEETS_URL && SHEETS_URL.startsWith("https://"));
 
 async function getAll(sheet) {
   const res = await fetch(SHEETS_URL + "?sheet=" + sheet);
@@ -49,4 +49,18 @@ export const accountsApi = {
   save:    (row)  => upsert("accounts", row),
   delete:  (id)   => remove("accounts", id),
   seedAll: (rows) => bulkUpsert("accounts", rows),
+};
+
+export const categoriesApi = {
+  getAll:  ()     => getAll("categories"),
+  save:    (row)  => upsert("categories", row),
+  delete:  (id)   => remove("categories", id),
+  seedAll: (rows) => bulkUpsert("categories", rows),
+};
+
+export const subcategoriesApi = {
+  getAll:  ()     => getAll("subcategories"),
+  save:    (row)  => upsert("subcategories", row),
+  delete:  (id)   => remove("subcategories", id),
+  seedAll: (rows) => bulkUpsert("subcategories", rows),
 };

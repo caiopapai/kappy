@@ -1,24 +1,35 @@
+// src/App.jsx
+// Shell da aplicação — router + providers + carga inicial.
+// À medida que migras features, adiciona rotas e chamadas load() aqui.
+
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate, NavLink } from "react-router-dom";
 import { useAccountsStore } from "./store/accountsStore";
+import { useCategoriesStore } from "./store/categoriesStore";
 import { IS_CONFIGURED } from "./services/sheetsApi";
-import AccountsPage from "./features/accounts/AccountsPage";
+import AccountsPage    from "./features/AccountsPage";
+import CategoriesPage  from "./features/CategoriesPage";
+
+// ── Carga inicial ─────────────────────────────────────────────
+// Cada store tem um load() que vai buscar dados à sheet.
+// À medida que adicionas features, importa e chama o store aqui.
 
 function useBootstrap() {
-  const loadAccounts = useAccountsStore(s => s.load);
+  const loadAccounts    = useAccountsStore(s => s.load);
+  const loadCategories  = useCategoriesStore(s => s.load);
 
   useEffect(() => {
     loadAccounts().catch(() => {});
-  }, [loadAccounts]);
+    loadCategories().catch(() => {});
+  }, [loadAccounts, loadCategories]);
 }
 
+// ── Sidebar ───────────────────────────────────────────────────
+// Versão mínima para arrancar. Vai crescer com cada feature.
+
 const NAV_ITEMS = [
-  { to: "/accounts", icon: "🏦", label: "Contas" },
-  // { to: "/goals",        icon: "🎯", label: "Metas" },        ← Feature 2
-  // { to: "/categories",   icon: "🗂",  label: "Categorias" },  ← Feature 2
-  // { to: "/transactions", icon: "↕",  label: "Transações" },   ← Feature 3
-  // { to: "/budget",       icon: "📊", label: "Orçamento" },    ← Feature 4
-  // { to: "/investments",  icon: "📈", label: "Investimentos" },← Feature 5
+  { to: "/accounts",    icon: "🏦", label: "Contas" },
+  { to: "/categories",  icon: "🗂",  label: "Categorias" },
 ];
 
 function Sidebar() {
@@ -35,6 +46,8 @@ function Sidebar() {
               height: 36,
               borderRadius: 10,
               objectFit: "cover",
+              // Ajusta a cor do fundo roxo original para o roxo do design system (#6366f1)
+              // hue-rotate: desloca o matiz do roxo original (~290°) para o indigo (~240°)
               filter: "hue-rotate(-40deg) saturate(0.85) brightness(0.95)",
             }}
           />
@@ -42,6 +55,7 @@ function Sidebar() {
         </div>
       </div>
 
+      {/* Navegação */}
       <nav className="flex-1 p-2">
         {NAV_ITEMS.map(item => (
           <NavLink
@@ -62,6 +76,7 @@ function Sidebar() {
         ))}
       </nav>
 
+      {/* Rodapé */}
       <div className="p-2 border-t border-[#2a2d3a]">
         <div className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm text-[#5a5f78]">
           <span className="w-5 text-center">⚙</span>
@@ -71,6 +86,8 @@ function Sidebar() {
     </aside>
   );
 }
+
+// ── Banner de configuração ────────────────────────────────────
 
 function ConfigBanner() {
   if (IS_CONFIGURED) return null;
@@ -88,7 +105,11 @@ function ConfigBanner() {
   );
 }
 
+// ── App ───────────────────────────────────────────────────────
+
 export default function App() {
+  console.log("SHEETS_URL:", import.meta.env.VITE_SHEETS_URL);
+
   useBootstrap();
 
   return (
@@ -99,8 +120,9 @@ export default function App() {
           <ConfigBanner />
           <main className="flex-1 overflow-auto p-7">
             <Routes>
-              <Route path="/"         element={<Navigate to="/accounts" replace />} />
-              <Route path="/accounts" element={<AccountsPage />} />
+              <Route path="/"            element={<Navigate to="/accounts" replace />} />
+              <Route path="/accounts"   element={<AccountsPage />} />
+              <Route path="/categories" element={<CategoriesPage />} />
             </Routes>
           </main>
         </div>
