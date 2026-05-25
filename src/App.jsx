@@ -1,35 +1,29 @@
-// src/App.jsx
-// Shell da aplicação — router + providers + carga inicial.
-// À medida que migras features, adiciona rotas e chamadas load() aqui.
-
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate, NavLink } from "react-router-dom";
-import { useAccountsStore } from "./store/accountsStore";
-import { useCategoriesStore } from "./store/categoriesStore";
-import { IS_CONFIGURED } from "./services/sheetsApi";
+import { useAccountsStore }    from "./store/accountsStore";
+import { useCategoriesStore }  from "./store/categoriesStore";
+import { useGoalsStore }       from "./store/goalsStore";
+import { IS_CONFIGURED }       from "./services/sheetsApi";
 import AccountsPage    from "./features/AccountsPage";
 import CategoriesPage  from "./features/CategoriesPage";
-
-// ── Carga inicial ─────────────────────────────────────────────
-// Cada store tem um load() que vai buscar dados à sheet.
-// À medida que adicionas features, importa e chama o store aqui.
+import GoalsPage       from "./features/GoalsPage";
 
 function useBootstrap() {
-  const loadAccounts    = useAccountsStore(s => s.load);
-  const loadCategories  = useCategoriesStore(s => s.load);
+  const loadAccounts   = useAccountsStore(s => s.load);
+  const loadCategories = useCategoriesStore(s => s.load);
+  const loadGoals      = useGoalsStore(s => s.load);
 
   useEffect(() => {
     loadAccounts().catch(() => {});
     loadCategories().catch(() => {});
-  }, [loadAccounts, loadCategories]);
+    loadGoals().catch(() => {});
+  }, [loadAccounts, loadCategories, loadGoals]);
 }
 
-// ── Sidebar ───────────────────────────────────────────────────
-// Versão mínima para arrancar. Vai crescer com cada feature.
-
 const NAV_ITEMS = [
-  { to: "/accounts",    icon: "🏦", label: "Contas" },
-  { to: "/categories",  icon: "🗂",  label: "Categorias" },
+  { to: "/accounts",   icon: "🏦", label: "Contas" },
+  { to: "/goals",      icon: "🎯", label: "Metas" },
+  { to: "/categories", icon: "🗂",  label: "Categorias" },
 ];
 
 function Sidebar() {
@@ -46,8 +40,6 @@ function Sidebar() {
               height: 36,
               borderRadius: 10,
               objectFit: "cover",
-              // Ajusta a cor do fundo roxo original para o roxo do design system (#6366f1)
-              // hue-rotate: desloca o matiz do roxo original (~290°) para o indigo (~240°)
               filter: "hue-rotate(-40deg) saturate(0.85) brightness(0.95)",
             }}
           />
@@ -87,8 +79,6 @@ function Sidebar() {
   );
 }
 
-// ── Banner de configuração ────────────────────────────────────
-
 function ConfigBanner() {
   if (IS_CONFIGURED) return null;
   return (
@@ -105,11 +95,7 @@ function ConfigBanner() {
   );
 }
 
-// ── App ───────────────────────────────────────────────────────
-
 export default function App() {
-  console.log("SHEETS_URL:", import.meta.env.VITE_SHEETS_URL);
-
   useBootstrap();
 
   return (
@@ -122,6 +108,7 @@ export default function App() {
             <Routes>
               <Route path="/"            element={<Navigate to="/accounts" replace />} />
               <Route path="/accounts"   element={<AccountsPage />} />
+              <Route path="/goals"      element={<GoalsPage />} />
               <Route path="/categories" element={<CategoriesPage />} />
             </Routes>
           </main>
