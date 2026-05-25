@@ -1,56 +1,28 @@
-// src/features/settings/SettingsPage.jsx
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Card } from "../../components/ui";
-import SheetConfig from "../settings/SheetConfig"
-
-// ── Secções disponíveis ───────────────────────────────────────
-
-const SECTIONS = [
-  {
-    id:    "language",
-    icon:  "🌐",
-    label: "Idioma Padrão",
-    desc:  "Língua da interface",
-  },
-  {
-    id:    "theme",
-    icon:  "🎨",
-    label: "Tema Padrão",
-    desc:  "Aparência da aplicação",
-  },
-  {
-    id:    "currency",
-    icon:  "💱",
-    label: "Moeda Padrão",
-    desc:  "Moeda usada por defeito",
-  },
-  {
-    id:    "sheet",
-    icon:  "🔗",
-    label: "Sheet Config",
-    desc:  "URL e chave de acesso à Google Sheet",
-  },
-  {
-    id:    "backup",
-    icon:  "💾",
-    label: "Backups",
-    desc:  "Exportar e importar dados",
-  },
-];
-
-// ── Page ──────────────────────────────────────────────────────
+import SheetConfig    from "../settings/SheetConfig";
+import LanguageConfig from "../settings/LanguageConfig";
 
 export default function SettingsPage() {
+  const { t } = useTranslation();
   const [activeSection, setActiveSection] = useState("language");
+
+  const SECTIONS = [
+    { id: "language", icon: "🌐", label: t("settings.sections.language.label"), desc: t("settings.sections.language.desc") },
+    { id: "theme",    icon: "🎨", label: t("settings.sections.theme.label"),    desc: t("settings.sections.theme.desc") },
+    { id: "currency", icon: "💱", label: t("settings.sections.currency.label"), desc: t("settings.sections.currency.desc") },
+    { id: "sheet",    icon: "🔗", label: t("settings.sections.sheet.label"),    desc: t("settings.sections.sheet.desc") },
+    { id: "backup",   icon: "💾", label: t("settings.sections.backup.label"),   desc: t("settings.sections.backup.desc") },
+  ];
+
   const current = SECTIONS.find(s => s.id === activeSection);
 
   return (
     <div className="flex gap-6 h-full">
-
-      {/* Menu lateral de secções */}
       <aside className="w-56 shrink-0">
         <div className="text-[11px] text-[#5a5f78] uppercase tracking-widest font-semibold mb-3 px-1">
-          Definições
+          {t("settings.title")}
         </div>
         <nav className="flex flex-col gap-0.5">
           {SECTIONS.map(s => {
@@ -80,7 +52,6 @@ export default function SettingsPage() {
         </nav>
       </aside>
 
-      {/* Conteúdo da secção activa */}
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-3 mb-6">
           <span className="text-2xl">{current.icon}</span>
@@ -90,71 +61,25 @@ export default function SettingsPage() {
           </div>
         </div>
 
-        {activeSection === "language" && <LanguageSection />}
-        {activeSection === "theme"    && <ThemeSection />}
-        {activeSection === "currency" && <CurrencySection />}
-        {activeSection === "sheet"    && <SheetSection />}
-        {activeSection === "backup"   && <BackupSection />}
+        {activeSection === "language" && <LanguageConfig />}
+        {activeSection === "theme"    && <ComingSoon label={t("settings.sections.theme.label")} />}
+        {activeSection === "currency" && <ComingSoon label={t("settings.sections.currency.label")} />}
+        {activeSection === "sheet"    && <SheetConfig />}
+        {activeSection === "backup"   && <ComingSoon label={t("settings.sections.backup.label")} />}
       </div>
-
     </div>
   );
 }
-
-// ── Secção: Idioma ────────────────────────────────────────────
-
-function LanguageSection() {
-  return (
-    <Card>
-      <ComingSoon label="Idioma Padrão" />
-    </Card>
-  );
-}
-
-// ── Secção: Tema ──────────────────────────────────────────────
-
-function ThemeSection() {
-  return (
-    <Card>
-      <ComingSoon label="Tema Padrão" />
-    </Card>
-  );
-}
-
-// ── Secção: Moeda ─────────────────────────────────────────────
-
-function CurrencySection() {
-  return (
-    <Card>
-      <ComingSoon label="Moeda Padrão" />
-    </Card>
-  );
-}
-
-// ── Secção: Sheet Config ──────────────────────────────────────
-
-function SheetSection() {
-  return <SheetConfig />;
-}
-
-// ── Secção: Backups ───────────────────────────────────────────
-
-function BackupSection() {
-  return (
-    <Card>
-      <ComingSoon label="Backups" />
-    </Card>
-  );
-}
-
-// ── Placeholder ───────────────────────────────────────────────
 
 function ComingSoon({ label }) {
+  const { t } = useTranslation();
   return (
-    <div className="flex flex-col items-center justify-center py-16 text-center">
-      <div className="text-4xl mb-4">🚧</div>
-      <div className="text-[15px] text-[#c4c0b8] mb-2">{label}</div>
-      <div className="text-sm text-[#5a5f78]">Esta secção está a ser preparada.</div>
-    </div>
+    <Card>
+      <div className="flex flex-col items-center justify-center py-16 text-center">
+        <div className="text-4xl mb-4">🚧</div>
+        <div className="text-[15px] text-[#c4c0b8] mb-2">{label}</div>
+        <div className="text-sm text-[#5a5f78]">{t("common.comingSoon")}</div>
+      </div>
+    </Card>
   );
 }

@@ -1,0 +1,239 @@
+{
+  "common": {
+    "save":        "Salvar",
+    "cancel":      "Cancelar",
+    "delete":      "Remover",
+    "edit":        "Editar",
+    "add":         "Adicionar",
+    "close":       "Fechar",
+    "confirm":     "Confirmar",
+    "back":        "Voltar",
+    "loading":     "Carregando...",
+    "error":       "Erro",
+    "success":     "Sucesso",
+    "yes":         "Sim",
+    "no":          "Não",
+    "name":        "Nome",
+    "type":        "Tipo",
+    "value":       "Valor",
+    "date":        "Data",
+    "notes":       "Observações",
+    "currency":    "Moeda",
+    "actions":     "Ações",
+    "noData":      "Sem dados",
+    "comingSoon":  "Em breve",
+    "required":    "Obrigatório",
+    "invalid":     "Valor inválido",
+    "connectionError": "Erro de conexão — verifique a ligação",
+    "currencies": {
+      "EUR": "Euro",
+      "BRL": "Real",
+      "USD": "Dólar"
+    }
+  },
+  "nav": {
+    "accounts":     "Contas",
+    "goals":        "Metas",
+    "categories":   "Categorias",
+    "transactions": "Transações",
+    "budget":       "Orçamento",
+    "investments":  "Investimentos",
+    "dashboard":    "Dashboard",
+    "settings":     "Configurações"
+  },
+  "accounts": {
+    "title":       "Minhas Contas",
+    "add":         "Nova Conta",
+    "edit":        "Editar Conta",
+    "form": {
+      "name":        "Nome da Conta",
+      "namePlaceholder": "Ex: Conta Bradesco",
+      "type":        "Tipo",
+      "balance":     "Saldo Inicial",
+      "currency":    "Moeda"
+    },
+    "types": {
+      "checking":        "Conta Corrente",
+      "savings":         "Poupança",
+      "investment":      "Investimento",
+      "credit_card":     "Cartão de Crédito",
+      "personal_credit": "Crédito Pessoal",
+      "car_credit":      "Crédito de Carro",
+      "housing_credit":  "Crédito Habitação"
+    },
+    "balance": {
+      "positive": "✓ Saldo positivo",
+      "negative": "⚠ Saldo negativo"
+    },
+    "toast": {
+      "created": "Conta criada!",
+      "updated": "Conta atualizada!",
+      "deleted": "Conta removida"
+    },
+    "empty": "Sem contas. Crie a primeira!"
+  },
+  "goals": {
+    "title":  "Minhas Metas",
+    "add":    "Nova Meta",
+    "edit":   "Editar Meta",
+    "form": {
+      "type":        "Tipo de Meta",
+      "name":        "Nome da Meta",
+      "namePlaceholder": "Ex: Independência Financeira",
+      "targetValue": "Valor Alvo",
+      "currency":    "Moeda"
+    },
+    "types": {
+      "invested":  "Capital Investido",
+      "dividends": "Dividendos Mensais"
+    },
+    "desc": {
+      "invested":  "Total em carteira",
+      "dividends": "Rendimento passivo/mês"
+    },
+    "card": {
+      "real":      "Real",
+      "target":    "Meta",
+      "remaining": "Falta",
+      "achieved":  "🎉 Meta atingida!",
+      "invested":  "Capital investido em carteira",
+      "dividends": "Rendimento passivo estimado/mês"
+    },
+    "sections": {
+      "invested":  "📈 Capital Investido",
+      "dividends": "💰 Dividendos Mensais"
+    },
+    "toast": {
+      "created": "Meta criada!",
+      "updated": "Meta atualizada!",
+      "deleted": "Meta removida"
+    },
+    "empty": {
+      "title": "Ainda não tem metas definidas",
+      "desc":  "Clique em \"+ Nova Meta\" para começar a acompanhar o seu progresso"
+    }
+  },
+  "categories": {
+    "title":    "Categorias",
+    "titleSub": "Subcategorias",
+    "add":      "Nova Categoria",
+    "addSub":   "Nova Subcategoria",
+    "edit":     "Editar Categoria",
+    "editSub":  "Editar Subcategoria",
+    "form": {
+      "name":        "Nome",
+      "namePlaceholder":    "Ex: Alimentação",
+      "namePlaceholderSub": "Ex: Supermercado",
+      "type":        "Tipo",
+      "parentCategory": "Categoria Pai",
+      "selectCategory": "Selecionar categoria..."
+    },
+    "types": {
+      "income":           "Ganho",
+      "investment":       "Investimento",
+      "fixed_expense":    "Despesa Fixa",
+      "variable_expense": "Despesa Variável"
+    },
+    "subcountLabel": "{{count}} sub.",
+    "toast": {
+      "created":    "Categoria criada!",
+      "updated":    "Categoria atualizada!",
+      "deleted":    "Categoria removida",
+      "createdSub": "Subcategoria criada!",
+      "updatedSub": "Subcategoria atualizada!",
+      "deletedSub": "Subcategoria removida",
+      "deletedWithSubs": "Categoria e {{count}} subcategoria(s) removidas"
+    },
+    "empty":    "Sem categorias. Crie a primeira!",
+    "emptySub": "Sem subcategorias. Crie a primeira!"
+  },
+  "settings": {
+    "title": "Configurações",
+    "sections": {
+      "language": {
+        "label": "Idioma Padrão",
+        "desc":  "Idioma da interface"
+      },
+      "theme": {
+        "label": "Tema Padrão",
+        "desc":  "Aparência da aplicação"
+      },
+      "currency": {
+        "label": "Moeda Padrão",
+        "desc":  "Moeda usada por padrão"
+      },
+      "sheet": {
+        "label": "Sheet Config",
+        "desc":  "URL e chave de acesso à Google Sheet"
+      },
+      "backup": {
+        "label": "Backups",
+        "desc":  "Exportar e importar dados"
+      }
+    },
+    "language": {
+      "title":        "Idioma Padrão",
+      "label":        "Idioma da interface",
+      "select":       "Selecionar idioma",
+      "saved":        "Idioma salvo!",
+      "saveButton":   "Salvar Idioma",
+      "instantApply": "💡 A alteração de idioma é aplicada imediatamente em toda a aplicação.",
+      "languages": {
+        "pt-BR": "Português (Brasil)",
+        "pt-PT": "Português (Portugal)",
+        "en":    "English",
+        "es":    "Español"
+      }
+    },
+    "sheet": {
+      "url":            "URL do Apps Script",
+      "urlPlaceholder": "https://script.google.com/macros/s/.../exec",
+      "urlHelp":        "Gerado ao publicar o Apps Script como Web App.",
+      "urlHelpLink":    "Como obter o URL →",
+      "apiKey":         "Chave de Acesso (API Key)",
+      "apiKeyPlaceholder": "A sua chave secreta",
+      "apiKeyHelp":     "Recomendado. Define uma chave no Apps Script para proteger seus dados.",
+      "securityNote":   "Estas credenciais ficam salvas apenas no seu dispositivo. O Kappy nunca as envia para servidores externos.",
+      "securityWarn":   "Nunca compartilhe o URL nem a chave.",
+      "configured":     "Configurado",
+      "testButton":     "🔍 Testar Conexão",
+      "saveButton":     "Salvar",
+      "saved":          "✓ Salvo!",
+      "testing":        "Testando conexão...",
+      "testOk":         "Conexão estabelecida! {{count}} conta(s) encontrada(s).",
+      "testError":      "Não foi possível conectar. Verifique o URL e tente novamente.",
+      "comingSoonDesc": "está sendo desenvolvido. Fique atento às próximas atualizações do Kappy.",
+      "manualSetup": {
+        "title": "Como configurar manualmente:",
+        "step1": "Abra o arquivo .env.local na raiz do projeto",
+        "step2": "Defina VITE_SHEETS_URL= com o seu URL",
+        "step3": "Defina VITE_SHEETS_API_KEY= com a sua chave",
+        "step4": "Reinicie o servidor com npm run dev"
+      },
+      "security": {
+        "title":   "Informação de segurança",
+        "message": "O URL e a chave de acesso dão acesso total aos seus dados financeiros. Nunca os compartilhe com ninguém. Guarde-os num gerenciador de senhas. O Kappy salva estas credenciais apenas localmente no seu dispositivo."
+      },
+      "providers": {
+        "online":  "☁️ Online",
+        "offline": "💾 Offline",
+        "descs": {
+          "google_sheets":        "Google Drive",
+          "excel_365":            "Microsoft OneDrive",
+          "apple_numbers_cloud":  "Apple iCloud",
+          "airtable":             "Airtable Cloud",
+          "notion":               "Notion Database",
+          "excel_local":          "Arquivo local .xlsx",
+          "libreoffice":          "LibreOffice / OpenOffice",
+          "apple_numbers_local":  "Apple Numbers local",
+          "csv":                  "Arquivo .csv universal"
+        }
+      }
+    }
+  },
+  "banner": {
+    "localMode": "Modo local — dados não persistidos.",
+    "configure": "Configure a Sheet em",
+    "sheetConfig": "Configurações → Sheet Config"
+  }
+}
