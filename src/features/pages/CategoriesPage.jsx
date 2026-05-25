@@ -1,10 +1,10 @@
 // src/features/categories/CategoriesPage.jsx
 import { useState } from "react";
-import { useCategoriesStore } from "../store/categoriesStore";
-import { useToast } from "../hooks/useToast";
-import { TRANSACTION_TYPES } from "../data/constants";
-import { Button, Input, Select, Card } from "../components/ui";
-import { Toast } from "../components/ui/Toast";
+import { useCategoriesStore } from "../../store/categoriesStore";
+import { useToast } from "../../hooks/useToast";
+import { TRANSACTION_TYPES } from "../../data/constants";
+import { Button, Input, Select, Card } from "../../components/ui";
+import { Toast } from "../../components/ui/Toast";
 
 // ── Helpers ───────────────────────────────────────────────────
 

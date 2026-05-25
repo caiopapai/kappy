@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { useAccountsStore } from "../store/accountsStore.js";
-import { useToast } from "../hooks/useToast.js";
-import { ACCOUNT_TYPES, CURRENCY_SYMBOLS } from "../data/constants.js";
-import { Button, Input, Select, Card, CardTitle } from "../components/ui/index.jsx";
-import { Toast } from "../components/ui/Toast.jsx";
+import { useAccountsStore } from "../../store/accountsStore.js";
+import { useToast } from "../../hooks/useToast.js";
+import { ACCOUNT_TYPES, CURRENCY_SYMBOLS } from "../../data/constants.js";
+import { Button, Input, Select, Card, CardTitle } from "../../components/ui/index.jsx";
+import { Toast } from "../../components/ui/Toast.jsx";
 
 function accountIcon(type) {
   return ACCOUNT_TYPES.find(a => a.value === type)?.icon || "💰";

@@ -5,10 +5,10 @@ import { useAccountsStore }   from "./store/accountsStore";
 import { useCategoriesStore } from "./store/categoriesStore";
 import { useGoalsStore }      from "./store/goalsStore";
 import { IS_CONFIGURED }      from "./services/sheetsApi";
-import AccountsPage   from "./features/AccountsPage";
-import CategoriesPage from "./features/CategoriesPage";
-import GoalsPage      from "./features/GoalsPage";
-import SettingsPage   from "./features/SettingsPage";
+import AccountsPage   from "./features/pages/AccountsPage";
+import CategoriesPage from "./features/pages/CategoriesPage";
+import GoalsPage      from "./features/pages/GoalsPage";
+import SettingsPage   from "./features/pages/SettingsPage";
 
 // ── Carga inicial ─────────────────────────────────────────────
 

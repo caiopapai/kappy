@@ -1,9 +1,7 @@
 // src/features/settings/SettingsPage.jsx
-// Página de Definições com 5 secções.
-// Cada secção é um componente independente — fácil de preencher feature a feature.
-
 import { useState } from "react";
-import { Card } from "../components/ui";
+import { Card } from "../../components/ui";
+import SheetConfig from "../settings/SheetConfig"
 
 // ── Secções disponíveis ───────────────────────────────────────
 
@@ -136,11 +134,7 @@ function CurrencySection() {
 // ── Secção: Sheet Config ──────────────────────────────────────
 
 function SheetSection() {
-  return (
-    <Card>
-      <ComingSoon label="Sheet Config" />
-    </Card>
-  );
+  return <SheetConfig />;
 }
 
 // ── Secção: Backups ───────────────────────────────────────────

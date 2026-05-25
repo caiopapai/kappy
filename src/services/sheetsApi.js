@@ -1,8 +1,15 @@
 const SHEETS_URL = import.meta.env.VITE_SHEETS_URL ?? "";
-export const IS_CONFIGURED = Boolean(SHEETS_URL && SHEETS_URL.startsWith("https://"));
+const SHEETS_KEY = import.meta.env.VITE_SHEETS_API_KEY ?? "";
+
+export const IS_CONFIGURED = Boolean(
+  SHEETS_URL && SHEETS_URL.startsWith("https://")
+);
+
 
 async function getAll(sheet) {
-  const res = await fetch(SHEETS_URL + "?sheet=" + sheet);
+  const params = new URLSearchParams({ sheet });
+  if (SHEETS_KEY) params.append("key", SHEETS_KEY);
+  const res  = await fetch(SHEETS_URL + "?" + params.toString());
   if (!res.ok) throw new Error("HTTP " + res.status);
   const json = await res.json();
   if (!json.ok) throw new Error(json.error || "Erro ao ler " + sheet);
@@ -12,7 +19,7 @@ async function getAll(sheet) {
 async function upsert(sheet, row) {
   const res = await fetch(SHEETS_URL, {
     method: "POST",
-    body: JSON.stringify({ action: "upsert", sheet, row }),
+    body: JSON.stringify({ action: "upsert", sheet, row, key: SHEETS_KEY }),
   });
   if (!res.ok) throw new Error("HTTP " + res.status);
   const json = await res.json();
@@ -23,7 +30,7 @@ async function upsert(sheet, row) {
 async function remove(sheet, id) {
   const res = await fetch(SHEETS_URL, {
     method: "POST",
-    body: JSON.stringify({ action: "delete", sheet, id }),
+    body: JSON.stringify({ action: "delete", sheet, id, key: SHEETS_KEY }),
   });
   if (!res.ok) throw new Error("HTTP " + res.status);
   const json = await res.json();
@@ -35,7 +42,7 @@ async function bulkUpsert(sheet, rows) {
   if (!rows?.length) return [];
   const res = await fetch(SHEETS_URL, {
     method: "POST",
-    body: JSON.stringify({ action: "bulk_upsert", sheet, rows }),
+    body: JSON.stringify({ action: "bulk_upsert", sheet, rows, key: SHEETS_KEY }),
   });
   if (!res.ok) throw new Error("HTTP " + res.status);
   const json = await res.json();
