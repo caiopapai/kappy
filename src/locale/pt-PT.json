@@ -1,29 +1,29 @@
 {
   "common": {
-    "save":        "Guardar",
-    "cancel":      "Cancelar",
-    "delete":      "Remover",
-    "edit":        "Editar",
-    "add":         "Adicionar",
-    "close":       "Fechar",
-    "confirm":     "Confirmar",
-    "back":        "Voltar",
-    "loading":     "A carregar...",
-    "error":       "Erro",
-    "success":     "Sucesso",
-    "yes":         "Sim",
-    "no":          "Não",
-    "name":        "Nome",
-    "type":        "Tipo",
-    "value":       "Valor",
-    "date":        "Data",
-    "notes":       "Notas",
-    "currency":    "Moeda",
-    "actions":     "Acções",
-    "noData":      "Sem dados",
-    "comingSoon":  "Em breve",
-    "required":    "Obrigatório",
-    "invalid":     "Valor inválido",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Remover",
+    "edit": "Editar",
+    "add": "Adicionar",
+    "close": "Fechar",
+    "confirm": "Confirmar",
+    "back": "Voltar",
+    "loading": "A carregar...",
+    "error": "Erro",
+    "success": "Sucesso",
+    "yes": "Sim",
+    "no": "Não",
+    "name": "Nome",
+    "type": "Tipo",
+    "value": "Valor",
+    "date": "Data",
+    "notes": "Notas",
+    "currency": "Moeda",
+    "actions": "Acções",
+    "noData": "Sem dados",
+    "comingSoon": "Em breve",
+    "required": "Obrigatório",
+    "invalid": "Valor inválido",
     "connectionError": "Erro de ligação — verifica a ligação",
     "currencies": {
       "EUR": "Euro",
@@ -32,34 +32,34 @@
     }
   },
   "nav": {
-    "accounts":     "Contas",
-    "goals":        "Metas",
-    "categories":   "Categorias",
+    "accounts": "Contas",
+    "goals": "Metas",
+    "categories": "Categorias",
     "transactions": "Transacções",
-    "budget":       "Orçamento",
-    "investments":  "Investimentos",
-    "dashboard":    "Dashboard",
-    "settings":     "Definições"
+    "budget": "Orçamento",
+    "investments": "Investimentos",
+    "dashboard": "Dashboard",
+    "settings": "Definições"
   },
   "accounts": {
-    "title":       "As Minhas Contas",
-    "add":         "Nova Conta",
-    "edit":        "Editar Conta",
+    "title": "As Minhas Contas",
+    "add": "Nova Conta",
+    "edit": "Editar Conta",
     "form": {
-      "name":        "Nome da Conta",
+      "name": "Nome da Conta",
       "namePlaceholder": "Ex: Conta BCP",
-      "type":        "Tipo",
-      "balance":     "Saldo Inicial",
-      "currency":    "Moeda"
+      "type": "Tipo",
+      "balance": "Saldo Inicial",
+      "currency": "Moeda"
     },
     "types": {
-      "checking":        "Conta Corrente",
-      "savings":         "Poupança",
-      "investment":      "Investimento",
-      "credit_card":     "Cartão de Crédito",
+      "checking": "Conta Corrente",
+      "savings": "Poupança",
+      "investment": "Investimento",
+      "credit_card": "Cartão de Crédito",
       "personal_credit": "Crédito Pessoal",
-      "car_credit":      "Crédito de Carro",
-      "housing_credit":  "Crédito Habitação"
+      "car_credit": "Crédito de Carro",
+      "housing_credit": "Crédito Habitação"
     },
     "balance": {
       "positive": "✓ Saldo positivo",
@@ -73,34 +73,34 @@
     "empty": "Sem contas. Cria a primeira!"
   },
   "goals": {
-    "title":  "As Minhas Metas",
-    "add":    "Nova Meta",
-    "edit":   "Editar Meta",
+    "title": "As Minhas Metas",
+    "add": "Nova Meta",
+    "edit": "Editar Meta",
     "form": {
-      "type":        "Tipo de Meta",
-      "name":        "Nome da Meta",
+      "type": "Tipo de Meta",
+      "name": "Nome da Meta",
       "namePlaceholder": "Ex: Independência Financeira",
       "targetValue": "Valor Alvo",
-      "currency":    "Moeda"
+      "currency": "Moeda"
     },
     "types": {
-      "invested":  "Capital Investido",
+      "invested": "Capital Investido",
       "dividends": "Dividendos Mensais"
     },
     "desc": {
-      "invested":  "Total em carteira",
+      "invested": "Total em carteira",
       "dividends": "Rendimento passivo/mês"
     },
     "card": {
-      "real":      "Real",
-      "target":    "Meta",
+      "real": "Real",
+      "target": "Meta",
       "remaining": "Falta",
-      "achieved":  "🎉 Meta atingida!",
-      "invested":  "Capital investido em carteira",
+      "achieved": "🎉 Meta atingida!",
+      "invested": "Capital investido em carteira",
       "dividends": "Rendimento passivo estimado/mês"
     },
     "sections": {
-      "invested":  "📈 Capital Investido",
+      "invested": "📈 Capital Investido",
       "dividends": "💰 Dividendos Mensais"
     },
     "toast": {
@@ -110,41 +110,41 @@
     },
     "empty": {
       "title": "Ainda não tens metas definidas",
-      "desc":  "Clica em \"+ Nova Meta\" para começar a acompanhar o teu progresso"
+      "desc": "Clica em \"+ Nova Meta\" para começar a acompanhar o teu progresso"
     }
   },
   "categories": {
-    "title":    "Categorias",
+    "title": "Categorias",
     "titleSub": "Subcategorias",
-    "add":      "Nova Categoria",
-    "addSub":   "Nova Subcategoria",
-    "edit":     "Editar Categoria",
-    "editSub":  "Editar Subcategoria",
+    "add": "Nova Categoria",
+    "addSub": "Nova Subcategoria",
+    "edit": "Editar Categoria",
+    "editSub": "Editar Subcategoria",
     "form": {
-      "name":               "Nome",
-      "namePlaceholder":    "Ex: Alimentação",
+      "name": "Nome",
+      "namePlaceholder": "Ex: Alimentação",
       "namePlaceholderSub": "Ex: Supermercado",
-      "type":               "Tipo",
-      "parentCategory":     "Categoria Pai",
-      "selectCategory":     "Seleccionar categoria..."
+      "type": "Tipo",
+      "parentCategory": "Categoria Pai",
+      "selectCategory": "Seleccionar categoria..."
     },
     "types": {
-      "income":           "Ganho",
-      "investment":       "Investimento",
-      "fixed_expense":    "Despesa Fixa",
+      "income": "Ganho",
+      "investment": "Investimento",
+      "fixed_expense": "Despesa Fixa",
       "variable_expense": "Despesa Variável"
     },
     "subcountLabel": "{{count}} sub.",
     "toast": {
-      "created":    "Categoria criada!",
-      "updated":    "Categoria actualizada!",
-      "deleted":    "Categoria removida",
+      "created": "Categoria criada!",
+      "updated": "Categoria actualizada!",
+      "deleted": "Categoria removida",
       "createdSub": "Subcategoria criada!",
       "updatedSub": "Subcategoria actualizada!",
       "deletedSub": "Subcategoria removida",
       "deletedWithSubs": "Categoria e {{count}} subcategoria(s) removidas"
     },
-    "empty":    "Sem categorias. Cria a primeira!",
+    "empty": "Sem categorias. Cria a primeira!",
     "emptySub": "Sem subcategorias. Cria a primeira!"
   },
   "settings": {
@@ -152,56 +152,56 @@
     "sections": {
       "language": {
         "label": "Idioma Padrão",
-        "desc":  "Língua da interface"
+        "desc": "Língua da interface"
       },
       "theme": {
         "label": "Tema Padrão",
-        "desc":  "Aparência da aplicação"
+        "desc": "Aparência da aplicação"
       },
       "currency": {
         "label": "Moeda Padrão",
-        "desc":  "Moeda usada por defeito"
+        "desc": "Moeda usada por defeito"
       },
       "sheet": {
         "label": "Sheet Config",
-        "desc":  "URL e chave de acesso à Google Sheet"
+        "desc": "URL e chave de acesso à Google Sheet"
       },
       "backup": {
         "label": "Backups",
-        "desc":  "Exportar e importar dados"
+        "desc": "Exportar e importar dados"
       }
     },
     "language": {
-      "title":        "Idioma Padrão",
-      "label":        "Língua da interface",
-      "select":       "Seleccionar idioma",
-      "saved":        "Idioma guardado!",
-      "saveButton":   "Guardar Idioma",
+      "title": "Idioma Padrão",
+      "label": "Língua da interface",
+      "select": "Seleccionar idioma",
+      "saved": "Idioma guardado!",
+      "saveButton": "Guardar Idioma",
       "instantApply": "💡 A alteração de idioma é aplicada imediatamente em toda a aplicação.",
       "languages": {
         "pt-BR": "Português (Brasil)",
         "pt-PT": "Português (Portugal)",
-        "en":    "English",
-        "es":    "Español"
+        "en": "English",
+        "es": "Español"
       }
     },
     "sheet": {
-      "url":            "URL do Apps Script",
+      "url": "URL do Apps Script",
       "urlPlaceholder": "https://script.google.com/macros/s/.../exec",
-      "urlHelp":        "Gerado ao publicar o Apps Script como Web App.",
-      "urlHelpLink":    "Como obter o URL →",
-      "apiKey":         "Chave de Acesso (API Key)",
+      "urlHelp": "Gerado ao publicar o Apps Script como Web App.",
+      "urlHelpLink": "Como obter o URL →",
+      "apiKey": "Chave de Acesso (API Key)",
       "apiKeyPlaceholder": "A tua chave secreta",
-      "apiKeyHelp":     "Recomendado. Define uma chave no Apps Script para proteger os teus dados.",
-      "securityNote":   "Estas credenciais ficam guardadas apenas no teu dispositivo. O Kappy nunca as envia para servidores externos.",
-      "securityWarn":   "Nunca partilhes o URL nem a chave.",
-      "configured":     "Configurado",
-      "testButton":     "🔍 Testar Ligação",
-      "saveButton":     "Guardar",
-      "saved":          "✓ Guardado!",
-      "testing":        "A testar ligação...",
-      "testOk":         "Ligação estabelecida! {{count}} conta(s) encontrada(s).",
-      "testError":      "Não foi possível ligar. Verifica o URL e tenta novamente.",
+      "apiKeyHelp": "Recomendado. Define uma chave no Apps Script para proteger os teus dados.",
+      "securityNote": "Estas credenciais ficam guardadas apenas no teu dispositivo. O Kappy nunca as envia para servidores externos.",
+      "securityWarn": "Nunca partilhes o URL nem a chave.",
+      "configured": "Configurado",
+      "testButton": "🔍 Testar Ligação",
+      "saveButton": "Guardar",
+      "saved": "✓ Guardado!",
+      "testing": "A testar ligação...",
+      "testOk": "Ligação estabelecida! {{count}} conta(s) encontrada(s).",
+      "testError": "Não foi possível ligar. Verifica o URL e tenta novamente.",
       "comingSoonDesc": "está a ser desenvolvido. Fica atento às próximas actualizações do Kappy.",
       "manualSetup": {
         "title": "Como configurar manualmente:",
@@ -211,24 +211,95 @@
         "step4": "Reinicia o servidor com npm run dev"
       },
       "security": {
-        "title":   "Informação de segurança",
+        "title": "Informação de segurança",
         "message": "O URL e a chave de acesso dão acesso total aos teus dados financeiros. Nunca os partilhes com ninguém. Guarda-os num gestor de passwords. O Kappy guarda estas credenciais apenas localmente no teu dispositivo."
       },
       "providers": {
-        "online":  "☁️ Online",
+        "online": "☁️ Online",
         "offline": "💾 Offline",
         "descs": {
-          "google_sheets":        "Google Drive",
-          "excel_365":            "Microsoft OneDrive",
-          "apple_numbers_cloud":  "Apple iCloud",
-          "airtable":             "Airtable Cloud",
-          "notion":               "Notion Database",
-          "excel_local":          "Ficheiro local .xlsx",
-          "libreoffice":          "LibreOffice / OpenOffice",
-          "apple_numbers_local":  "Apple Numbers local",
-          "csv":                  "Ficheiro .csv universal"
+          "google_sheets": "Google Drive",
+          "excel_365": "Microsoft OneDrive",
+          "apple_numbers_cloud": "Apple iCloud",
+          "airtable": "Airtable Cloud",
+          "notion": "Notion Database",
+          "excel_local": "Ficheiro local .xlsx",
+          "libreoffice": "LibreOffice / OpenOffice",
+          "apple_numbers_local": "Apple Numbers local",
+          "csv": "Ficheiro .csv universal"
         }
       }
+    }
+  },
+  "investments": {
+    "addOperation": "Nova Operação",
+    "editOperation": "Editar Operação",
+    "buy": "Compra",
+    "sell": "Venda",
+    "filter": "Filtrar",
+    "filterAll": "Todos",
+    "tabs": {
+      "portfolio": "Carteira",
+      "history": "Histórico de Operações"
+    },
+    "kpi": {
+      "totalBought": "Total Comprado",
+      "totalSold": "Total Vendido",
+      "openPositions": "Posições Abertas",
+      "totalOperations": "Total de Operações"
+    },
+    "form": {
+      "assetType": "Tipo de Activo",
+      "exchange": "Bolsa / Mercado",
+      "selectExchange": "Seleccionar bolsa...",
+      "stock": "Acção",
+      "selectStock": "Seleccionar acção...",
+      "ticker": "Ticker / Código",
+      "assetName": "Nome do Activo",
+      "date": "Data da Operação",
+      "quantity": "Quantidade",
+      "unitPrice": "Preço Unitário",
+      "otherCosts": "Outros Custos",
+      "dyAnnual": "DY Anual (%)",
+      "total": "Total da Operação"
+    },
+    "quote": {
+      "loading": "A buscar cotação...",
+      "current": "Cotação Actual",
+      "apply": "Usar Cotação",
+      "notFound": "Cotação não encontrada",
+      "error": "Erro ao buscar cotação"
+    },
+    "table": {
+      "asset": "Activo",
+      "type": "Tipo",
+      "quantity": "Quantidade",
+      "avgPrice": "Preço Médio",
+      "totalBought": "Total Comprado",
+      "totalSold": "Total Vendido",
+      "dy": "DY Anual",
+      "ops": "Ops.",
+      "operation": "Operação",
+      "date": "Data",
+      "unitPrice": "Preço Unit.",
+      "costs": "Custos",
+      "total": "Total"
+    },
+    "portfolio": {
+      "empty": "Sem posições em carteira",
+      "emptyDesc": "Regista a primeira operação de compra"
+    },
+    "history": {
+      "empty": "Sem operações",
+      "emptyFilter": "para este tipo de activo"
+    },
+    "toast": {
+      "buyRegistered": "Compra registada!",
+      "sellRegistered": "Venda registada!",
+      "updated": "Operação actualizada!",
+      "deleted": "Operação removida",
+      "fillRequired": "Preenche ticker, data, quantidade e preço",
+      "invalidValues": "Quantidade e preço devem ser positivos"
     }
   },
   "banner": {

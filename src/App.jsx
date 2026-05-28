@@ -2,27 +2,31 @@
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate, NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useAccountsStore }   from "./store/accountsStore";
-import { useCategoriesStore } from "./store/categoriesStore";
-import { useGoalsStore }      from "./store/goalsStore";
-import { IS_CONFIGURED }      from "./services/sheetsApi";
-import AccountsPage   from "./features/pages/AccountsPage";
-import CategoriesPage from "./features/pages/CategoriesPage";
-import GoalsPage      from "./features/pages/GoalsPage";
-import SettingsPage   from "./features/pages/SettingsPage";
+import { useAccountsStore }     from "./store/accountsStore";
+import { useCategoriesStore }   from "./store/categoriesStore";
+import { useGoalsStore }        from "./store/goalsStore";
+import { useInvestmentsStore }  from "./store/investmentsStore";
+import { IS_CONFIGURED }        from "./services/sheetsApi";
+import AccountsPage     from "./features/pages/AccountsPage";
+import CategoriesPage   from "./features/pages/CategoriesPage";
+import GoalsPage        from "./features/pages/GoalsPage";
+import InvestmentsPage  from "./features/pages/InvestmentsPage";
+import SettingsPage     from "./features/pages/SettingsPage";
 
 // ── Carga inicial ─────────────────────────────────────────────
 
 function useBootstrap() {
-  const loadAccounts   = useAccountsStore(s => s.load);
-  const loadCategories = useCategoriesStore(s => s.load);
-  const loadGoals      = useGoalsStore(s => s.load);
+  const loadAccounts    = useAccountsStore(s => s.load);
+  const loadCategories  = useCategoriesStore(s => s.load);
+  const loadGoals       = useGoalsStore(s => s.load);
+  const loadInvestments = useInvestmentsStore(s => s.load);
 
   useEffect(() => {
     loadAccounts().catch(() => {});
     loadCategories().catch(() => {});
     loadGoals().catch(() => {});
-  }, [loadAccounts, loadCategories, loadGoals]);
+    loadInvestments().catch(() => {});
+  }, [loadAccounts, loadCategories, loadGoals, loadInvestments]);
 }
 
 // ── NavItem ───────────────────────────────────────────────────
@@ -51,12 +55,12 @@ function Sidebar() {
   const { t } = useTranslation();
 
   const NAV_ITEMS = [
-    { to: "/accounts",   icon: "🏦", label: t("nav.accounts") },
-    { to: "/goals",      icon: "🎯", label: t("nav.goals") },
-    { to: "/categories", icon: "🗂",  label: t("nav.categories") },
+    { to: "/accounts",    icon: "🏦", label: t("nav.accounts") },
+    { to: "/goals",       icon: "🎯", label: t("nav.goals") },
+    { to: "/categories",  icon: "🗂",  label: t("nav.categories") },
+    { to: "/investments", icon: "📈", label: t("nav.investments") },
     // { to: "/transactions", icon: "↕",  label: t("nav.transactions") }, ← Feature 4
     // { to: "/budget",       icon: "📊", label: t("nav.budget") },       ← Feature 5
-    // { to: "/investments",  icon: "📈", label: t("nav.investments") },  ← Feature 6
     // { to: "/dashboard",    icon: "◈",  label: t("nav.dashboard") },    ← Feature 7
   ];
 
@@ -130,6 +134,7 @@ export default function App() {
               <Route path="/accounts"           element={<AccountsPage />} />
               <Route path="/goals"              element={<GoalsPage />} />
               <Route path="/categories"         element={<CategoriesPage />} />
+              <Route path="/investments"        element={<InvestmentsPage />} />
               <Route path="/settings"           element={<SettingsPage />} />
               <Route path="/settings/:section"  element={<SettingsPage />} />
             </Routes>
