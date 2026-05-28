@@ -1,25 +1,26 @@
-const SHEETS_URL = import.meta.env.VITE_SHEETS_URL ?? "";
-const SHEETS_KEY = import.meta.env.VITE_SHEETS_API_KEY ?? "";
+// src/services/sheetsApi.js
+// Cliente HTTP para o kappy-engine.
+// O engine é o único ponto de contacto — nunca o Apps Script directamente.
 
-export const IS_CONFIGURED = Boolean(
-  SHEETS_URL && SHEETS_URL.startsWith("https://")
-);
+const ENGINE_URL = import.meta.env.VITE_ENGINE_URL ?? "http://localhost:3001";
 
+export const IS_CONFIGURED = Boolean(ENGINE_URL);
 
-async function getAll(sheet) {
-  const params = new URLSearchParams({ sheet });
-  if (SHEETS_KEY) params.append("key", SHEETS_KEY);
-  const res  = await fetch(SHEETS_URL + "?" + params.toString());
+// ── Primitivas ───────────────────────────────────────────────
+
+async function get(path) {
+  const res  = await fetch(`${ENGINE_URL}/api/sheets/${path}`);
   if (!res.ok) throw new Error("HTTP " + res.status);
   const json = await res.json();
-  if (!json.ok) throw new Error(json.error || "Erro ao ler " + sheet);
+  if (!json.ok) throw new Error(json.error);
   return json.data;
 }
 
-async function upsert(sheet, row) {
-  const res = await fetch(SHEETS_URL, {
-    method: "POST",
-    body: JSON.stringify({ action: "upsert", sheet, row, key: SHEETS_KEY }),
+async function post(path, body) {
+  const res = await fetch(`${ENGINE_URL}/api/sheets/${path}`, {
+    method:  "POST",
+    headers: { "Content-Type": "application/json" },
+    body:    JSON.stringify(body),
   });
   if (!res.ok) throw new Error("HTTP " + res.status);
   const json = await res.json();
@@ -27,10 +28,9 @@ async function upsert(sheet, row) {
   return json.data;
 }
 
-async function remove(sheet, id) {
-  const res = await fetch(SHEETS_URL, {
-    method: "POST",
-    body: JSON.stringify({ action: "delete", sheet, id, key: SHEETS_KEY }),
+async function remove(path) {
+  const res = await fetch(`${ENGINE_URL}/api/sheets/${path}`, {
+    method: "DELETE",
   });
   if (!res.ok) throw new Error("HTTP " + res.status);
   const json = await res.json();
@@ -38,42 +38,26 @@ async function remove(sheet, id) {
   return true;
 }
 
-async function bulkUpsert(sheet, rows) {
-  if (!rows?.length) return [];
-  const res = await fetch(SHEETS_URL, {
-    method: "POST",
-    body: JSON.stringify({ action: "bulk_upsert", sheet, rows, key: SHEETS_KEY }),
-  });
-  if (!res.ok) throw new Error("HTTP " + res.status);
-  const json = await res.json();
-  if (!json.ok) throw new Error(json.error);
-  return json.data;
+async function bulkPost(path, rows) {
+  return post(path, { action: "bulk", rows });
 }
 
-export const accountsApi = {
-  getAll:  ()     => getAll("accounts"),
-  save:    (row)  => upsert("accounts", row),
-  delete:  (id)   => remove("accounts", id),
-  seedAll: (rows) => bulkUpsert("accounts", rows),
-};
+// ── API por entidade ─────────────────────────────────────────
 
-export const categoriesApi = {
-  getAll:  ()     => getAll("categories"),
-  save:    (row)  => upsert("categories", row),
-  delete:  (id)   => remove("categories", id),
-  seedAll: (rows) => bulkUpsert("categories", rows),
-};
+function makeApi(entity) {
+  return {
+    getAll:  ()     => get(entity),
+    save:    (row)  => post(entity, row),
+    delete:  (id)   => remove(`${entity}/${id}`),
+    seedAll: (rows) => bulkPost(entity, rows),
+  };
+}
 
-export const subcategoriesApi = {
-  getAll:  ()     => getAll("subcategories"),
-  save:    (row)  => upsert("subcategories", row),
-  delete:  (id)   => remove("subcategories", id),
-  seedAll: (rows) => bulkUpsert("subcategories", rows),
-};
-
-export const goalsApi = {
-  getAll:  ()     => getAll("goals"),
-  save:    (row)  => upsert("goals", row),
-  delete:  (id)   => remove("goals", id),
-  seedAll: (rows) => bulkUpsert("goals", rows),
-};
+export const accountsApi       = makeApi("accounts");
+export const categoriesApi     = makeApi("categories");
+export const subcategoriesApi  = makeApi("subcategories");
+export const transactionsApi   = makeApi("transactions");
+export const recurringRulesApi = makeApi("recurring_rules");
+export const budgetsApi        = makeApi("budgets");
+export const investmentsApi    = makeApi("investments");
+export const goalsApi          = makeApi("goals");

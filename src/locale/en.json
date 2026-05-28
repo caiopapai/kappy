@@ -1,29 +1,29 @@
 {
   "common": {
-    "save":        "Save",
-    "cancel":      "Cancel",
-    "delete":      "Delete",
-    "edit":        "Edit",
-    "add":         "Add",
-    "close":       "Close",
-    "confirm":     "Confirm",
-    "back":        "Back",
-    "loading":     "Loading...",
-    "error":       "Error",
-    "success":     "Success",
-    "yes":         "Yes",
-    "no":          "No",
-    "name":        "Name",
-    "type":        "Type",
-    "value":       "Value",
-    "date":        "Date",
-    "notes":       "Notes",
-    "currency":    "Currency",
-    "actions":     "Actions",
-    "noData":      "No data",
-    "comingSoon":  "Coming soon",
-    "required":    "Required",
-    "invalid":     "Invalid value",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "close": "Close",
+    "confirm": "Confirm",
+    "back": "Back",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "yes": "Yes",
+    "no": "No",
+    "name": "Name",
+    "type": "Type",
+    "value": "Value",
+    "date": "Date",
+    "notes": "Notes",
+    "currency": "Currency",
+    "actions": "Actions",
+    "noData": "No data",
+    "comingSoon": "Coming soon",
+    "required": "Required",
+    "invalid": "Invalid value",
     "connectionError": "Connection error — check your connection",
     "currencies": {
       "EUR": "Euro",
@@ -32,34 +32,34 @@
     }
   },
   "nav": {
-    "accounts":     "Accounts",
-    "goals":        "Goals",
-    "categories":   "Categories",
+    "accounts": "Accounts",
+    "goals": "Goals",
+    "categories": "Categories",
     "transactions": "Transactions",
-    "budget":       "Budget",
-    "investments":  "Investments",
-    "dashboard":    "Dashboard",
-    "settings":     "Settings"
+    "budget": "Budget",
+    "investments": "Investments",
+    "dashboard": "Dashboard",
+    "settings": "Settings"
   },
   "accounts": {
-    "title":       "My Accounts",
-    "add":         "New Account",
-    "edit":        "Edit Account",
+    "title": "My Accounts",
+    "add": "New Account",
+    "edit": "Edit Account",
     "form": {
-      "name":        "Account Name",
+      "name": "Account Name",
       "namePlaceholder": "E.g.: Main Account",
-      "type":        "Type",
-      "balance":     "Initial Balance",
-      "currency":    "Currency"
+      "type": "Type",
+      "balance": "Initial Balance",
+      "currency": "Currency"
     },
     "types": {
-      "checking":        "Checking Account",
-      "savings":         "Savings Account",
-      "investment":      "Investment",
-      "credit_card":     "Credit Card",
+      "checking": "Checking Account",
+      "savings": "Savings Account",
+      "investment": "Investment",
+      "credit_card": "Credit Card",
       "personal_credit": "Personal Credit",
-      "car_credit":      "Car Loan",
-      "housing_credit":  "Mortgage"
+      "car_credit": "Car Loan",
+      "housing_credit": "Mortgage"
     },
     "balance": {
       "positive": "✓ Positive balance",
@@ -73,34 +73,34 @@
     "empty": "No accounts yet. Create the first one!"
   },
   "goals": {
-    "title":  "My Goals",
-    "add":    "New Goal",
-    "edit":   "Edit Goal",
+    "title": "My Goals",
+    "add": "New Goal",
+    "edit": "Edit Goal",
     "form": {
-      "type":        "Goal Type",
-      "name":        "Goal Name",
+      "type": "Goal Type",
+      "name": "Goal Name",
       "namePlaceholder": "E.g.: Financial Independence",
       "targetValue": "Target Value",
-      "currency":    "Currency"
+      "currency": "Currency"
     },
     "types": {
-      "invested":  "Invested Capital",
+      "invested": "Invested Capital",
       "dividends": "Monthly Dividends"
     },
     "desc": {
-      "invested":  "Total in portfolio",
+      "invested": "Total in portfolio",
       "dividends": "Passive income/month"
     },
     "card": {
-      "real":      "Actual",
-      "target":    "Target",
+      "real": "Actual",
+      "target": "Target",
       "remaining": "Remaining",
-      "achieved":  "🎉 Goal achieved!",
-      "invested":  "Capital invested in portfolio",
+      "achieved": "🎉 Goal achieved!",
+      "invested": "Capital invested in portfolio",
       "dividends": "Estimated passive income/month"
     },
     "sections": {
-      "invested":  "📈 Invested Capital",
+      "invested": "📈 Invested Capital",
       "dividends": "💰 Monthly Dividends"
     },
     "toast": {
@@ -110,98 +110,169 @@
     },
     "empty": {
       "title": "No goals defined yet",
-      "desc":  "Click \"+ New Goal\" to start tracking your progress"
+      "desc": "Click \"+ New Goal\" to start tracking your progress"
     }
   },
   "categories": {
-    "title":    "Categories",
+    "title": "Categories",
     "titleSub": "Subcategories",
-    "add":      "New Category",
-    "addSub":   "New Subcategory",
-    "edit":     "Edit Category",
-    "editSub":  "Edit Subcategory",
+    "add": "New Category",
+    "addSub": "New Subcategory",
+    "edit": "Edit Category",
+    "editSub": "Edit Subcategory",
     "form": {
-      "name":               "Name",
-      "namePlaceholder":    "E.g.: Food",
+      "name": "Name",
+      "namePlaceholder": "E.g.: Food",
       "namePlaceholderSub": "E.g.: Groceries",
-      "type":               "Type",
-      "parentCategory":     "Parent Category",
-      "selectCategory":     "Select category..."
+      "type": "Type",
+      "parentCategory": "Parent Category",
+      "selectCategory": "Select category..."
     },
     "types": {
-      "income":           "Income",
-      "investment":       "Investment",
-      "fixed_expense":    "Fixed Expense",
+      "income": "Income",
+      "investment": "Investment",
+      "fixed_expense": "Fixed Expense",
       "variable_expense": "Variable Expense"
     },
     "subcountLabel": "{{count}} sub.",
     "toast": {
-      "created":    "Category created!",
-      "updated":    "Category updated!",
-      "deleted":    "Category deleted",
+      "created": "Category created!",
+      "updated": "Category updated!",
+      "deleted": "Category deleted",
       "createdSub": "Subcategory created!",
       "updatedSub": "Subcategory updated!",
       "deletedSub": "Subcategory deleted",
       "deletedWithSubs": "Category and {{count}} subcategory(ies) deleted"
     },
-    "empty":    "No categories. Create the first one!",
+    "empty": "No categories. Create the first one!",
     "emptySub": "No subcategories. Create the first one!"
+  },
+  "investments": {
+    "addOperation": "New Operation",
+    "editOperation": "Edit Operation",
+    "buy": "Buy",
+    "sell": "Sell",
+    "filter": "Filter",
+    "filterAll": "All",
+    "tabs": {
+      "portfolio": "Portfolio",
+      "history": "Operations History"
+    },
+    "kpi": {
+      "totalBought": "Total Bought",
+      "totalSold": "Total Sold",
+      "openPositions": "Open Positions",
+      "totalOperations": "Total Operations"
+    },
+    "form": {
+      "assetType": "Asset Type",
+      "exchange": "Exchange / Market",
+      "selectExchange": "Select exchange...",
+      "stock": "Stock",
+      "selectStock": "Select stock...",
+      "ticker": "Ticker / Code",
+      "assetName": "Asset Name",
+      "date": "Operation Date",
+      "quantity": "Quantity",
+      "unitPrice": "Unit Price",
+      "otherCosts": "Other Costs",
+      "dyAnnual": "Annual DY (%)",
+      "total": "Operation Total"
+    },
+    "quote": {
+      "loading": "Fetching quote...",
+      "current": "Current Quote",
+      "apply": "Use Quote",
+      "notFound": "Quote not found",
+      "error": "Error fetching quote"
+    },
+    "table": {
+      "asset": "Asset",
+      "type": "Type",
+      "quantity": "Quantity",
+      "avgPrice": "Avg. Price",
+      "totalBought": "Total Bought",
+      "totalSold": "Total Sold",
+      "dy": "Annual DY",
+      "ops": "Ops.",
+      "operation": "Operation",
+      "date": "Date",
+      "unitPrice": "Unit Price",
+      "costs": "Costs",
+      "total": "Total"
+    },
+    "portfolio": {
+      "empty": "No positions in portfolio",
+      "emptyDesc": "Register your first buy operation"
+    },
+    "history": {
+      "empty": "No operations",
+      "emptyFilter": "for this asset type"
+    },
+    "toast": {
+      "buyRegistered": "Buy registered!",
+      "sellRegistered": "Sell registered!",
+      "updated": "Operation updated!",
+      "deleted": "Operation deleted",
+      "fillRequired": "Fill in ticker, date, quantity and price",
+      "invalidValues": "Quantity and price must be positive"
+    }
   },
   "settings": {
     "title": "Settings",
     "sections": {
       "language": {
         "label": "Default Language",
-        "desc":  "Interface language"
+        "desc": "Interface language"
       },
       "theme": {
         "label": "Default Theme",
-        "desc":  "Application appearance"
+        "desc": "Application appearance"
       },
       "currency": {
         "label": "Default Currency",
-        "desc":  "Currency used by default"
+        "desc": "Currency used by default"
       },
       "sheet": {
         "label": "Sheet Config",
-        "desc":  "Google Sheet URL and access key"
+        "desc": "Google Sheet URL and access key"
       },
       "backup": {
         "label": "Backups",
-        "desc":  "Export and import data"
+        "desc": "Export and import data"
       }
     },
     "language": {
-      "title":        "Default Language",
-      "label":        "Interface language",
-      "select":       "Select language",
-      "saved":        "Language saved!",
-      "saveButton":   "Save Language",
+      "title": "Default Language",
+      "label": "Interface language",
+      "select": "Select language",
+      "saved": "Language saved!",
+      "saveButton": "Save Language",
       "instantApply": "💡 Language changes are applied immediately across the entire application.",
       "languages": {
         "pt-BR": "Português (Brasil)",
         "pt-PT": "Português (Portugal)",
-        "en":    "English",
-        "es":    "Español"
+        "en": "English",
+        "es": "Español"
       }
     },
     "sheet": {
-      "url":            "Apps Script URL",
+      "url": "Apps Script URL",
       "urlPlaceholder": "https://script.google.com/macros/s/.../exec",
-      "urlHelp":        "Generated when publishing the Apps Script as a Web App.",
-      "urlHelpLink":    "How to get the URL →",
-      "apiKey":         "Access Key (API Key)",
+      "urlHelp": "Generated when publishing the Apps Script as a Web App.",
+      "urlHelpLink": "How to get the URL →",
+      "apiKey": "Access Key (API Key)",
       "apiKeyPlaceholder": "Your secret key",
-      "apiKeyHelp":     "Recommended. Set a key in the Apps Script to protect your data.",
-      "securityNote":   "These credentials are stored only on your device. Kappy never sends them to external servers.",
-      "securityWarn":   "Never share the URL or the key.",
-      "configured":     "Configured",
-      "testButton":     "🔍 Test Connection",
-      "saveButton":     "Save",
-      "saved":          "✓ Saved!",
-      "testing":        "Testing connection...",
-      "testOk":         "Connection established! {{count}} account(s) found.",
-      "testError":      "Could not connect. Check the URL and try again.",
+      "apiKeyHelp": "Recommended. Set a key in the Apps Script to protect your data.",
+      "securityNote": "These credentials are stored only on your device. Kappy never sends them to external servers.",
+      "securityWarn": "Never share the URL or the key.",
+      "configured": "Configured",
+      "testButton": "🔍 Test Connection",
+      "saveButton": "Save",
+      "saved": "✓ Saved!",
+      "testing": "Testing connection...",
+      "testOk": "Connection established! {{count}} account(s) found.",
+      "testError": "Could not connect. Check the URL and try again.",
       "comingSoonDesc": "is being developed. Stay tuned for upcoming Kappy updates.",
       "manualSetup": {
         "title": "How to configure manually:",
@@ -211,22 +282,22 @@
         "step4": "Restart the server with npm run dev"
       },
       "security": {
-        "title":   "Security information",
+        "title": "Security information",
         "message": "The URL and access key give full access to your financial data. Never share them with anyone. Store them in a password manager. Kappy stores these credentials only locally on your device."
       },
       "providers": {
-        "online":  "☁️ Online",
+        "online": "☁️ Online",
         "offline": "💾 Offline",
         "descs": {
-          "google_sheets":        "Google Drive",
-          "excel_365":            "Microsoft OneDrive",
-          "apple_numbers_cloud":  "Apple iCloud",
-          "airtable":             "Airtable Cloud",
-          "notion":               "Notion Database",
-          "excel_local":          "Local .xlsx file",
-          "libreoffice":          "LibreOffice / OpenOffice",
-          "apple_numbers_local":  "Apple Numbers local",
-          "csv":                  "Universal .csv file"
+          "google_sheets": "Google Drive",
+          "excel_365": "Microsoft OneDrive",
+          "apple_numbers_cloud": "Apple iCloud",
+          "airtable": "Airtable Cloud",
+          "notion": "Notion Database",
+          "excel_local": "Local .xlsx file",
+          "libreoffice": "LibreOffice / OpenOffice",
+          "apple_numbers_local": "Apple Numbers local",
+          "csv": "Universal .csv file"
         }
       }
     }
