@@ -37,9 +37,19 @@ export const INITIAL_INVESTMENTS = [
   { id: 4, opType: "sell", assetType: "acoes",  ticker: "PETR4", name: "Petrobras PN",             date: "2025-04-20", quantity: 50,   unitPrice: 41.80,  otherCosts: 3.00, currency: "BRL", totalValue: 2087.00, dyAnnual: 14.2 },
 ];
 
+
+export const INITIAL_TRANSACTIONS = [
+  { id: 1, accountId: 1, amount: 2800,  currency: "EUR", date: "2025-05-01", subcategoryId: 1, notes: "Maio 2025",  type: "income" },
+  { id: 2, accountId: 1, amount: 850,   currency: "EUR", date: "2025-05-02", subcategoryId: 3, notes: "Renda Maio", type: "fixed_expense" },
+  { id: 3, accountId: 3, amount: 120.5, currency: "EUR", date: "2025-05-10", subcategoryId: 4, notes: "Continente", type: "variable_expense" },
+];
+
+export const INITIAL_RECURRING = [
+  { id: 1, accountId: 1, amount: 850,  currency: "EUR", subcategoryId: 3, type: "fixed_expense", notes: "Renda mensal", startDate: "2025-01-01", endDate: null, hasNoEnd: true, active: true },
+  { id: 2, accountId: 1, amount: 2800, currency: "EUR", subcategoryId: 1, type: "income",         notes: "Salário",     startDate: "2025-01-01", endDate: null, hasNoEnd: true, active: true },
+];
+
 // As restantes entidades serão adicionadas aqui
 // à medida que cada feature for migrada:
 //
-// export const INITIAL_TRANSACTIONS  = [ ... ];  ← Feature 4
-// export const INITIAL_BUDGETS       = [ ... ];  ← Feature 5
-// export const INITIAL_RECURRING     = [ ... ];  ← Feature 4
+// export const INITIAL_BUDGETS = [ ... ];  ← Feature 5

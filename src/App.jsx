@@ -6,11 +6,13 @@ import { useAccountsStore }     from "./store/accountsStore";
 import { useCategoriesStore }   from "./store/categoriesStore";
 import { useGoalsStore }        from "./store/goalsStore";
 import { useInvestmentsStore }  from "./store/investmentsStore";
+import { useTransactionsStore } from "./store/transactionsStore";
 import { IS_CONFIGURED }        from "./services/sheetsApi";
 import AccountsPage     from "./features/pages/AccountsPage";
 import CategoriesPage   from "./features/pages/CategoriesPage";
 import GoalsPage        from "./features/pages/GoalsPage";
 import InvestmentsPage  from "./features/pages/InvestmentsPage";
+import TransactionsPage from "./features/pages/TransactionsPage";
 import SettingsPage     from "./features/settings/SettingsPage";
 
 // ── Carga inicial ─────────────────────────────────────────────
@@ -20,13 +22,15 @@ function useBootstrap() {
   const loadCategories  = useCategoriesStore(s => s.load);
   const loadGoals       = useGoalsStore(s => s.load);
   const loadInvestments = useInvestmentsStore(s => s.load);
+  const loadTransactions = useTransactionsStore(s => s.load);
 
   useEffect(() => {
     loadAccounts().catch(() => {});
     loadCategories().catch(() => {});
     loadGoals().catch(() => {});
     loadInvestments().catch(() => {});
-  }, [loadAccounts, loadCategories, loadGoals, loadInvestments]);
+    loadTransactions().catch(() => {});
+  }, [loadAccounts, loadCategories, loadGoals, loadInvestments, loadTransactions]);
 }
 
 // ── NavItem ───────────────────────────────────────────────────
@@ -55,13 +59,13 @@ function Sidebar() {
   const { t } = useTranslation();
 
   const NAV_ITEMS = [
-    { to: "/accounts",    icon: "🏦", label: t("nav.accounts") },
-    { to: "/goals",       icon: "🎯", label: t("nav.goals") },
-    { to: "/categories",  icon: "🗂",  label: t("nav.categories") },
-    { to: "/investments", icon: "📈", label: t("nav.investments") },
-    // { to: "/transactions", icon: "↕",  label: t("nav.transactions") }, ← Feature 4
-    // { to: "/budget",       icon: "📊", label: t("nav.budget") },       ← Feature 5
-    // { to: "/dashboard",    icon: "◈",  label: t("nav.dashboard") },    ← Feature 7
+    { to: "/accounts",     icon: "🏦", label: t("nav.accounts") },
+    { to: "/goals",        icon: "🎯", label: t("nav.goals") },
+    { to: "/categories",   icon: "🗂",  label: t("nav.categories") },
+    { to: "/transactions", icon: "↕",  label: t("nav.transactions") },
+    { to: "/investments",  icon: "📈", label: t("nav.investments") },
+    // { to: "/budget",    icon: "📊", label: t("nav.budget") },    ← Feature 5
+    // { to: "/dashboard", icon: "◈",  label: t("nav.dashboard") }, ← Feature 7
   ];
 
   return (
@@ -135,6 +139,7 @@ export default function App() {
               <Route path="/goals"              element={<GoalsPage />} />
               <Route path="/categories"         element={<CategoriesPage />} />
               <Route path="/investments"        element={<InvestmentsPage />} />
+              <Route path="/transactions"       element={<TransactionsPage />} />
               <Route path="/settings"           element={<SettingsPage />} />
               <Route path="/settings/:section"  element={<SettingsPage />} />
             </Routes>

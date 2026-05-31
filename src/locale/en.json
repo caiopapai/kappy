@@ -330,5 +330,56 @@
     "localMode": "Local mode — data not persisted.",
     "configure": "Configure the Sheet in",
     "sheetConfig": "Settings → Sheet Config"
+  },
+  "transactions": {
+    "add": "New Transaction",
+    "register": "Register",
+    "empty": "No transactions yet. Register the first one!",
+    "tabs": {
+      "all": "All Transactions",
+      "recurring": "Recurring"
+    },
+    "form": {
+      "account": "Account",
+      "selectAccount": "Select account...",
+      "amount": "Amount",
+      "subcategory": "Subcategory",
+      "selectSubcategory": "Select subcategory...",
+      "startDate": "Start date",
+      "notesPlaceholder": "Observations..."
+    },
+    "table": {
+      "subcategory": "Subcategory",
+      "account": "Account",
+      "value": "Value"
+    },
+    "recurring": {
+      "label": "Recurring Transaction",
+      "desc": "Repeats monthly and is automatically projected in the budget",
+      "hasEndDate": "Has end date",
+      "endDate": "End date",
+      "noEndDesc": "No end date → will be projected for the next 10 years",
+      "create": "Create Recurring Rule",
+      "helpText": "Recurring rules automatically project values into the budget. Editing a rule preserves past history and applies changes from today onwards.",
+      "empty": "No recurring rules. Create a transaction and mark it as recurring.",
+      "paused": "Paused",
+      "noEnd": "No end",
+      "noEndDate": "No end date",
+      "editNote": "Edit rule — changes apply from today only. Past history is preserved.",
+      "newAmount": "New monthly amount",
+      "saveFuture": "Save (future only)"
+    },
+    "preview": {
+      "recurring": "Monthly recurring in \"{{account}}\" starting {{date}}",
+      "balance": "Will change the balance of \"{{account}}\""
+    },
+    "toast": {
+      "fillRequired": "Fill in all required fields",
+      "registered": "registered",
+      "deleted": "Transaction deleted",
+      "recurringCreated": "Recurring rule created!",
+      "ruleUpdated": "Rule updated! Past history preserved.",
+      "ruleDeleted": "Recurring rule deleted"
+    }
   }
 }
