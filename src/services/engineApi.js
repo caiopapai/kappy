@@ -1,18 +1,7 @@
 // src/services/engineApi.js
-// Cliente para os endpoints do kappy-engine que não são sheets.
-// Actualmente: cotações e pesquisa de ativos.
-
 const ENGINE_URL = import.meta.env.VITE_ENGINE_URL ?? "http://localhost:3001";
 
-// ── Stocks ────────────────────────────────────────────────────
-
 export const stocksApi = {
-  /**
-   * Pesquisa ativos por ticker ou nome.
-   * @param {string} query - Ex: "PETR", "Petrobras"
-   * @param {string} type  - "stock" | "fii" | "bdr" | "all"
-   * @returns {Promise<Array<{ ticker, name, type, price, change, currency }>>}
-   */
   search: async (query, type = "stock") => {
     const params = new URLSearchParams({ q: query, type });
     const res    = await fetch(`${ENGINE_URL}/api/stocks/search?${params}`);
@@ -23,31 +12,32 @@ export const stocksApi = {
   },
 
   /**
-   * Cotação em tempo real de um ou mais tickers.
-   * @param {string|string[]} tickers - Ex: "PETR4" ou ["PETR4","VALE3"]
-   * @returns {Promise<{ ticker, name, price, currency, change, changePercent, source }>}
+   * Cotação resiliente — nunca lança erro.
+   * Devolve { available: true, data: {...} } ou { available: false, message: "..." }
    */
   quote: async (tickers) => {
     const list = Array.isArray(tickers) ? tickers.join(",") : tickers;
-    const res  = await fetch(`${ENGINE_URL}/api/stocks/quote/${list}`);
-    if (!res.ok) throw new Error("HTTP " + res.status);
-    const json = await res.json();
-    if (!json.ok) throw new Error(json.error);
-    return json.data;
+    try {
+      const res  = await fetch(`${ENGINE_URL}/api/stocks/quote/${list}`);
+      const json = await res.json();
+
+      // Engine devolveu resposta amigável de não disponível
+      if (!json.available) {
+        return { available: false, message: json.message || "Cotação indisponível" };
+      }
+
+      return { available: true, data: json.data };
+    } catch {
+      return { available: false, message: "Serviço de cotações indisponível de momento" };
+    }
   },
 
-  /**
-   * Provider de cotações activo no engine.
-   * @returns {Promise<string>}
-   */
   provider: async () => {
     const res  = await fetch(`${ENGINE_URL}/api/stocks/provider`);
     const json = await res.json();
     return json.provider;
   },
 };
-
-// ── Health ────────────────────────────────────────────────────
 
 export async function checkEngineHealth() {
   try {

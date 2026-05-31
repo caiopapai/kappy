@@ -81,24 +81,31 @@ function useStockSearch(assetType, exchange) {
 // ── Hook: cotação automática ──────────────────────────────────
 
 function useQuote() {
-  const [state, setState] = useState({ loading: false, price: null, error: null, source: null });
+  const [state, setState] = useState({ loading: false, price: null, error: null, source: null, available: true });
 
   const fetch_ = useCallback(async (ticker) => {
     if (!ticker) return;
-    setState({ loading: true, price: null, error: null, source: null });
+    setState({ loading: true, price: null, error: null, source: null, available: true });
     try {
-      const data = await stocksApi.quote(ticker);
+      const result = await stocksApi.quote(ticker);
+
+      if (!result.available) {
+        setState({ loading: false, price: null, error: result.message, source: null, available: false });
+        return;
+      }
+
+      const data = result.data;
       if (data?.price) {
-        setState({ loading: false, price: data.price, error: null, source: data.source });
+        setState({ loading: false, price: data.price, error: null, source: data.source, available: true });
       } else {
-        setState({ loading: false, price: null, error: "Cotação não encontrada", source: null });
+        setState({ loading: false, price: null, error: "Cotação não encontrada", source: null, available: false });
       }
     } catch (err) {
-      setState({ loading: false, price: null, error: err.message, source: null });
+      setState({ loading: false, price: null, error: err.message, source: null, available: false });
     }
   }, []);
 
-  const clear = () => setState({ loading: false, price: null, error: null, source: null });
+  const clear = () => setState({ loading: false, price: null, error: null, source: null, available: true });
 
   return { quoteState: state, fetchQuote: fetch_, clearQuote: clear };
 }
@@ -352,17 +359,17 @@ export default function InvestmentsPage() {
                         <button
                           key={stock.ticker}
                           onClick={() => handleSelectStock(stock)}
-                          className="w-full flex items-center justify-between px-4 py-2.5 hover:bg-[#1e2235] transition-colors cursor-pointer border-0 bg-transparent text-left"
+                          className="w-full flex flex-col px-4 py-2.5 hover:bg-[#1e2235] transition-colors cursor-pointer border-0 bg-transparent text-left"
                         >
-                          <div>
+                          <div className="flex items-center justify-between w-full">
                             <span className="text-sm font-bold text-[#e8e6e0]">{stock.ticker}</span>
-                            <span className="text-xs text-[#5a5f78] ml-2 max-w-[180px] truncate">{stock.name}</span>
+                            {stock.price && (
+                              <span className="text-sm font-semibold text-[#4ade80] tabular-nums">
+                                R$ {stock.price.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
+                              </span>
+                            )}
                           </div>
-                          {stock.price && (
-                            <span className="text-sm font-semibold text-[#4ade80] tabular-nums ml-2 shrink-0">
-                              R$ {stock.price.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
-                            </span>
-                          )}
+                          <span className="text-xs text-[#5a5f78] truncate w-full mt-0.5">{stock.name}</span>
                         </button>
                       ))}
                     </div>
@@ -429,7 +436,13 @@ export default function InvestmentsPage() {
                   </div>
                 )}
                 {quoteState.error && !quoteState.loading && (
-                  <div className="text-xs text-[#f87171]">{quoteState.error}</div>
+                  <div className={`text-xs px-3 py-1.5 rounded-lg ${
+                    quoteState.available === false
+                      ? "text-[#f59e0b] bg-[#1e1a0e]"
+                      : "text-[#f87171]"
+                  }`}>
+                    {quoteState.available === false ? "⚠ " : "✕ "}{quoteState.error}
+                  </div>
                 )}
                 {!quoteState.loading && !quoteState.price && !quoteState.error && form.ticker && isB3 && (
                   <Button size="sm" variant="secondary" onClick={() => fetchQuote(form.ticker)}>

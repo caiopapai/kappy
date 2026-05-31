@@ -169,6 +169,10 @@
       "backup": {
         "label": "Copias de Seguridad",
         "desc": "Exportar e importar datos"
+      },
+      "marketApis": {
+        "label": "APIs de Mercado",
+        "desc": "Cotizaciones por bolsa"
       }
     },
     "language": {
@@ -228,6 +232,26 @@
           "apple_numbers_local": "Apple Numbers local",
           "csv": "Archivo .csv universal"
         }
+      }
+    },
+    "marketApis": {
+      "securityTitle": "Información de seguridad",
+      "securityMessage": "Los tokens y claves de API se guardan localmente en tu dispositivo y se envían solo al kappy-engine. Nunca se exponen en el browser ni se comparten con terceros.",
+      "configured": "Bolsas configuradas",
+      "addConfig": "Añadir bolsa",
+      "editConfig": "Editar configuración",
+      "saveConfig": "Guardar configuración",
+      "exchange": "Bolsa / Mercado",
+      "provider": "Proveedor de cotizaciones",
+      "credentials": "Credenciales",
+      "optional": "opcional",
+      "withCredentials": "con credenciales",
+      "noCredentialsNeeded": "Este proveedor no necesita credenciales para funcionar.",
+      "storageNote": "Las credenciales se guardan localmente. kappy-engine las usa para autenticarse con la API — nunca se envían al browser.",
+      "emptyState": "Selecciona una bolsa para configurar el proveedor de cotizaciones.",
+      "toast": {
+        "saved": "¡Configuración guardada!",
+        "deleted": "Configuración eliminada"
       }
     }
   },
