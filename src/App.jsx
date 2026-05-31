@@ -13,6 +13,7 @@ import CategoriesPage   from "./features/pages/CategoriesPage";
 import GoalsPage        from "./features/pages/GoalsPage";
 import InvestmentsPage  from "./features/pages/InvestmentsPage";
 import TransactionsPage from "./features/pages/TransactionsPage";
+import DashboardPage    from "./features/pages/DashboardPage";
 import SettingsPage     from "./features/settings/SettingsPage";
 
 // ── Carga inicial ─────────────────────────────────────────────
@@ -59,13 +60,13 @@ function Sidebar() {
   const { t } = useTranslation();
 
   const NAV_ITEMS = [
+    { to: "/dashboard",    icon: "◈",  label: t("nav.dashboard") },
     { to: "/accounts",     icon: "🏦", label: t("nav.accounts") },
     { to: "/goals",        icon: "🎯", label: t("nav.goals") },
     { to: "/categories",   icon: "🗂",  label: t("nav.categories") },
     { to: "/transactions", icon: "↕",  label: t("nav.transactions") },
     { to: "/investments",  icon: "📈", label: t("nav.investments") },
-    // { to: "/budget",    icon: "📊", label: t("nav.budget") },    ← Feature 5
-    // { to: "/dashboard", icon: "◈",  label: t("nav.dashboard") }, ← Feature 7
+    // { to: "/budget", icon: "📊", label: t("nav.budget") }, ← Feature 5
   ];
 
   return (
@@ -134,7 +135,8 @@ export default function App() {
           <ConfigBanner />
           <main className="flex-1 overflow-auto p-7">
             <Routes>
-              <Route path="/"                   element={<Navigate to="/accounts" replace />} />
+              <Route path="/"                   element={<Navigate to="/dashboard" replace />} />
+              <Route path="/dashboard"          element={<DashboardPage />} />
               <Route path="/accounts"           element={<AccountsPage />} />
               <Route path="/goals"              element={<GoalsPage />} />
               <Route path="/categories"         element={<CategoriesPage />} />
