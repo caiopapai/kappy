@@ -11,7 +11,7 @@ import AccountsPage     from "./features/pages/AccountsPage";
 import CategoriesPage   from "./features/pages/CategoriesPage";
 import GoalsPage        from "./features/pages/GoalsPage";
 import InvestmentsPage  from "./features/pages/InvestmentsPage";
-import SettingsPage     from "./features/pages/SettingsPage";
+import SettingsPage     from "./features/settings/SettingsPage";
 
 // ── Carga inicial ─────────────────────────────────────────────
 

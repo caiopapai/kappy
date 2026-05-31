@@ -240,6 +240,10 @@
       "backup": {
         "label": "Backups",
         "desc": "Export and import data"
+      },
+      "marketApis": {
+        "label": "Market APIs",
+        "desc": "Stock quotes by exchange"
       }
     },
     "language": {
@@ -299,6 +303,26 @@
           "apple_numbers_local": "Apple Numbers local",
           "csv": "Universal .csv file"
         }
+      }
+    },
+    "marketApis": {
+      "securityTitle": "Security information",
+      "securityMessage": "API tokens and keys are stored locally on your device and sent only to kappy-engine. They are never exposed in the browser or shared with third parties.",
+      "configured": "Configured exchanges",
+      "addConfig": "Add exchange",
+      "editConfig": "Edit configuration",
+      "saveConfig": "Save configuration",
+      "exchange": "Exchange / Market",
+      "provider": "Quote provider",
+      "credentials": "Credentials",
+      "optional": "optional",
+      "withCredentials": "with credentials",
+      "noCredentialsNeeded": "This provider does not require credentials to work.",
+      "storageNote": "Credentials are stored locally. kappy-engine uses them to authenticate with the API — they are never sent to the browser.",
+      "emptyState": "Select an exchange to configure the quote provider.",
+      "toast": {
+        "saved": "Configuration saved!",
+        "deleted": "Configuration deleted"
       }
     }
   },
