@@ -381,5 +381,41 @@
       "ruleUpdated": "¡Regla actualizada! Historial pasado conservado.",
       "ruleDeleted": "Regla recurrente eliminada"
     }
+  },
+  "dashboard": {
+    "kpi": {
+      "totalBalance": "Saldo Total",
+      "accounts": "cuentas",
+      "monthlyIncome": "Ingresos del Mes",
+      "incomeNote": "transacciones de ingreso",
+      "monthlyExpense": "Gastos del Mes",
+      "ofIncome": "de los ingresos",
+      "netBalance": "Neto del Mes",
+      "remaining": "Disponible:"
+    },
+    "expenses": {
+      "title": "Gastos por Categoría",
+      "empty": "Sin gastos registrados este mes"
+    },
+    "comparison": {
+      "title": "Comparación Mes Anterior",
+      "income": "Ingresos",
+      "expense": "Gastos"
+    },
+    "investments": {
+      "title": "Distribución de la Cartera",
+      "empty": "Sin inversiones registradas"
+    },
+    "burndown": {
+      "title": "Burndown del Salario",
+      "subtitle": "Evolución del presupuesto a lo largo del mes",
+      "budget": "Presupuesto ideal",
+      "real": "Consumo real",
+      "today": "Hoy",
+      "noIncome": "Sin ingresos registrados este mes",
+      "startBudget": "Presupuesto inicial",
+      "spent": "Gastado",
+      "remaining": "Disponible"
+    }
   }
 }

@@ -381,5 +381,41 @@
       "ruleUpdated": "Regra actualizada! Passado preservado.",
       "ruleDeleted": "Regra recorrente removida"
     }
+  },
+  "dashboard": {
+    "kpi": {
+      "totalBalance": "Saldo Total",
+      "accounts": "contas",
+      "monthlyIncome": "Ganhos do Mês",
+      "incomeNote": "transacções de ganho",
+      "monthlyExpense": "Gastos do Mês",
+      "ofIncome": "dos ganhos",
+      "netBalance": "Líquido do Mês",
+      "remaining": "Disponível:"
+    },
+    "expenses": {
+      "title": "Gastos por Categoria",
+      "empty": "Sem gastos registados neste mês"
+    },
+    "comparison": {
+      "title": "Comparação Mês Anterior",
+      "income": "Ganhos",
+      "expense": "Gastos"
+    },
+    "investments": {
+      "title": "Distribuição da Carteira",
+      "empty": "Sem investimentos registados"
+    },
+    "burndown": {
+      "title": "Burndown do Salário",
+      "subtitle": "Evolução do orçamento ao longo do mês",
+      "budget": "Orçamento ideal",
+      "real": "Consumo real",
+      "today": "Hoje",
+      "noIncome": "Sem ganhos registados neste mês",
+      "startBudget": "Orçamento inicial",
+      "spent": "Gasto",
+      "remaining": "Disponível"
+    }
   }
 }
