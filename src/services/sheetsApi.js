@@ -61,3 +61,54 @@ export const recurringRulesApi = makeApi("recurring_rules");
 export const budgetsApi        = makeApi("budgets");
 export const investmentsApi    = makeApi("investments");
 export const goalsApi          = makeApi("goals");
+
+// ── Transações (endpoint dedicado com lógica no engine) ───────
+
+export const transactionsEngineApi = {
+  // Cria/actualiza transação — engine actualiza saldo da conta automaticamente
+  save: async (transaction) => {
+    const res = await fetch(`${ENGINE_URL}/api/transactions`, {
+      method:  "POST",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({ transaction }),
+    });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const json = await res.json();
+    if (!json.ok) throw new Error(json.error);
+    return json.data;
+  },
+
+  // Elimina transação — engine reverte saldo automaticamente
+  delete: async (id) => {
+    const res = await fetch(`${ENGINE_URL}/api/transactions/${id}`, { method: "DELETE" });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const json = await res.json();
+    if (!json.ok) throw new Error(json.error);
+    return true;
+  },
+
+  getAll: () => makeApi("transactions").getAll(),
+
+  // Regras recorrentes
+  saveRecurring: async (rule) => {
+    const res = await fetch(`${ENGINE_URL}/api/transactions/recurring`, {
+      method:  "POST",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({ rule }),
+    });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const json = await res.json();
+    if (!json.ok) throw new Error(json.error);
+    return json.data;
+  },
+
+  deleteRecurring: async (id) => {
+    const res = await fetch(`${ENGINE_URL}/api/transactions/recurring/${id}`, { method: "DELETE" });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const json = await res.json();
+    if (!json.ok) throw new Error(json.error);
+    return true;
+  },
+
+  getAllRecurring: () => makeApi("recurring_rules").getAll(),
+};

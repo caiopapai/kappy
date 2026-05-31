@@ -330,5 +330,56 @@
       "fillRequired": "Completa ticker, fecha, cantidad y precio",
       "invalidValues": "Cantidad y precio deben ser positivos"
     }
+  },
+  "transactions": {
+    "add": "Nueva Transacción",
+    "register": "Registrar",
+    "empty": "Sin transacciones. ¡Registra la primera!",
+    "tabs": {
+      "all": "Todas las Transacciones",
+      "recurring": "Recurrentes"
+    },
+    "form": {
+      "account": "Cuenta",
+      "selectAccount": "Seleccionar cuenta...",
+      "amount": "Importe",
+      "subcategory": "Subcategoría",
+      "selectSubcategory": "Seleccionar subcategoría...",
+      "startDate": "Fecha de inicio",
+      "notesPlaceholder": "Observaciones..."
+    },
+    "table": {
+      "subcategory": "Subcategoría",
+      "account": "Cuenta",
+      "value": "Importe"
+    },
+    "recurring": {
+      "label": "Transacción Recurrente",
+      "desc": "Se repite mensualmente y se proyecta automáticamente en el presupuesto",
+      "hasEndDate": "Tiene fecha de fin",
+      "endDate": "Fecha de fin",
+      "noEndDesc": "Sin fecha de fin → se proyectará durante los próximos 10 años",
+      "create": "Crear Regla Recurrente",
+      "helpText": "Las reglas recurrentes proyectan automáticamente los valores en el presupuesto. Editar una regla preserva el historial pasado y aplica los cambios solo a partir de hoy.",
+      "empty": "Sin reglas recurrentes. Crea una transacción y márcala como recurrente.",
+      "paused": "Pausada",
+      "noEnd": "Sin fin",
+      "noEndDate": "Sin fecha de fin",
+      "editNote": "Editar regla — los cambios se aplican solo desde hoy. El historial pasado se conserva.",
+      "newAmount": "Nuevo importe mensual",
+      "saveFuture": "Guardar (solo futuro)"
+    },
+    "preview": {
+      "recurring": "Recurrente mensual en \"{{account}}\" desde {{date}}",
+      "balance": "Cambiará el saldo de \"{{account}}\""
+    },
+    "toast": {
+      "fillRequired": "Rellena todos los campos obligatorios",
+      "registered": "registrada",
+      "deleted": "Transacción eliminada",
+      "recurringCreated": "¡Regla recurrente creada!",
+      "ruleUpdated": "¡Regla actualizada! Historial pasado conservado.",
+      "ruleDeleted": "Regla recurrente eliminada"
+    }
   }
 }

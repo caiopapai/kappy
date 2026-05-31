@@ -330,5 +330,56 @@
     "localMode": "Modo local — dados não persistidos.",
     "configure": "Configure a Sheet em",
     "sheetConfig": "Configurações → Sheet Config"
+  },
+  "transactions": {
+    "add": "Nova Transação",
+    "register": "Registar",
+    "empty": "Sem transações. Registe a primeira!",
+    "tabs": {
+      "all": "Todas as Transações",
+      "recurring": "Recorrentes"
+    },
+    "form": {
+      "account": "Conta",
+      "selectAccount": "Selecionar conta...",
+      "amount": "Valor",
+      "subcategory": "Subcategoria",
+      "selectSubcategory": "Selecionar subcategoria...",
+      "startDate": "Data de início",
+      "notesPlaceholder": "Observações..."
+    },
+    "table": {
+      "subcategory": "Subcategoria",
+      "account": "Conta",
+      "value": "Valor"
+    },
+    "recurring": {
+      "label": "Transação Recorrente",
+      "desc": "Repete mensalmente e projeta automaticamente no orçamento",
+      "hasEndDate": "Tem data de fim",
+      "endDate": "Data de fim",
+      "noEndDesc": "Sem data de fim → será projetada pelos próximos 10 anos",
+      "create": "Criar Regra Recorrente",
+      "helpText": "As regras recorrentes projetam automaticamente os valores no orçamento. Editar uma regra preserva o histórico passado e aplica as alterações apenas a partir de hoje.",
+      "empty": "Sem regras recorrentes. Crie uma transação e marque como recorrente.",
+      "paused": "Pausada",
+      "noEnd": "Sem fim",
+      "noEndDate": "Sem data de fim",
+      "editNote": "Editar regra — alterações aplicam-se apenas a partir de hoje. O histórico passado é preservado.",
+      "newAmount": "Novo valor mensal",
+      "saveFuture": "Guardar (só futuro)"
+    },
+    "preview": {
+      "recurring": "Recorrente mensal em \"{{account}}\" a partir de {{date}}",
+      "balance": "Vai alterar o saldo de \"{{account}}\""
+    },
+    "toast": {
+      "fillRequired": "Preencha todos os campos obrigatórios",
+      "registered": "registado",
+      "deleted": "Transação removida",
+      "recurringCreated": "Regra recorrente criada!",
+      "ruleUpdated": "Regra atualizada! Passado preservado.",
+      "ruleDeleted": "Regra recorrente removida"
+    }
   }
 }
