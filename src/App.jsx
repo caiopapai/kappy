@@ -36,10 +36,11 @@ function useBootstrap() {
 
 // ── NavItem ───────────────────────────────────────────────────
 
-function NavItem({ to, icon, label }) {
+function NavItem({ to, icon, label, testId }) {
   return (
     <NavLink
       to={to}
+      data-testid={testId}
       className={({ isActive }) => `
         flex items-center gap-2.5 px-3 py-2.5 rounded-lg mb-0.5
         text-sm font-medium transition-all border-l-[3px]
@@ -60,13 +61,12 @@ function Sidebar() {
   const { t } = useTranslation();
 
   const NAV_ITEMS = [
-    { to: "/dashboard",    icon: "◈",  label: t("nav.dashboard") },
-    { to: "/accounts",     icon: "🏦", label: t("nav.accounts") },
-    { to: "/goals",        icon: "🎯", label: t("nav.goals") },
-    { to: "/categories",   icon: "🗂",  label: t("nav.categories") },
-    { to: "/transactions", icon: "↕",  label: t("nav.transactions") },
-    { to: "/investments",  icon: "📈", label: t("nav.investments") },
-    // { to: "/budget", icon: "📊", label: t("nav.budget") }, ← Feature 5
+    { to: "/dashboard",    icon: "◈",  label: t("nav.dashboard"),    testId: "nav-dashboard" },
+    { to: "/accounts",     icon: "🏦", label: t("nav.accounts"),     testId: "nav-accounts" },
+    { to: "/goals",        icon: "🎯", label: t("nav.goals"),        testId: "nav-goals" },
+    { to: "/categories",   icon: "🗂",  label: t("nav.categories"),   testId: "nav-categories" },
+    { to: "/transactions", icon: "↕",  label: t("nav.transactions"), testId: "nav-transactions" },
+    { to: "/investments",  icon: "📈", label: t("nav.investments"),  testId: "nav-investments" },
   ];
 
   return (
@@ -95,7 +95,7 @@ function Sidebar() {
 
       {/* Definições — rodapé */}
       <div className="p-2 border-t border-[#2a2d3a]">
-        <NavItem to="/settings" icon="⚙" label={t("nav.settings")} />
+        <NavItem to="/settings" icon="⚙" label={t("nav.settings")} testId="nav-settings" />
       </div>
     </aside>
   );

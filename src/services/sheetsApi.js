@@ -2,9 +2,12 @@
 // Cliente HTTP para o kappy-engine.
 // O engine é o único ponto de contacto — nunca o Apps Script directamente.
 
-const ENGINE_URL = import.meta.env.VITE_ENGINE_URL ?? "http://localhost:3001";
+// URL base do engine — fallback para localhost em desenvolvimento
+const ENGINE_URL = import.meta.env.VITE_ENGINE_URL || "http://localhost:3001";
 
-export const IS_CONFIGURED = Boolean(ENGINE_URL);
+// IS_CONFIGURED é true apenas quando o utilizador definiu VITE_ENGINE_URL
+// explicitamente no .env.local. Sem isso, o app corre em modo local (mock).
+export const IS_CONFIGURED = Boolean(import.meta.env.VITE_ENGINE_URL);
 
 // ── Primitivas ───────────────────────────────────────────────
 
