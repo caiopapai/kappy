@@ -1,5 +1,5 @@
 // src/features/pages/BudgetPage.jsx
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslation }        from "react-i18next";
 import { useBudgetsStore }       from "../../store/budgetsStore";
 import { useTransactionsStore }  from "../../store/transactionsStore";
@@ -41,13 +41,18 @@ function fmt(v) {
 
 export default function BudgetPage() {
   const { t }                            = useTranslation();
-  const { budgets, setCell, removeRow }  = useBudgetsStore();
-  const { transactions, recurringRules } = useTransactionsStore();
-  const { categories, subcategories }    = useCategoriesStore();
-  const { toast, showToast }             = useToast();
+  const { budgets, summary, loadSummary } = useBudgetsStore();
+  const { transactions, recurringRules }  = useTransactionsStore();
+  const { categories, subcategories }     = useCategoriesStore();
+  const { toast, showToast }              = useToast();
 
   const now  = new Date();
   const [year, setYear] = useState(now.getFullYear());
+
+  // Carrega o summary do engine quando o ano muda
+  useEffect(() => {
+    loadSummary(year);
+  }, [year, loadSummary]);
 
   // ── Budget helpers ────────────────────────────────────────
 
@@ -61,14 +66,21 @@ export default function BudgetPage() {
     const cellDate   = new Date(y, m - 1, 1);
     const startMonth = new Date(new Date(rule.startDate).getFullYear(), new Date(rule.startDate).getMonth(), 1);
     if (cellDate < startMonth) return false;
-    if (rule.endDate) {
+    if (rule.endDate && !rule.hasNoEnd) {
       const endMonth = new Date(new Date(rule.endDate).getFullYear(), new Date(rule.endDate).getMonth(), 1);
       if (cellDate > endMonth) return false;
     }
     return true;
   };
 
+  // getActual usa o summary do engine se disponível, senão calcula localmente
   const getActual = (subId, month) => {
+    const engineSummary = summary?.[year]?.[month]?.[subId];
+    if (engineSummary) {
+      return engineSummary.effective || 0;
+    }
+
+    // Fallback local (modo demo)
     const txTotal = transactions
       .filter(t => {
         const d = new Date(t.date);
@@ -130,6 +142,123 @@ export default function BudgetPage() {
     return sum;
   };
 
+  const allCatIds = categories.map(c => c.id);
+
+  const [collapsed, setCollapsed] = useState({});
+
+  // Inicializa todas as categorias como colapsadas quando carregam
+  useEffect(() => {
+    if (categories.length > 0) {
+      setCollapsed(prev => {
+        const next = { ...prev };
+        categories.forEach(c => {
+          if (!(c.id in next)) next[c.id] = true;
+        });
+        return next;
+      });
+    }
+  }, [categories.length]);
+
+  const toggleCat = (catId) =>
+    setCollapsed(prev => ({ ...prev, [catId]: !prev[catId] }));
+
+  const collapseAll = () =>
+    setCollapsed(Object.fromEntries(allCatIds.map(id => [id, true])));
+
+  const expandAll = () =>
+    setCollapsed(Object.fromEntries(allCatIds.map(id => [id, false])));
+
+  const allCollapsed = allCatIds.length > 0 && allCatIds.every(id => collapsed[id]);
+  const allExpanded  = allCatIds.length > 0 && allCatIds.every(id => !collapsed[id]);
+
+  // ── Export helpers ────────────────────────────────────────
+
+  function exportCSV() {
+    const rows = [];
+    const header = ["Tipo", "Categoria", "Subcategoria", ...MONTHS, "Total Ano"];
+    rows.push(header.join(";"));
+
+    orderedCats.forEach(({ type, cats }) => {
+      cats.forEach(cat => {
+        const subs = subcategories.filter(s => s.categoryId === cat.id);
+        subs.forEach(sub => {
+          const months = Array.from({ length: 12 }, (_, i) => i + 1);
+          const planned = months.map(m => getBudget(sub.id, m));
+          const actual  = months.map(m => getActual(sub.id, m));
+          const totalP  = planned.reduce((s, v) => s + v, 0);
+          const totalA  = actual.reduce((s, v) => s + v, 0);
+
+          rows.push([
+            TYPE_SECTION_LABEL[type], cat.name, sub.name,
+            ...planned.map(v => v || 0), totalP,
+          ].join(";"));
+          rows.push([
+            "", "", `${sub.name} (Real)`,
+            ...actual.map(v => v || 0), totalA,
+          ].join(";"));
+        });
+      });
+    });
+
+    const blob = new Blob(["\uFEFF" + rows.join("\n")], { type: "text/csv;charset=utf-8;" });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement("a");
+    a.href     = url;
+    a.download = `kappy-budget-${year}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function exportPDF() {
+    // Usa o print do browser com estilos dedicados
+    const style = document.createElement("style");
+    style.id    = "kappy-print-style";
+    style.innerHTML = `
+      @media print {
+        body > * { display: none !important; }
+        #kappy-budget-print { display: block !important; }
+        @page { size: A3 landscape; margin: 10mm; }
+      }
+    `;
+    document.head.appendChild(style);
+
+    const el   = document.getElementById("budget-table-container");
+    const wrap = document.createElement("div");
+    wrap.id    = "kappy-budget-print";
+    wrap.style.cssText = "display:none;font-family:sans-serif;font-size:11px;color:#000;";
+    wrap.innerHTML     = `<h2 style="margin-bottom:8px">Planeamento ${year}</h2>` + el.innerHTML;
+    document.body.appendChild(wrap);
+
+    window.print();
+
+    document.head.removeChild(style);
+    document.body.removeChild(wrap);
+  }
+
+  async function exportPNG() {
+    const el = document.getElementById("budget-table-container");
+    if (!el) return;
+
+    // Usa html2canvas via CDN
+    if (!window.html2canvas) {
+      const script = document.createElement("script");
+      script.src   = "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
+      document.head.appendChild(script);
+      await new Promise(res => { script.onload = res; });
+    }
+
+    const canvas = await window.html2canvas(el, {
+      backgroundColor: "#161820",
+      scale:           2,
+      useCORS:         true,
+    });
+
+    const a    = document.createElement("a");
+    a.href     = canvas.toDataURL("image/png");
+    a.download = `kappy-budget-${year}.png`;
+    a.click();
+  }
+
   // ── Ordered categories ────────────────────────────────────
 
   const orderedCats = TYPE_ORDER
@@ -171,6 +300,39 @@ export default function BudgetPage() {
             >›</button>
           </div>
         </div>
+
+        {/* Expand / Collapse all + Export */}
+        <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+          <button onClick={expandAll} disabled={allExpanded}
+            style={{ background: "transparent", border: "1px solid #2a2d3a", borderRadius: 8, padding: "4px 12px", fontSize: 11, cursor: allExpanded ? "default" : "pointer", color: allExpanded ? "#3a3d52" : "#8a8fa8" }}>
+            ▼ {t("budget.expandAll")}
+          </button>
+          <button onClick={collapseAll} disabled={allCollapsed}
+            style={{ background: "transparent", border: "1px solid #2a2d3a", borderRadius: 8, padding: "4px 12px", fontSize: 11, cursor: allCollapsed ? "default" : "pointer", color: allCollapsed ? "#3a3d52" : "#8a8fa8" }}>
+            ▶ {t("budget.collapseAll")}
+          </button>
+
+          <div style={{ width: 1, height: 20, background: "#2a2d3a", margin: "0 4px" }} />
+
+          {[
+            { label: "CSV", fn: exportCSV, icon: "⬇" },
+            { label: "PDF", fn: exportPDF, icon: "🖨" },
+            { label: "PNG", fn: exportPNG, icon: "🖼" },
+          ].map(({ label, fn, icon }) => (
+            <button key={label} onClick={fn}
+              style={{
+                background: "transparent", border: "1px solid #2a2d3a", borderRadius: 8,
+                padding: "4px 12px", fontSize: 11, cursor: "pointer", color: "#8a8fa8",
+                display: "flex", alignItems: "center", gap: 4,
+                transition: "all .15s",
+              }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = "#6366f1"; e.currentTarget.style.color = "#a5b4fc"; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = "#2a2d3a"; e.currentTarget.style.color = "#8a8fa8"; }}
+            >
+              <span>{icon}</span> {label}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Legend */}
@@ -181,7 +343,7 @@ export default function BudgetPage() {
       </div>
 
       {/* Table */}
-      <div style={{ overflowX: "auto", borderRadius: 12, border: "1px solid #2a2d3a", isolation: "isolate" }}>
+      <div id="budget-table-container" style={{ overflowX: "auto", borderRadius: 12, border: "1px solid #2a2d3a", isolation: "isolate" }}>
         <table style={{ borderCollapse: "collapse", minWidth: 1300, width: "100%", fontSize: 13 }}>
           <thead>
             {/* Main header */}
@@ -220,16 +382,15 @@ export default function BudgetPage() {
           <tbody>
             {orderedCats.map(({ type, cats }) => (
               cats.map(cat => {
-                const budgetedSubs = subcategories
-                  .filter(s => s.categoryId === cat.id)
-                  .filter(sub => budgets.some(b => b.year === year && b.subcategoryId === sub.id));
+                // Mostra TODAS as subcategorias — orçamento pode ser zero
+                const allSubs = subcategories.filter(s => s.categoryId === cat.id);
 
-                const catBudgetMonth = (mi) => budgetedSubs.reduce((s, sub) => s + getBudget(sub.id, mi + 1), 0);
-                const catActualMonth = (mi) => budgetedSubs.reduce((s, sub) => s + getActual(sub.id, mi + 1), 0);
+                if (allSubs.length === 0) return null;
+
+                const catBudgetMonth = (mi) => allSubs.reduce((s, sub) => s + getBudget(sub.id, mi + 1), 0);
+                const catActualMonth = (mi) => allSubs.reduce((s, sub) => s + getActual(sub.id, mi + 1), 0);
                 const catBudgetYear  = Array.from({ length: 12 }, (_, i) => i).reduce((s, m) => s + catBudgetMonth(m), 0);
                 const catActualYear  = Array.from({ length: 12 }, (_, i) => i).reduce((s, m) => s + catActualMonth(m), 0);
-
-                if (budgetedSubs.length === 0) return null;
 
                 return [
                   // ── Nível 1: Tipo ─────────────────────────
@@ -246,9 +407,13 @@ export default function BudgetPage() {
                   </tr>,
 
                   // ── Nível 2: Categoria ────────────────────
-                  <tr key={`cat-${cat.id}`} style={{ background: "#0f1117" }}>
+                  <tr key={`cat-${cat.id}`} style={{ background: "#0f1117", cursor: "pointer" }}
+                    onClick={() => toggleCat(cat.id)}>
                     <td style={{ padding: "4px 16px 4px 24px", ...stickyTd("#0f1117") }}>
-                      <span style={{ fontSize: 12, fontWeight: 700, color: "#c4c0b8" }}>
+                      <span style={{ fontSize: 12, fontWeight: 700, color: "#c4c0b8", display: "flex", alignItems: "center", gap: 6 }}>
+                        <span style={{ fontSize: 10, color: "#5a5f78", userSelect: "none" }}>
+                          {collapsed[cat.id] ? "▶" : "▼"}
+                        </span>
                         {cat.name}
                       </span>
                     </td>
@@ -277,7 +442,7 @@ export default function BudgetPage() {
                   </tr>,
 
                   // ── Nível 3: Subcategorias ────────────────
-                  ...budgetedSubs.map(sub => {
+                  ...(!collapsed[cat.id] ? allSubs.map(sub => {
                     const budgetYear = Array.from({ length: 12 }, (_, i) => i + 1).reduce((s, m) => s + getBudget(sub.id, m), 0);
                     const actualYear = Array.from({ length: 12 }, (_, i) => i + 1).reduce((s, m) => s + getActual(sub.id, m), 0);
                     const isPos      = sub.type === "income" || sub.type === "investment";
@@ -317,7 +482,7 @@ export default function BudgetPage() {
                         </td>
                       </tr>
                     );
-                  }),
+                  }) : []),
                 ];
               })
             ))}
