@@ -1,3 +1,43 @@
+// ============================================================
+//  Kappy — Google Apps Script Backend
+//  Versão: 2.0.0
+// ============================================================
+//
+//  INSTRUÇÕES DE INSTALAÇÃO:
+//
+//  1. Abre o Google Sheets em sheets.google.com
+//  2. Cria uma nova spreadsheet — "Kappy DB"
+//  3. Extensões → Apps Script
+//  4. Apaga o código existente e cola este ficheiro completo
+//  5. Guardar (Ctrl+S)
+//  6. Executar → setup() → aceita as permissões
+//
+//  CONFIGURAR A API KEY (obrigatório):
+//  7. Apps Script → Ícone de engrenagem (Project Settings)
+//  8. Scroll até "Script Properties" → "Add script property"
+//     Nome:  API_KEY
+//     Valor: uma palavra-passe forte (ex: kappy-2025-xK9#mP)
+//  9. Guardar
+//
+//  PUBLICAR:
+//  10. Implementar → Nova implementação
+//      Tipo: Aplicação Web
+//      Executar como: Eu
+//      Quem tem acesso: Qualquer pessoa
+//  11. Copia o URL gerado
+//  12. Cola o URL e a API Key em Kappy → Definições → Sheet Config
+//
+//  SEGURANÇA:
+//  - A API Key fica encriptada nas Script Properties da Google
+//  - Não aparece no código fonte nem em nenhum repositório
+//  - Rate limiting activo: máximo 60 pedidos/minuto
+//  - Nunca partilhes o URL nem a API Key
+//
+// ============================================================
+
+
+// ── Configuração das abas ────────────────────────────────────
+
 const SHEETS_CONFIG = {
   accounts: {
     headers: ["id", "name", "type", "balance", "currency"],
@@ -31,13 +71,26 @@ const SHEETS_CONFIG = {
     headers: ["id", "type", "label", "targetValue", "currency"],
     types:   ["id",  "str",  "str",   "num",         "str"],
   },
+  settings: {
+    headers: ["id", "key", "value"],
+    types:   ["str", "str", "str"],
+  },
 };
 
+
+// ── Segurança ────────────────────────────────────────────────
+
+/**
+ * Valida a API Key enviada pelo Kappy.
+ * A chave correcta está guardada nas Script Properties (encriptada pela Google).
+ * Lança erro se a chave for inválida ou não estiver configurada.
+ */
 function validateApiKey(key) {
   const storedKey = PropertiesService
     .getScriptProperties()
     .getProperty("API_KEY");
 
+  // Se não há chave configurada, avisa o utilizador
   if (!storedKey) {
     throw new Error(
       "API_KEY não configurada. " +
@@ -50,35 +103,56 @@ function validateApiKey(key) {
   }
 }
 
+/**
+ * Rate limiting: máximo 60 pedidos por minuto.
+ * Usa o CacheService do Apps Script (memória partilhada do script).
+ */
 function checkRateLimit() {
   const cache  = CacheService.getScriptCache();
-  const bucket = "rl_" + Math.floor(Date.now() / 60000);
+  const bucket = "rl_" + Math.floor(Date.now() / 60000); // chave por minuto
   const count  = parseInt(cache.get(bucket) || "0");
 
   if (count >= 60) {
     throw new Error("Rate limit excedido. Tenta novamente em 1 minuto.");
   }
 
-  cache.put(bucket, String(count + 1), 90);
+  cache.put(bucket, String(count + 1), 90); // TTL de 90s para cobrir transição
 }
 
+/**
+ * Extrai a API Key do pedido (GET: query param, POST: body).
+ */
 function extractKey(e, body) {
   return (e && e.parameter && e.parameter.key) ||
          (body && body.key) ||
          "";
 }
 
-function setup() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
+
+// ── Setup / Migrate ───────────────────────────────────────────
+
+/**
+ * migrate() — seguro para correr a qualquer momento.
+ *
+ * Para cada aba definida no SHEETS_CONFIG:
+ *   1. Cria a aba se não existir
+ *   2. Se a aba existe mas não tem headers → adiciona headers
+ *   3. Se a aba existe com headers → detecta colunas em falta
+ *      e adiciona-as à direita SEM tocar nos dados existentes
+ *
+ * Nunca apaga dados. Pode correr múltiplas vezes com segurança.
+ */
+function migrate() {
+  const ss      = SpreadsheetApp.getActiveSpreadsheet();
+  const results = [];
 
   Object.entries(SHEETS_CONFIG).forEach(([sheetName, config]) => {
-    let sheet = ss.getSheetByName(sheetName);
+    let sheet  = ss.getSheetByName(sheetName);
+    let status = "";
+
+    // ── 1. Cria a aba se não existir ──────────────────────────
     if (!sheet) {
       sheet = ss.insertSheet(sheetName);
-      Logger.log("Criada aba: " + sheetName);
-    }
-    const firstCell = sheet.getRange(1, 1).getValue();
-    if (!firstCell) {
       sheet.getRange(1, 1, 1, config.headers.length)
         .setValues([config.headers])
         .setFontWeight("bold")
@@ -86,24 +160,78 @@ function setup() {
         .setFontColor("#ffffff");
       sheet.setFrozenRows(1);
       sheet.setColumnWidths(1, config.headers.length, 140);
+      status = "✅ criada";
+
+    } else {
+      // ── 2. Aba existe — verifica headers ──────────────────────
+      const lastCol      = sheet.getLastColumn();
+      const existingHeaders = lastCol > 0
+        ? sheet.getRange(1, 1, 1, lastCol).getValues()[0].map(String)
+        : [];
+
+      if (existingHeaders.length === 0 || !existingHeaders[0]) {
+        // Sem headers — escreve tudo
+        sheet.getRange(1, 1, 1, config.headers.length)
+          .setValues([config.headers])
+          .setFontWeight("bold")
+          .setBackground("#1a1a2e")
+          .setFontColor("#ffffff");
+        sheet.setFrozenRows(1);
+        status = "✅ headers adicionados";
+
+      } else {
+        // ── 3. Tem headers — adiciona só as colunas em falta ────
+        const missing = config.headers.filter(h => !existingHeaders.includes(h));
+
+        if (missing.length > 0) {
+          const startCol = lastCol + 1;
+          const range    = sheet.getRange(1, startCol, 1, missing.length);
+          range.setValues([missing])
+            .setFontWeight("bold")
+            .setBackground("#1a1a2e")
+            .setFontColor("#ffffff");
+          sheet.setColumnWidths(startCol, missing.length, 140);
+          status = "🔧 colunas adicionadas: " + missing.join(", ");
+        } else {
+          status = "✔ sem alterações";
+        }
+      }
     }
+
+    Logger.log(sheetName + ": " + status);
+    results.push(sheetName + " → " + status);
   });
 
+  // Remove a aba em branco criada automaticamente pelo Google
   const defaultSheet = ss.getSheetByName("Folha1") || ss.getSheetByName("Sheet1");
   if (defaultSheet && ss.getSheets().length > 1) {
     ss.deleteSheet(defaultSheet);
   }
 
-  const key = PropertiesService.getScriptProperties().getProperty("API_KEY");
+  // Verifica API_KEY
+  const key       = PropertiesService.getScriptProperties().getProperty("API_KEY");
   const keyStatus = key
     ? "✅ API_KEY configurada"
     : "⚠️ API_KEY não configurada — define em Project Settings → Script Properties";
 
-  Logger.log("✅ Kappy configurado!");
-  Logger.log("Abas criadas: " + Object.keys(SHEETS_CONFIG).join(", "));
+  Logger.log("─────────────────────────────────────");
+  Logger.log("✅ Migração concluída!");
   Logger.log(keyStatus);
   Logger.log("Próximo passo: Implementar → Nova implementação → Web App");
+
+  return results.join("\n");
 }
+
+/**
+ * setup() mantido como alias de migrate() para compatibilidade.
+ * Pode correr com segurança em qualquer altura — não apaga dados.
+ */
+function setup() {
+  return migrate();
+}
+
+
+// ── Entry points HTTP ────────────────────────────────────────
 
 function doGet(e) {
   try {
@@ -172,6 +300,9 @@ function doPost(e) {
   }
 }
 
+
+// ── CRUD helpers ─────────────────────────────────────────────
+
 function readSheet(sheetName) {
   const sheet   = getSheet(sheetName);
   const config  = SHEETS_CONFIG[sheetName];
@@ -213,6 +344,9 @@ function clearSheet(sheetName) {
   if (lastRow > 1) sheet.deleteRows(2, lastRow - 1);
 }
 
+
+// ── Conversão de tipos ───────────────────────────────────────
+
 function rowToObject(values, config) {
   const obj = {};
   config.headers.forEach((h, i) => { obj[h] = castValue(values[i], config.types[i]); });
@@ -242,6 +376,9 @@ function castValue(val, type) {
   }
 }
 
+
+// ── Utilitários ──────────────────────────────────────────────
+
 function getSheet(sheetName) {
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName);
   if (!sheet) throw new Error("Aba não encontrada: '" + sheetName + "'. Executa setup() primeiro.");
@@ -263,6 +400,9 @@ function jsonResponse(data) {
     .createTextOutput(JSON.stringify(data))
     .setMimeType(ContentService.MimeType.JSON);
 }
+
+
+// ── Testes ───────────────────────────────────────────────────
 
 function runTests() {
   const log = [];
