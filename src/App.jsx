@@ -9,6 +9,7 @@ import { useInvestmentsStore }  from "./store/investmentsStore";
 import { useTransactionsStore } from "./store/transactionsStore";
 import { useBudgetsStore }      from "./store/budgetsStore";
 import { useConfigStore }       from "./store/configStore";
+import { useSettingsStore }      from "./store/settingsStore";
 import { IS_CONFIGURED }        from "./services/sheetsApi";
 import AccountsPage     from "./features/pages/AccountsPage";
 import CategoriesPage   from "./features/pages/CategoriesPage";
@@ -22,25 +23,30 @@ import SettingsPage     from "./features/settings/SettingsPage";
 // ── Carga inicial ─────────────────────────────────────────────
 
 function useBootstrap() {
-  const checkConfig     = useConfigStore(s => s.check);
-  const loadAccounts    = useAccountsStore(s => s.load);
-  const loadCategories  = useCategoriesStore(s => s.load);
-  const loadGoals       = useGoalsStore(s => s.load);
-  const loadInvestments = useInvestmentsStore(s => s.load);
+  const checkConfig      = useConfigStore(s => s.check);
+  const loadSettings     = useSettingsStore(s => s.load);
+  const loadAccounts     = useAccountsStore(s => s.load);
+  const loadCategories   = useCategoriesStore(s => s.load);
+  const loadGoals        = useGoalsStore(s => s.load);
+  const loadInvestments  = useInvestmentsStore(s => s.load);
   const loadTransactions = useTransactionsStore(s => s.load);
   const loadBudgets      = useBudgetsStore(s => s.load);
 
   useEffect(() => {
-    // Verifica config primeiro, depois carrega dados
-    checkConfig().then(() => {
-      loadAccounts().catch(() => {});
-      loadCategories().catch(() => {});
-      loadGoals().catch(() => {});
-      loadInvestments().catch(() => {});
-      loadTransactions().catch(() => {});
-      loadBudgets().catch(() => {});
-    });
-  }, [checkConfig, loadAccounts, loadCategories, loadGoals, loadInvestments, loadTransactions, loadBudgets]);
+    // 1. Verifica config do engine
+    // 2. Carrega preferências (idioma, moeda, tema)
+    // 3. Carrega dados
+    checkConfig()
+      .then(() => loadSettings())
+      .then(() => {
+        loadAccounts().catch(() => {});
+        loadCategories().catch(() => {});
+        loadGoals().catch(() => {});
+        loadInvestments().catch(() => {});
+        loadTransactions().catch(() => {});
+        loadBudgets().catch(() => {});
+      });
+  }, [checkConfig, loadSettings, loadAccounts, loadCategories, loadGoals, loadInvestments, loadTransactions, loadBudgets]);
 }
 
 // ── NavItem ───────────────────────────────────────────────────

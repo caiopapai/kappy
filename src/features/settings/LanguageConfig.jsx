@@ -1,18 +1,21 @@
+// src/features/settings/LanguageConfig.jsx
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { SUPPORTED_LANGUAGES, setLanguage } from "../../i18n";
-import { Card, Button, Select } from "../../components/ui";
+import { SUPPORTED_LANGUAGES } from "../../i18n";
+import { Card, Button } from "../../components/ui";
 import { Toast } from "../../components/ui/Toast";
 import { useToast } from "../../hooks/useToast";
+import { useSettingsStore } from "../../store/settingsStore";
 
 export default function LanguageConfig() {
-  const { t, i18n }    = useTranslation();
-  const { toast, showToast } = useToast();
-  const [selected, setSelected] = useState(i18n.language || "pt-BR");
-  const [saved,    setSaved]    = useState(false);
+  const { t, i18n }           = useTranslation();
+  const { toast, showToast }  = useToast();
+  const { language, setLanguage } = useSettingsStore();
+  const [selected, setSelected]   = useState(language || i18n.language || "pt-BR");
+  const [saved,    setSaved]      = useState(false);
 
-  function handleSave() {
-    setLanguage(selected);
+  async function handleSave() {
+    await setLanguage(selected);
     setSaved(true);
     showToast(t("settings.language.saved"));
     setTimeout(() => setSaved(false), 3000);
@@ -46,9 +49,7 @@ export default function LanguageConfig() {
           {SUPPORTED_LANGUAGES.map(lang => {
             const isSelected = selected === lang.code;
             return (
-              <button
-                key={lang.code}
-                onClick={() => setSelected(lang.code)}
+              <button key={lang.code} onClick={() => setSelected(lang.code)}
                 className={`
                   flex items-center gap-3 p-4 rounded-xl border text-left
                   transition-all cursor-pointer
@@ -64,26 +65,18 @@ export default function LanguageConfig() {
                   </div>
                   <div className="text-xs text-[#5a5f78] mt-0.5">{lang.code}</div>
                 </div>
-                {isSelected && (
-                  <span className="ml-auto text-[#6366f1] text-base">✓</span>
-                )}
+                {isSelected && <span className="ml-auto text-[#6366f1] text-base">✓</span>}
               </button>
             );
           })}
         </div>
 
         <div className="flex gap-2 pt-1">
-          <Button
-            onClick={handleSave}
-            disabled={selected === i18n.language}
-          >
+          <Button onClick={handleSave} disabled={selected === language}>
             {t("settings.language.saveButton")}
           </Button>
-          {selected !== i18n.language && (
-            <Button
-              variant="secondary"
-              onClick={() => setSelected(i18n.language || "pt-BR")}
-            >
+          {selected !== language && (
+            <Button variant="secondary" onClick={() => setSelected(language || "pt-BR")}>
               {t("common.cancel")}
             </Button>
           )}
