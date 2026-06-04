@@ -11,6 +11,8 @@ export const useCategoriesStore = create((set, get) => ({
   error:         null,
 
   // ── Carga inicial ───────────────────────────────────────────
+  setAll: (categories, subcategories) => set({ categories, subcategories }),
+
   load: async () => {
     if (!IS_CONFIGURED) return;
     set({ loading: true, error: null });

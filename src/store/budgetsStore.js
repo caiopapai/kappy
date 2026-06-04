@@ -38,6 +38,8 @@ export const useBudgetsStore = create((set, get) => ({
   loading:  false,
   error:    null,
 
+  setAll: (rows) => { const budgets = rowsToBudgets(rows); if (budgets.length > 0) set({ budgets }); },
+
   load: async () => {
     if (!IS_CONFIGURED) return;
     set({ loading: true, error: null });

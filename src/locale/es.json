@@ -81,7 +81,10 @@
       "name": "Nombre de la Meta",
       "namePlaceholder": "Ej: Independencia Financiera",
       "targetValue": "Valor Objetivo",
-      "currency": "Moneda"
+      "currency": "Moneda",
+      "accounts": "Cuentas Asociadas",
+      "noAccounts": "No hay cuentas disponibles. Crea una cuenta primero.",
+      "accountsHint": "El progreso se calculará a partir de las operaciones de inversión en estas cuentas."
     },
     "types": {
       "invested": "Capital Invertido",
@@ -331,7 +334,10 @@
       "unitPrice": "Precio Unitario",
       "otherCosts": "Otros Costos",
       "dyAnnual": "DY Anual (%)",
-      "total": "Total de la Operación"
+      "total": "Total de la Operación",
+      "selectAssetType": "Seleccionar tipo...",
+      "account": "Cuenta",
+      "selectAccount": "Seleccionar cuenta..."
     },
     "quote": {
       "loading": "Buscando cotización...",
@@ -369,7 +375,9 @@
       "updated": "¡Operación actualizada!",
       "deleted": "Operación eliminada",
       "fillRequired": "Completa ticker, fecha, cantidad y precio",
-      "invalidValues": "Cantidad y precio deben ser positivos"
+      "invalidValues": "Cantidad y precio deben ser positivos",
+      "selectAssetType": "Selecciona el tipo de activo",
+      "selectAccount": "Selecciona una cuenta"
     }
   },
   "transactions": {

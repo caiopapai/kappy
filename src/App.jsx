@@ -10,7 +10,7 @@ import { useTransactionsStore } from "./store/transactionsStore";
 import { useBudgetsStore }      from "./store/budgetsStore";
 import { useConfigStore }       from "./store/configStore";
 import { useSettingsStore }      from "./store/settingsStore";
-import { IS_CONFIGURED }        from "./services/sheetsApi";
+import { IS_CONFIGURED, bootstrapApi } from "./services/sheetsApi";
 import AccountsPage     from "./features/pages/AccountsPage";
 import CategoriesPage   from "./features/pages/CategoriesPage";
 import GoalsPage        from "./features/pages/GoalsPage";
@@ -25,28 +25,34 @@ import SettingsPage     from "./features/settings/SettingsPage";
 function useBootstrap() {
   const checkConfig      = useConfigStore(s => s.check);
   const loadSettings     = useSettingsStore(s => s.load);
-  const loadAccounts     = useAccountsStore(s => s.load);
-  const loadCategories   = useCategoriesStore(s => s.load);
-  const loadGoals        = useGoalsStore(s => s.load);
-  const loadInvestments  = useInvestmentsStore(s => s.load);
-  const loadTransactions = useTransactionsStore(s => s.load);
-  const loadBudgets      = useBudgetsStore(s => s.load);
+  const setAccounts      = useAccountsStore(s => s.setAll);
+  const setCategories    = useCategoriesStore(s => s.setAll);
+  const setGoals         = useGoalsStore(s => s.setAll);
+  const setInvestments   = useInvestmentsStore(s => s.setAll);
+  const setTransactions  = useTransactionsStore(s => s.setAll);
+  const setBudgets       = useBudgetsStore(s => s.setAll);
 
   useEffect(() => {
-    // 1. Verifica config do engine
-    // 2. Carrega preferências (idioma, moeda, tema)
-    // 3. Carrega dados
     checkConfig()
       .then(() => loadSettings())
-      .then(() => {
-        loadAccounts().catch(() => {});
-        loadCategories().catch(() => {});
-        loadGoals().catch(() => {});
-        loadInvestments().catch(() => {});
-        loadTransactions().catch(() => {});
-        loadBudgets().catch(() => {});
+      .then(async () => {
+        if (!IS_CONFIGURED) return; // modo demo — stores já têm mocks
+
+        try {
+          const data = await bootstrapApi();
+          // Hidrata todos os stores de uma vez
+          if (data.accounts?.length)      setAccounts(data.accounts);
+          if (data.categories?.length)    setCategories(data.categories, data.subcategories || []);
+          if (data.goals?.length)         setGoals(data.goals);
+          if (data.investments?.length)   setInvestments(data.investments);
+          if (data.transactions?.length)  setTransactions(data.transactions, data.recurringRules || []);
+          if (data.budgets?.length)       setBudgets(data.budgets);
+        } catch (err) {
+          console.error("[kappy] bootstrap failed:", err.message);
+        }
       });
-  }, [checkConfig, loadSettings, loadAccounts, loadCategories, loadGoals, loadInvestments, loadTransactions, loadBudgets]);
+  }, [checkConfig, loadSettings, setAccounts, setCategories, setGoals,
+      setInvestments, setTransactions, setBudgets]);
 }
 
 // ── NavItem ───────────────────────────────────────────────────

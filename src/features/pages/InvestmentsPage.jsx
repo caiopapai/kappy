@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { useInvestmentsStore } from "../../store/investmentsStore";
+import { useAccountsStore }    from "../../store/accountsStore";
 import { useToast } from "../../hooks/useToast";
 import { CURRENCY_SYMBOLS } from "../../data/constants";
 import { ASSET_TYPES, ASSET_COLOR, EXCHANGES } from "../../data/investmentsData";
@@ -115,12 +116,14 @@ function useQuote() {
 export default function InvestmentsPage() {
   const { t } = useTranslation();
   const { investments, save, delete: deleteInvestment } = useInvestmentsStore();
+  const { accounts } = useAccountsStore();
   const { toast, showToast } = useToast();
 
   const emptyForm = {
-    opType: "buy", assetType: "etf", exchange: "", ticker: "", name: "",
+    opType: "buy", assetType: "", exchange: "", ticker: "", name: "",
     date: new Date().toISOString().slice(0, 10),
     quantity: "", unitPrice: "", otherCosts: "0", currency: "EUR", dyAnnual: "0",
+    accountId: "",
   };
 
   const [showForm,    setShowForm]    = useState(false);
@@ -129,8 +132,10 @@ export default function InvestmentsPage() {
   const [activeTab,   setActiveTab]   = useState("portfolio");
   const [filterAsset, setFilterAsset] = useState("all");
 
-  const isB3 = (form.assetType === "acoes" || form.assetType === "fii" || form.assetType === "bdr") && form.exchange === "B3";
-  const isStockWithExchange = (form.assetType === "acoes" || form.assetType === "stocks") && form.exchange && form.exchange !== "B3";
+  const isB3 = form.assetType === "stocks" && form.exchange === "B3"
+            || form.assetType === "fii"
+            || form.assetType === "bdr";
+  const isStockWithExchange = form.assetType === "stocks" && form.exchange && form.exchange !== "B3";
 
   const stockSearch = useStockSearch(form.assetType, form.exchange);
   const { quoteState, fetchQuote, clearQuote } = useQuote();
@@ -153,9 +158,23 @@ export default function InvestmentsPage() {
   }
 
   function handleAssetTypeChange(newType) {
-    const needsExchange = newType === "acoes" || newType === "stocks" || newType === "fii" || newType === "bdr";
-    setForm(f => ({ ...f, assetType: newType, exchange: needsExchange ? f.exchange : "", ticker: "", name: "" }));
+    const AUTO_EXCHANGE = {
+      fii:        "B3",
+      bdr:        "B3",
+      tesouro:    "",
+      renda_fixa: "",
+      fundos:     "",
+      reit:       "",
+      etf:        "",
+      crypto:     "",
+    };
+
+    // stocks é o único tipo que permite o utilizador escolher a bolsa
+    const exchange = newType === "stocks" ? "" : (AUTO_EXCHANGE[newType] ?? "");
+
+    setForm(f => ({ ...f, assetType: newType, exchange, ticker: "", name: "" }));
     stockSearch.clearSearch();
+    stockSearch.setQuery("");
     clearQuote();
   }
 
@@ -167,6 +186,10 @@ export default function InvestmentsPage() {
   }
 
   async function handleSave() {
+    if (!form.assetType)
+      return showToast(t("investments.toast.selectAssetType"), "error");
+    if (!form.accountId)
+      return showToast(t("investments.toast.selectAccount"), "error");
     if (!form.ticker || !form.date || !form.quantity || !form.unitPrice)
       return showToast(t("investments.toast.fillRequired"), "error");
     const qty   = parseFloat(form.quantity);
@@ -223,19 +246,28 @@ export default function InvestmentsPage() {
 
   const portfolio = Object.values(
     investments.reduce((acc, op) => {
+      const qty       = parseFloat(op.quantity)   || 0;
+      const price     = parseFloat(op.unitPrice)  || 0;
+      const costs     = parseFloat(op.otherCosts) || 0;
+      const dyAnnual  = parseFloat(op.dyAnnual)   || 0;
+
       if (!acc[op.ticker]) acc[op.ticker] = {
         ticker: op.ticker, name: op.name, assetType: op.assetType,
         currency: op.currency, qty: 0, totalBought: 0, totalSold: 0,
-        buyOps: 0, sellOps: 0, costs: 0, dyAnnual: op.dyAnnual || 0,
+        buyOps: 0, sellOps: 0, costs: 0, dyAnnual: 0,
       };
       const p = acc[op.ticker];
       if (op.opType === "buy") {
-        p.qty += op.quantity; p.totalBought += op.quantity * op.unitPrice;
-        p.costs += op.otherCosts; p.buyOps++;
-        if (op.dyAnnual != null) p.dyAnnual = op.dyAnnual;
+        p.qty         += qty;
+        p.totalBought += qty * price;
+        p.costs       += costs;
+        p.buyOps++;
+        if (dyAnnual != null) p.dyAnnual = dyAnnual;
       } else {
-        p.qty -= op.quantity; p.totalSold += op.quantity * op.unitPrice;
-        p.costs += op.otherCosts; p.sellOps++;
+        p.qty      -= qty;
+        p.totalSold += qty * price;
+        p.costs    += costs;
+        p.sellOps++;
       }
       return acc;
     }, {})
@@ -243,8 +275,8 @@ export default function InvestmentsPage() {
 
   const filtered    = filterAsset === "all" ? investments : investments.filter(i => i.assetType === filterAsset);
   const sorted      = [...filtered].sort((a, b) => new Date(b.date) - new Date(a.date));
-  const totalBought = investments.filter(i => i.opType === "buy").reduce((s, i)  => s + i.totalValue, 0);
-  const totalSold   = investments.filter(i => i.opType === "sell").reduce((s, i) => s + i.totalValue, 0);
+  const totalBought = investments.filter(i => i.opType === "buy").reduce((s, i) => s + (parseFloat(i.totalValue) || 0), 0);
+  const totalSold   = investments.filter(i => i.opType === "sell").reduce((s, i) => s + (parseFloat(i.totalValue) || 0), 0);
   const liveTotal   = calcTotal(form);
 
   const tabStyle = (active) => [
@@ -316,20 +348,38 @@ export default function InvestmentsPage() {
             <div>
               <label className={lbl}>{t("investments.form.assetType")}</label>
               <select className={inp} value={form.assetType} onChange={e => handleAssetTypeChange(e.target.value)}>
+                <option value="">{t("investments.form.selectAssetType")}</option>
                 {ASSET_TYPES.map(a => (
                   <option key={a.value} value={a.value}>{a.icon} {a.label}</option>
                 ))}
               </select>
             </div>
 
-            {/* Exchange */}
-            <div>
-              <label className={lbl}>{t("investments.form.exchange")}</label>
-              <select className={inp} value={form.exchange} onChange={e => handleExchangeChange(e.target.value)}>
-                <option value="">{t("investments.form.selectExchange")}</option>
-                {EXCHANGES.map(e => <option key={e.value} value={e.value}>{e.flag} {e.label}</option>)}
-              </select>
-            </div>
+            {/* Exchange — só para Ações / Stocks */}
+            {form.assetType === "stocks" ? (
+              <div>
+                <label className={lbl}>{t("investments.form.exchange")}</label>
+                <select className={inp} value={form.exchange} onChange={e => handleExchangeChange(e.target.value)}>
+                  <option value="">{t("investments.form.selectExchange")}</option>
+                  {EXCHANGES.map(e => <option key={e.value} value={e.value}>{e.flag} {e.label}</option>)}
+                </select>
+              </div>
+            ) : (
+              <div>
+                <label className={lbl}>{t("investments.form.exchange")}</label>
+                <div className={inp + " text-[#5a5f78] cursor-default"} style={{ opacity: 0.5 }}>
+                  {form.assetType === "fii"        ? "🇧🇷 B3 – Bovespa"
+                  : form.assetType === "bdr"        ? "🇧🇷 B3 – Bovespa"
+                  : form.assetType === "tesouro"    ? "🇧🇷 Tesouro Nacional"
+                  : form.assetType === "renda_fixa" ? "🇧🇷 Mercado Interno"
+                  : form.assetType === "fundos"     ? "🇧🇷 CVM / ANBIMA"
+                  : form.assetType === "reit"       ? "🇺🇸 NYSE / NASDAQ"
+                  : form.assetType === "etf"        ? "🌐 Múltiplas bolsas"
+                  : form.assetType === "crypto"     ? "🌐 Exchanges cripto"
+                  : "—"}
+                </div>
+              </div>
+            )}
 
             {/* Pesquisa dinâmica (B3 e FII) ou input manual */}
             <div className="relative">
@@ -453,6 +503,24 @@ export default function InvestmentsPage() {
             </div>
           )}
 
+          {/* Conta associada — só corrente, poupança e investimento */}
+          <div className="mb-3">
+            <label className={lbl}>{t("investments.form.account")}</label>
+            <select
+              className={inp}
+              value={form.accountId}
+              onChange={e => setForm(f => ({ ...f, accountId: e.target.value }))}
+            >
+              <option value="">{t("investments.form.selectAccount")}</option>
+              {accounts
+                .filter(a => ["checking", "savings", "investment"].includes(a.type))
+                .map(a => (
+                  <option key={a.id} value={a.id}>{a.name} — {a.currency}</option>
+                ))
+              }
+            </select>
+          </div>
+
           {/* Row 2: números */}
           <div className="grid gap-3 mb-3" style={{ gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr" }}>
             <div>
@@ -549,47 +617,81 @@ function PortfolioTab({ portfolio, investments }) {
           </tr>
         </thead>
         <tbody>
-          {portfolio.map(p => {
-            const ai        = assetInfo(p.assetType);
-            const color     = ASSET_COLOR[p.assetType] || "#60a5fa";
-            const allBuyQty = investments.filter(i => i.ticker === p.ticker && i.opType === "buy").reduce((s, i) => s + i.quantity, 0);
-            const avgPrice  = allBuyQty > 0 ? p.totalBought / allBuyQty : 0;
-            return (
-              <tr key={p.ticker} className="border-t border-[#2a2d3a]">
-                <td className="py-3">
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-9 h-9 rounded-lg flex items-center justify-center text-lg" style={{ background: color + "22" }}>
-                      {ai.icon}
+          {ASSET_TYPES
+            .filter(at => portfolio.some(p => p.assetType === at.value))
+            .map(at => {
+              const group = portfolio.filter(p => p.assetType === at.value);
+              const color = ASSET_COLOR[at.value] || "#60a5fa";
+              const groupTotal = group.reduce((s, p) => s + p.totalBought + p.costs, 0);
+
+              return [
+                // ── Cabeçalho do grupo ──────────────────────
+                <tr key={`group-${at.value}`} style={{ background: "#0f1117" }}>
+                  <td colSpan={headers.length} style={{ padding: "8px 4px 6px" }}>
+                    <div className="flex items-center gap-2.5">
+                      <span className="text-base">{at.icon}</span>
+                      <span className="text-[12px] font-bold uppercase tracking-widest" style={{ color }}>
+                        {at.label}
+                      </span>
+                      <span className="text-[11px] text-[#5a5f78]">
+                        {group.length} {group.length === 1 ? "activo" : "activos"}
+                      </span>
+                      <span className="ml-auto text-[11px] font-semibold tabular-nums" style={{ color }}>
+                        {fmt(groupTotal, group[0]?.currency)}
+                      </span>
                     </div>
-                    <div>
-                      <div className="text-sm font-bold text-[#e8e6e0]">{p.ticker}</div>
-                      <div className="text-xs text-[#5a5f78] max-w-[160px] truncate">{p.name}</div>
-                    </div>
-                  </div>
-                </td>
-                <td className="py-3">
-                  <span className="inline-block px-2 py-0.5 rounded-full text-[11px] font-semibold" style={{ background: color + "22", color }}>
-                    {ai.label}
-                  </span>
-                </td>
-                <td className="py-3 text-right tabular-nums text-[#e8e6e0] font-semibold">
-                  {p.qty % 1 === 0 ? p.qty : p.qty.toFixed(6)}
-                </td>
-                <td className="py-3 text-right tabular-nums text-[#c4c0b8]">{fmt(avgPrice, p.currency)}</td>
-                <td className="py-3 text-right tabular-nums text-[#60a5fa] font-semibold">{fmt(p.totalBought + p.costs, p.currency)}</td>
-                <td className="py-3 text-right tabular-nums" style={{ color: p.totalSold > 0 ? "#4ade80" : "#5a5f78" }}>
-                  {p.totalSold > 0 ? fmt(p.totalSold, p.currency) : "—"}
-                </td>
-                <td className="py-3 text-right tabular-nums text-[#f59e0b] text-sm">
-                  {p.dyAnnual > 0 ? p.dyAnnual.toFixed(1) + "%" : "—"}
-                </td>
-                <td className="py-3 text-right text-xs">
-                  <span className="text-[#4ade80]">{p.buyOps}C</span>
-                  {p.sellOps > 0 && <span className="text-[#f87171]"> · {p.sellOps}V</span>}
-                </td>
-              </tr>
-            );
-          })}
+                  </td>
+                </tr>,
+
+                // ── Linhas do grupo ─────────────────────────
+                ...group.map(p => {
+                  const ai        = assetInfo(p.assetType);
+                  const allBuyQty = investments
+                    .filter(i => i.ticker === p.ticker && i.opType === "buy")
+                    .reduce((s, i) => s + (parseFloat(i.quantity) || 0), 0);
+                  const avgPrice  = allBuyQty > 0 ? p.totalBought / allBuyQty : 0;
+                  return (
+                    <tr key={p.ticker} className="border-t border-[#2a2d3a11]"
+                      style={{ background: "#161820" }}
+                      onMouseEnter={e => { e.currentTarget.style.background = "#1a1d2e"; }}
+                      onMouseLeave={e => { e.currentTarget.style.background = "#161820"; }}
+                    >
+                      <td className="py-3 pl-3">
+                        <div className="flex items-center gap-2.5">
+                          <div className="w-8 h-8 rounded-lg flex items-center justify-center text-base" style={{ background: color + "22" }}>
+                            {ai.icon}
+                          </div>
+                          <div>
+                            <div className="text-sm font-bold text-[#e8e6e0]">{p.ticker}</div>
+                            <div className="text-xs text-[#5a5f78] max-w-[160px] truncate">{p.name}</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="py-3">
+                        <span className="inline-block px-2 py-0.5 rounded-full text-[11px] font-semibold" style={{ background: color + "22", color }}>
+                          {ai.label}
+                        </span>
+                      </td>
+                      <td className="py-3 text-right tabular-nums text-[#e8e6e0] font-semibold">
+                        {p.qty % 1 === 0 ? p.qty : p.qty.toFixed(6)}
+                      </td>
+                      <td className="py-3 text-right tabular-nums text-[#c4c0b8]">{fmt(avgPrice, p.currency)}</td>
+                      <td className="py-3 text-right tabular-nums text-[#60a5fa] font-semibold">{fmt(p.totalBought + p.costs, p.currency)}</td>
+                      <td className="py-3 text-right tabular-nums" style={{ color: p.totalSold > 0 ? "#4ade80" : "#5a5f78" }}>
+                        {p.totalSold > 0 ? fmt(p.totalSold, p.currency) : "—"}
+                      </td>
+                      <td className="py-3 text-right tabular-nums text-[#f59e0b] text-sm">
+                        {p.dyAnnual > 0 ? p.dyAnnual.toFixed(1) + "%" : "—"}
+                      </td>
+                      <td className="py-3 text-right text-xs">
+                        <span className="text-[#4ade80]">{p.buyOps}C</span>
+                        {p.sellOps > 0 && <span className="text-[#f87171]"> · {p.sellOps}V</span>}
+                      </td>
+                    </tr>
+                  );
+                }),
+              ];
+            })}
         </tbody>
       </table>
     </Card>

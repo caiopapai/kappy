@@ -26,15 +26,15 @@ export const INITIAL_SUBCATEGORIES = [
 ];
 
 export const INITIAL_GOALS = [
-  { id: 1, type: "invested",  label: "Capital Investido",  targetValue: 10000, currency: "EUR" },
-  { id: 2, type: "dividends", label: "Dividendos Mensais", targetValue: 500,   currency: "EUR" },
+  { id: 1, type: "invested",  label: "Capital Investido",  targetValue: 10000, currentValue: 0, currency: "EUR", accountIds: "" },
+  { id: 2, type: "dividends", label: "Dividendos Mensais", targetValue: 500,   currentValue: 0, currency: "EUR", accountIds: "" },
 ];
 
 export const INITIAL_INVESTMENTS = [
   { id: 1, opType: "buy",  assetType: "etf",   ticker: "VWCE",  name: "Vanguard FTSE All-World", date: "2025-01-15", quantity: 10,   unitPrice: 112.50, otherCosts: 1.50, currency: "EUR", totalValue: 1126.50, dyAnnual: 1.8  },
   { id: 2, opType: "buy",  assetType: "crypto", ticker: "BTC",   name: "Bitcoin",                 date: "2025-02-10", quantity: 0.05, unitPrice: 38000,  otherCosts: 5,    currency: "EUR", totalValue: 1905,    dyAnnual: 0    },
-  { id: 3, opType: "buy",  assetType: "acoes",  ticker: "PETR4", name: "Petrobras PN",             date: "2025-03-05", quantity: 100,  unitPrice: 38.20,  otherCosts: 4.50, currency: "BRL", totalValue: 3824.50, dyAnnual: 14.2 },
-  { id: 4, opType: "sell", assetType: "acoes",  ticker: "PETR4", name: "Petrobras PN",             date: "2025-04-20", quantity: 50,   unitPrice: 41.80,  otherCosts: 3.00, currency: "BRL", totalValue: 2087.00, dyAnnual: 14.2 },
+  { id: 3, opType: "buy",  assetType: "stocks",  ticker: "PETR4", name: "Petrobras PN",             date: "2025-03-05", quantity: 100,  unitPrice: 38.20,  otherCosts: 4.50, currency: "BRL", totalValue: 3824.50, dyAnnual: 14.2 },
+  { id: 4, opType: "sell", assetType: "stocks",  ticker: "PETR4", name: "Petrobras PN",             date: "2025-04-20", quantity: 50,   unitPrice: 41.80,  otherCosts: 3.00, currency: "BRL", totalValue: 2087.00, dyAnnual: 14.2 },
 ];
 
 
