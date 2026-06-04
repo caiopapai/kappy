@@ -10,6 +10,8 @@ export const useTransactionsStore = create((set, get) => ({
   loading:        false,
   error:          null,
 
+  setAll: (transactions, recurringRules) => set({ transactions, recurringRules }),
+
   load: async () => {
     if (!IS_CONFIGURED) return;
     set({ loading: true, error: null });

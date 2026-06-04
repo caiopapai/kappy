@@ -1,33 +1,31 @@
 // src/data/investmentsData.js
 
 export const ASSET_TYPES = [
-  { value: "acoes",      label: "Ações",                  icon: "📈", flag: "BR"  },
-  { value: "fii",        label: "FIIs",                   icon: "🏢", flag: "BR"  },
-  { value: "tesouro",    label: "Tesouro Direto",         icon: "🏛",  flag: "BR"  },
-  { value: "renda_fixa", label: "Renda Fixa",             icon: "📄", flag: "BR"  },
-  { value: "bdr",        label: "BDR",                    icon: "🌐", flag: "BR"  },
-  { value: "fundos",     label: "Fundos de Investimento", icon: "💼", flag: "BR"  },
-  { value: "stocks",     label: "Stocks",                 icon: "🗽", flag: "US"  },
-  { value: "reit",       label: "REIT",                   icon: "🏙",  flag: "US"  },
-  { value: "etf",        label: "ETF",                    icon: "📦", flag: "ANY" },
-  { value: "crypto",     label: "Criptomoedas",           icon: "₿",  flag: "ANY" },
+  { value: "stocks",     label: "Ações / Stocks",          icon: "📈", flag: "ANY" },
+  { value: "fii",        label: "FIIs",                    icon: "🏢", flag: "BR"  },
+  { value: "tesouro",    label: "Tesouro Direto",          icon: "🏛",  flag: "BR"  },
+  { value: "renda_fixa", label: "Renda Fixa",              icon: "📄", flag: "BR"  },
+  { value: "bdr",        label: "BDR",                     icon: "🌐", flag: "BR"  },
+  { value: "fundos",     label: "Fundos de Investimento",  icon: "💼", flag: "BR"  },
+  { value: "reit",       label: "REIT",                    icon: "🏙",  flag: "US"  },
+  { value: "etf",        label: "ETF",                     icon: "📦", flag: "ANY" },
+  { value: "crypto",     label: "Criptomoedas",            icon: "₿",  flag: "ANY" },
 ];
 
 export const ASSET_COLOR = {
-  acoes:      "#4ade80",
+  stocks:     "#4ade80",
   fii:        "#34d399",
   tesouro:    "#60a5fa",
   renda_fixa: "#93c5fd",
   bdr:        "#a78bfa",
   fundos:     "#c084fc",
-  stocks:     "#f59e0b",
   reit:       "#fb923c",
   etf:        "#38bdf8",
   crypto:     "#f472b6",
 };
 
 export const DIVIDEND_ASSET_TYPES = [
-  "acoes", "fii", "stocks", "reit", "etf", "fundos", "bdr", "renda_fixa", "tesouro",
+  "stocks", "fii", "reit", "etf", "fundos", "bdr", "renda_fixa", "tesouro",
 ];
 
 export const EXCHANGES = [

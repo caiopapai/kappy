@@ -1,9 +1,7 @@
 // src/services/sheetsApi.js
 // Todas as chamadas passam pelo kappy-engine.
 
-// const ENGINE_URL = import.meta.env.KAPPY_ENGINE_URL || "http://localhost:3001";
-const ENGINE_URL = "http://localhost:3001";
-
+const ENGINE_URL = import.meta.env.KAPPY_ENGINE_URL || "http://localhost:3001";
 
 // IS_CONFIGURED — true quando KAPPY_ENGINE_URL está definido no .env.local
 // Com o engine desligado os stores usam dados mock (INITIAL_*)
@@ -141,6 +139,14 @@ export const stocksApi = {
     }
   },
 };
+
+export async function bootstrapApi() {
+  const res  = await fetch(`${ENGINE_URL}/api/bootstrap`, { signal: AbortSignal.timeout(15000) });
+  if (!res.ok) { throw new Error("HTTP " + res.status); }
+  const json = await res.json();
+  if (!json.ok) { throw new Error(json.error); }
+  return json.data;
+}
 
 export async function checkEngineHealth() {
   try {

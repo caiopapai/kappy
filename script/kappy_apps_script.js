@@ -64,8 +64,8 @@ const SHEETS_CONFIG = {
     types:   ["id",  "num",  "id",            "num",   "num"],
   },
   investments: {
-    headers: ["id", "opType", "assetType", "exchange", "ticker", "name", "date", "quantity", "unitPrice", "otherCosts", "currency", "totalValue", "dyAnnual"],
-    types:   ["id",  "str",    "str",       "str",      "str",    "str",  "str",  "num",      "num",       "num",        "str",      "num",        "num"],
+    headers: ["id", "accountId", "opType", "assetType", "exchange", "ticker", "name", "date", "quantity", "unitPrice", "otherCosts", "currency", "totalValue", "dyAnnual"],
+    types:   ["id",  "str",      "str",    "str",       "str",      "str",    "str",  "str",  "num",      "num",       "num",        "str",      "num",        "num"],
   },
   goals: {
     headers: ["id", "type", "label", "targetValue", "currency"],

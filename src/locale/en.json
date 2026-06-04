@@ -81,7 +81,10 @@
       "name": "Goal Name",
       "namePlaceholder": "E.g.: Financial Independence",
       "targetValue": "Target Value",
-      "currency": "Currency"
+      "currency": "Currency",
+      "accounts": "Associated Accounts",
+      "noAccounts": "No accounts available. Create an account first.",
+      "accountsHint": "Progress will be calculated from investment operations in these accounts."
     },
     "types": {
       "invested": "Invested Capital",
@@ -177,7 +180,10 @@
       "unitPrice": "Unit Price",
       "otherCosts": "Other Costs",
       "dyAnnual": "Annual DY (%)",
-      "total": "Operation Total"
+      "total": "Operation Total",
+      "selectAssetType": "Select type...",
+      "account": "Account",
+      "selectAccount": "Select account..."
     },
     "quote": {
       "loading": "Fetching quote...",
@@ -215,7 +221,9 @@
       "updated": "Operation updated!",
       "deleted": "Operation deleted",
       "fillRequired": "Fill in ticker, date, quantity and price",
-      "invalidValues": "Quantity and price must be positive"
+      "invalidValues": "Quantity and price must be positive",
+      "selectAssetType": "Select an asset type",
+      "selectAccount": "Select an account"
     }
   },
   "settings": {

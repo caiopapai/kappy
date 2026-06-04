@@ -19,6 +19,8 @@ export const useAccountsStore = create((set, get) => ({
   // ── Carga inicial da sheet ──────────────────────────────────
   // Chamado uma vez no arranque da app (ver App.jsx).
   // Se a sheet não estiver configurada, mantém os dados mock.
+  setAll: (accounts) => set({ accounts }),
+
   load: async () => {
     if (!IS_CONFIGURED) return;
     set({ loading: true, error: null });
