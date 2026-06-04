@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Card } from "../../components/ui";
 import SheetConfig     from "./SheetConfig";
+import DataConfig      from "./DataConfig";
 import LanguageConfig  from "./LanguageConfig";
 import MarketApisConfig from "./MarketApisConfig";
 
@@ -14,7 +15,7 @@ export default function SettingsPage() {
     { id: "language",   icon: "🌐", label: t("settings.sections.language.label"),   desc: t("settings.sections.language.desc") },
     { id: "theme",      icon: "🎨", label: t("settings.sections.theme.label"),       desc: t("settings.sections.theme.desc") },
     { id: "currency",   icon: "💱", label: t("settings.sections.currency.label"),    desc: t("settings.sections.currency.desc") },
-    { id: "sheet",      icon: "🔗", label: t("settings.sections.sheet.label"),       desc: t("settings.sections.sheet.desc") },
+    { id: "data",       icon: "🗄", label: t("settings.sections.data.label"),       desc: t("settings.sections.data.desc") },
     { id: "marketApis", icon: "📡", label: t("settings.sections.marketApis.label"), desc: t("settings.sections.marketApis.desc") },
     { id: "backup",     icon: "💾", label: t("settings.sections.backup.label"),      desc: t("settings.sections.backup.desc") },
   ];
@@ -65,7 +66,7 @@ export default function SettingsPage() {
         {activeSection === "language"   && <LanguageConfig />}
         {activeSection === "theme"      && <ComingSoon label={t("settings.sections.theme.label")} />}
         {activeSection === "currency"   && <ComingSoon label={t("settings.sections.currency.label")} />}
-        {activeSection === "sheet"      && <SheetConfig />}
+        {activeSection === "data"       && <DataConfig />}
         {activeSection === "marketApis" && <MarketApisConfig />}
         {activeSection === "backup"     && <ComingSoon label={t("settings.sections.backup.label")} />}
       </div>

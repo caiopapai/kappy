@@ -29,22 +29,21 @@ const MOCK = [M1, M2, M3];
 // recebem respostas válidas e o optimistic update mantém-se.
 async function blockEngine(page) {
   await page.route("http://localhost:3001/**", async route => {
-    const url = route.request().url();
+    const url    = route.request().url();
+    const method = route.request().method();
 
-    // Health check
     if (url.includes("/health")) {
       return route.fulfill({ status: 200, contentType: "application/json",
         body: JSON.stringify({ ok: true, service: "kappy-engine" }) });
     }
 
-    // Qualquer POST/DELETE às sheets — simula sucesso sem persistir
-    if (route.request().method() !== "GET") {
-      const body = route.request().postDataJSON().catch?.() || {};
+    if (method !== "GET") {
+      let body = {};
+      try { body = route.request().postDataJSON() || {}; } catch { /* ignore */ }
       return route.fulfill({ status: 200, contentType: "application/json",
         body: JSON.stringify({ ok: true, data: body.row || body.transaction || body.rule || {} }) });
     }
 
-    // GET às sheets — devolve array vazio (os stores já têm os mocks)
     return route.fulfill({ status: 200, contentType: "application/json",
       body: JSON.stringify({ ok: true, data: [], count: 0 }) });
   });

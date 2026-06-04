@@ -52,4 +52,11 @@ export const INITIAL_RECURRING = [
 // As restantes entidades serão adicionadas aqui
 // à medida que cada feature for migrada:
 //
-// export const INITIAL_BUDGETS = [ ... ];  ← Feature 5
+
+export const INITIAL_BUDGETS = [
+  { id: 1, year: 2025, subcategoryId: 1, months: { 1:2800,2:2800,3:2800,4:2800,5:2800,6:2800,7:2800,8:2800,9:2800,10:2800,11:2800,12:2800 } },
+  { id: 2, year: 2025, subcategoryId: 3, months: { 1:850, 2:850, 3:850, 4:850, 5:850, 6:850, 7:850, 8:850, 9:850, 10:850, 11:850, 12:850  } },
+  { id: 3, year: 2025, subcategoryId: 4, months: { 1:300, 2:300, 3:300, 4:350, 5:320, 6:300, 7:300, 8:300, 9:300, 10:300, 11:300, 12:350  } },
+  { id: 4, year: 2025, subcategoryId: 5, months: { 1:200, 2:200, 3:200, 4:200, 5:200, 6:200, 7:200, 8:200, 9:200, 10:200, 11:200, 12:200  } },
+];
+// budget data added above

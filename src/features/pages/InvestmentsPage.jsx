@@ -5,7 +5,7 @@ import { useInvestmentsStore } from "../../store/investmentsStore";
 import { useToast } from "../../hooks/useToast";
 import { CURRENCY_SYMBOLS } from "../../data/constants";
 import { ASSET_TYPES, ASSET_COLOR, EXCHANGES } from "../../data/investmentsData";
-import { stocksApi } from "../../services/engineApi";
+import { stocksApi } from "../../services/sheetsApi";
 import { Button, Card } from "../../components/ui";
 import { Toast } from "../../components/ui/Toast";
 
