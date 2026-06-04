@@ -7,6 +7,8 @@ import { useCategoriesStore }   from "./store/categoriesStore";
 import { useGoalsStore }        from "./store/goalsStore";
 import { useInvestmentsStore }  from "./store/investmentsStore";
 import { useTransactionsStore } from "./store/transactionsStore";
+import { useBudgetsStore }      from "./store/budgetsStore";
+import { useConfigStore }       from "./store/configStore";
 import { IS_CONFIGURED }        from "./services/sheetsApi";
 import AccountsPage     from "./features/pages/AccountsPage";
 import CategoriesPage   from "./features/pages/CategoriesPage";
@@ -14,24 +16,31 @@ import GoalsPage        from "./features/pages/GoalsPage";
 import InvestmentsPage  from "./features/pages/InvestmentsPage";
 import TransactionsPage from "./features/pages/TransactionsPage";
 import DashboardPage    from "./features/pages/DashboardPage";
+import BudgetPage       from "./features/pages/BudgetPage";
 import SettingsPage     from "./features/settings/SettingsPage";
 
 // ── Carga inicial ─────────────────────────────────────────────
 
 function useBootstrap() {
+  const checkConfig     = useConfigStore(s => s.check);
   const loadAccounts    = useAccountsStore(s => s.load);
   const loadCategories  = useCategoriesStore(s => s.load);
   const loadGoals       = useGoalsStore(s => s.load);
   const loadInvestments = useInvestmentsStore(s => s.load);
   const loadTransactions = useTransactionsStore(s => s.load);
+  const loadBudgets      = useBudgetsStore(s => s.load);
 
   useEffect(() => {
-    loadAccounts().catch(() => {});
-    loadCategories().catch(() => {});
-    loadGoals().catch(() => {});
-    loadInvestments().catch(() => {});
-    loadTransactions().catch(() => {});
-  }, [loadAccounts, loadCategories, loadGoals, loadInvestments, loadTransactions]);
+    // Verifica config primeiro, depois carrega dados
+    checkConfig().then(() => {
+      loadAccounts().catch(() => {});
+      loadCategories().catch(() => {});
+      loadGoals().catch(() => {});
+      loadInvestments().catch(() => {});
+      loadTransactions().catch(() => {});
+      loadBudgets().catch(() => {});
+    });
+  }, [checkConfig, loadAccounts, loadCategories, loadGoals, loadInvestments, loadTransactions, loadBudgets]);
 }
 
 // ── NavItem ───────────────────────────────────────────────────
@@ -63,10 +72,11 @@ function Sidebar() {
   const NAV_ITEMS = [
     { to: "/dashboard",    icon: "◈",  label: t("nav.dashboard"),    testId: "nav-dashboard" },
     { to: "/accounts",     icon: "🏦", label: t("nav.accounts"),     testId: "nav-accounts" },
-    { to: "/goals",        icon: "🎯", label: t("nav.goals"),        testId: "nav-goals" },
-    { to: "/categories",   icon: "🗂",  label: t("nav.categories"),   testId: "nav-categories" },
+    { to: "/budget",       icon: "📊", label: t("nav.budget"),       testId: "nav-budget" },
     { to: "/transactions", icon: "↕",  label: t("nav.transactions"), testId: "nav-transactions" },
     { to: "/investments",  icon: "📈", label: t("nav.investments"),  testId: "nav-investments" },
+    { to: "/goals",        icon: "🎯", label: t("nav.goals"),        testId: "nav-goals" },
+    { to: "/categories",   icon: "🗂",  label: t("nav.categories"),   testId: "nav-categories" },
   ];
 
   return (
@@ -93,33 +103,80 @@ function Sidebar() {
         ))}
       </nav>
 
-      {/* Definições — rodapé */}
+      {/* Definições + provider indicator — rodapé */}
       <div className="p-2 border-t border-[#2a2d3a]">
         <NavItem to="/settings" icon="⚙" label={t("nav.settings")} testId="nav-settings" />
+        <ProviderBadge />
       </div>
     </aside>
+  );
+}
+
+// ── Provider badge na sidebar ─────────────────────────────────
+
+function ProviderBadge() {
+  const { checked, connected, providerLabel, providerIcon, error } = useConfigStore();
+
+  if (!checked) return null;
+
+  return (
+    <div
+      className="mx-2 mt-1 mb-1 px-2 py-1.5 rounded-lg text-[10px] flex items-center gap-1.5"
+      style={{
+        background:  connected ? "#162a1f" : "#2a1616",
+        border:      `1px solid ${connected ? "#1f3a2a" : "#3a1f1f"}`,
+      }}
+      title={error || providerLabel}
+    >
+      <span>{providerIcon || (connected ? "✓" : "✕")}</span>
+      <span style={{ color: connected ? "#4ade80" : "#f87171" }} className="truncate">
+        {providerLabel || (connected ? "Conectado" : "Sem ligação")}
+      </span>
+      <span
+        className="ml-auto w-1.5 h-1.5 rounded-full shrink-0"
+        style={{ background: connected ? "#4ade80" : "#f87171" }}
+      />
+    </div>
   );
 }
 
 // ── Banner ────────────────────────────────────────────────────
 
 function ConfigBanner() {
-  const { t } = useTranslation();
-  if (IS_CONFIGURED) return null;
-  return (
-    <div className="bg-[#1e1a0e] border-b border-[#f59e0b33] px-5 py-2 flex items-center gap-3 text-xs">
-      <span>⚙️</span>
-      <span className="text-[#fcd34d]">
-        {t("banner.localMode")}{" "}
-        <span className="text-[#8a8fa8]">
-          {t("banner.configure")}{" "}
-          <NavLink to="/settings" className="text-[#a5b4fc] underline">
-            {t("banner.sheetConfig")}
-          </NavLink>.
+  const { t }                                  = useTranslation();
+  const { checked, connected, providerLabel }  = useConfigStore();
+
+  // Modo demo — engine não configurado
+  if (!IS_CONFIGURED) {
+    return (
+      <div className="bg-[#1e1a0e] border-b border-[#f59e0b33] px-5 py-2 flex items-center gap-3 text-xs">
+        <span>🎭</span>
+        <span className="text-[#fcd34d]">
+          {t("banner.demoMode")}{" "}
+          <NavLink to="/settings" className="text-[#a5b4fc] underline hover:text-[#c4b5fd]">
+            {t("banner.demoAction")}
+          </NavLink>
         </span>
-      </span>
-    </div>
-  );
+      </div>
+    );
+  }
+
+  // Engine configurado mas provider sem ligação
+  if (checked && !connected) {
+    return (
+      <div className="bg-[#2a1616] border-b border-[#f8717133] px-5 py-2 flex items-center gap-3 text-xs">
+        <span>⚠️</span>
+        <span className="text-[#f87171]">
+          {t("banner.disconnected", { provider: providerLabel || t("banner.dataSource") })}{" "}
+          <NavLink to="/settings" className="text-[#a5b4fc] underline hover:text-[#c4b5fd]">
+            {t("banner.disconnectedAction")}
+          </NavLink>
+        </span>
+      </div>
+    );
+  }
+
+  return null;
 }
 
 // ── App ───────────────────────────────────────────────────────
@@ -142,6 +199,7 @@ export default function App() {
               <Route path="/categories"         element={<CategoriesPage />} />
               <Route path="/investments"        element={<InvestmentsPage />} />
               <Route path="/transactions"       element={<TransactionsPage />} />
+              <Route path="/budget"              element={<BudgetPage />} />
               <Route path="/settings"           element={<SettingsPage />} />
               <Route path="/settings/:section"  element={<SettingsPage />} />
             </Routes>

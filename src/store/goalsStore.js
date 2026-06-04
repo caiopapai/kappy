@@ -1,9 +1,10 @@
+// src/store/goalsStore.js
 import { create } from "zustand";
 import { goalsApi, IS_CONFIGURED } from "../services/sheetsApi";
 import { INITIAL_GOALS } from "../data/mockData";
 
 export const useGoalsStore = create((set, get) => ({
-  goals:   INITIAL_GOALS,
+  goals: IS_CONFIGURED ? [] : INITIAL_GOALS,
   loading: false,
   error:   null,
 

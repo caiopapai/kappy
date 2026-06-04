@@ -173,6 +173,10 @@
       "marketApis": {
         "label": "APIs de Mercado",
         "desc": "Cotações por bolsa"
+      },
+      "data": {
+        "label": "Dados",
+        "desc": "Fonte de dados activa"
       }
     },
     "language": {
@@ -204,15 +208,15 @@
       "saveButton": "Salvar",
       "saved": "✓ Salvo!",
       "testing": "Testando conexão...",
-      "testOk": "Conexão estabelecida! {{count}} conta(s) encontrada(s).",
+      "testOk": "Ligação estabelecida com sucesso! Engine e Google Sheets a funcionar.",
       "testError": "Não foi possível conectar. Verifique o URL e tente novamente.",
       "comingSoonDesc": "está sendo desenvolvido. Fique atento às próximas atualizações do Kappy.",
       "manualSetup": {
         "title": "Como configurar manualmente:",
-        "step1": "Abra o arquivo .env.local na raiz do projeto",
-        "step2": "Defina VITE_SHEETS_URL= com o seu URL",
-        "step3": "Defina VITE_SHEETS_API_KEY= com a sua chave",
-        "step4": "Reinicie o servidor com npm run dev"
+        "step1": "Abra o ficheiro kappy-engine/.env",
+        "step2": "Defina SHEETS_URL= com o URL do seu Apps Script",
+        "step3": "Defina SHEETS_API_KEY= com a sua chave",
+        "step4": "Reinicie o kappy-engine com npm run dev"
       },
       "security": {
         "title": "Informação de segurança",
@@ -232,6 +236,14 @@
           "apple_numbers_local": "Apple Numbers local",
           "csv": "Arquivo .csv universal"
         }
+      },
+      "engineError": "kappy-engine não respondeu",
+      "engineOffline": "kappy-engine offline. Verifica se está a correr em http://localhost:3001",
+      "step": {
+        "engineUrl": "Configura o kappy-engine no frontend",
+        "engineUrlDesc": "Adiciona ao ficheiro",
+        "engineEnv": "Configura as credenciais no engine",
+        "engineEnvDesc": "Adiciona ao ficheiro"
       }
     },
     "marketApis": {
@@ -252,6 +264,33 @@
       "toast": {
         "saved": "Configuração salva!",
         "deleted": "Configuração removida"
+      }
+    },
+    "data": {
+      "active": "Activo",
+      "options": {
+        "demo": {
+          "label": "Demo",
+          "desc": "Dados de demonstração"
+        },
+        "sheets": {
+          "label": "Sheets",
+          "desc": "Online e offline"
+        },
+        "database": {
+          "label": "Database",
+          "desc": "SQL e NoSQL"
+        }
+      },
+      "demo": {
+        "subtitle": "Dados de demonstração sem persistência",
+        "warningTitle": "Dados temporários",
+        "warningDesc": "Os dados do modo Demo são guardados apenas em memória e serão perdidos ao recarregar a página. Para persistir os dados, configura uma fonte de dados em Sheets ou Database.",
+        "includes": "Dados incluídos"
+      },
+      "database": {
+        "subtitle": "Bases de dados SQL e NoSQL",
+        "desc": "O suporte a bases de dados será adicionado em versões futuras do kappy-engine. Cada provider terá o seu próprio repositório com a mesma interface."
       }
     }
   },
@@ -327,9 +366,11 @@
     }
   },
   "banner": {
-    "localMode": "Modo local — dados não persistidos.",
-    "configure": "Configure a Sheet em",
-    "sheetConfig": "Configurações → Sheet Config"
+    "demoMode": "Operando em modo Demo. Os dados não são salvos.",
+    "demoAction": "Escolha uma fonte de dados para persistir.",
+    "disconnected": "{{provider}} sem conexão. Os dados podem estar desatualizados.",
+    "disconnectedAction": "Verificar configuração",
+    "dataSource": "Fonte de dados"
   },
   "transactions": {
     "add": "Nova Transação",
@@ -416,6 +457,29 @@
       "startBudget": "Orçamento inicial",
       "spent": "Gasto",
       "remaining": "Disponível"
+    }
+  },
+  "budget": {
+    "title": "Planeamento Anual",
+    "addRow": "Adicionar Linha",
+    "add": "Adicionar",
+    "selectSubcategory": "Subcategoria",
+    "selectSubcategoryPlaceholder": "Selecionar...",
+    "defaultValue": "Valor mensal",
+    "subcategory": "Categoria / Subcategoria",
+    "total": "Total Ano",
+    "netBalance": "Saldo do Mês",
+    "legend": {
+      "planned": "Orçamentado",
+      "actual": "Realizado",
+      "diff": "Diferença",
+      "hint": "Clique numa célula para editar"
+    },
+    "toast": {
+      "rowAdded": "Linha adicionada",
+      "rowRemoved": "Linha removida",
+      "alreadyExists": "Subcategoria já existe no orçamento",
+      "selectSub": "Seleciona uma subcategoria"
     }
   }
 }

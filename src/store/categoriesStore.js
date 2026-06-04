@@ -5,8 +5,8 @@ import { INITIAL_CATEGORIES, INITIAL_SUBCATEGORIES } from "../data/mockData";
 
 export const useCategoriesStore = create((set, get) => ({
   // ── Estado ─────────────────────────────────────────────────
-  categories:    INITIAL_CATEGORIES,
-  subcategories: INITIAL_SUBCATEGORIES,
+  categories:    IS_CONFIGURED ? [] : INITIAL_CATEGORIES,
+  subcategories: IS_CONFIGURED ? [] : INITIAL_SUBCATEGORIES,
   loading:       false,
   error:         null,
 

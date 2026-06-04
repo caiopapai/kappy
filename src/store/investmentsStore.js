@@ -4,7 +4,7 @@ import { investmentsApi, IS_CONFIGURED } from "../services/sheetsApi";
 import { INITIAL_INVESTMENTS } from "../data/mockData";
 
 export const useInvestmentsStore = create((set, get) => ({
-  investments: INITIAL_INVESTMENTS,
+  investments: IS_CONFIGURED ? [] : INITIAL_INVESTMENTS,
   loading:     false,
   error:       null,
 

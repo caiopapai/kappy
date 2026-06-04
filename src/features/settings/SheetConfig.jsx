@@ -1,7 +1,10 @@
+// src/features/settings/SheetConfig.jsx
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Card, Button, Input } from "../../components/ui";
 
+// Labels dos providers são nomes próprios de produtos — não se traduzem.
+// As descrições e mensagens UI vêm dos locales.
 const PROVIDERS = {
   online: [
     { id: "google_sheets",       label: "Google Sheets",   icon: "📗", implemented: true  },
@@ -96,22 +99,23 @@ function ProviderCard({ provider, selected, onSelect }) {
 
 function GoogleSheetsForm() {
   const { t } = useTranslation();
-  const [url,     setUrl]    = useState(import.meta.env.VITE_SHEETS_URL || "");
-  const [apiKey,  setApiKey] = useState(import.meta.env.VITE_SHEETS_API_KEY || "");
-  const [status,  setStatus] = useState(null);
-  const [message, setMessage]= useState("");
-  const [saved,   setSaved]  = useState(false);
+  const [status,  setStatus]  = useState(null);
+  const [message, setMessage] = useState("");
+  const [saved,   setSaved]   = useState(false);
 
-  const isConfigured = url.startsWith("https://script.google.com");
+  const engineUrl    = import.meta.env.KAPPY_ENGINE_URL || "http://localhost:3001";
+  const isConfigured = Boolean(import.meta.env.KAPPY_ENGINE_URL);
 
   async function handleTest() {
-    if (!url) return;
     setStatus("testing");
     setMessage("");
     try {
-      const params = new URLSearchParams({ sheet: "accounts" });
-      if (apiKey) params.append("key", apiKey);
-      const res  = await fetch(url + "?" + params.toString());
+      // Testa o engine primeiro
+      const health = await fetch(`${engineUrl}/health`, { signal: AbortSignal.timeout(3000) });
+      if (!health.ok) { throw new Error("engine offline"); }
+
+      // Depois testa as sheets via engine
+      const res  = await fetch(`${engineUrl}/api/accounts`, { signal: AbortSignal.timeout(5000) });
       const json = await res.json();
       if (json.ok) {
         setStatus("ok");
@@ -122,7 +126,7 @@ function GoogleSheetsForm() {
       }
     } catch {
       setStatus("error");
-      setMessage(t("settings.sheet.testError"));
+      setMessage(t("settings.sheet.engineOffline"));
     }
   }
 
@@ -137,7 +141,7 @@ function GoogleSheetsForm() {
         <span className="text-lg">📗</span>
         <div>
           <div className="text-sm font-semibold text-[#e8e6e0]">Google Sheets</div>
-          <div className="text-xs text-[#5a5f78]">via Google Apps Script</div>
+          <div className="text-xs text-[#5a5f78]">via kappy-engine + Google Apps Script</div>
         </div>
         {isConfigured && (
           <span className="ml-auto text-xs font-semibold text-[#4ade80] bg-[#1f3a2a] px-2.5 py-1 rounded-full">
@@ -147,33 +151,18 @@ function GoogleSheetsForm() {
       </div>
 
       <div className="flex flex-col gap-4">
-        <div>
-          <Input
-            label={t("settings.sheet.url")}
-            placeholder={t("settings.sheet.urlPlaceholder")}
-            value={url}
-            onChange={e => { setUrl(e.target.value); setStatus(null); }}
-          />
-          <div className="text-[11px] text-[#5a5f78] mt-1.5 leading-relaxed">
-            {t("settings.sheet.urlHelp")}{" "}
-            <a href="https://developers.google.com/apps-script/guides/web" target="_blank" rel="noreferrer"
-              className="text-[#a5b4fc] hover:underline">
-              {t("settings.sheet.urlHelpLink")}
-            </a>
-          </div>
-        </div>
 
-        <div>
-          <Input
-            label={t("settings.sheet.apiKey")}
-            placeholder={t("settings.sheet.apiKeyPlaceholder")}
-            type="password"
-            value={apiKey}
-            onChange={e => { setApiKey(e.target.value); setStatus(null); }}
-          />
-          <div className="text-[11px] text-[#5a5f78] mt-1.5 leading-relaxed">
-            {t("settings.sheet.apiKeyHelp")}
+        {/* Instrução — configura o engine, não o frontend */}
+        <div className="p-3 rounded-lg bg-[#1a1d2e] border border-[#2a2d3a] text-xs">
+          <div className="text-[#8a8fa8] font-semibold mb-2">
+            {t("settings.sheet.manualSetup.title")}
           </div>
+          <ol className="text-[#5a5f78] space-y-1 list-decimal list-inside">
+            <li>{t("settings.sheet.manualSetup.step1")}</li>
+            <li>{t("settings.sheet.manualSetup.step2")}</li>
+            <li>{t("settings.sheet.manualSetup.step3")}</li>
+            <li>{t("settings.sheet.manualSetup.step4")}</li>
+          </ol>
         </div>
 
         <div className="flex gap-2.5 p-3 rounded-lg bg-[#1a1d2e] border border-[#2a2d3a] text-xs text-[#5a5f78]">
@@ -201,25 +190,11 @@ function GoogleSheetsForm() {
           </div>
         )}
 
-        {!isConfigured && (
-          <div className="p-3 rounded-lg bg-[#1a1d2e] border border-[#2a2d3a] text-xs">
-            <div className="text-[#8a8fa8] font-semibold mb-2">
-              {t("settings.sheet.manualSetup.title")}
-            </div>
-            <ol className="text-[#5a5f78] space-y-1 list-decimal list-inside">
-              <li>{t("settings.sheet.manualSetup.step1")}</li>
-              <li>{t("settings.sheet.manualSetup.step2")}</li>
-              <li>{t("settings.sheet.manualSetup.step3")}</li>
-              <li>{t("settings.sheet.manualSetup.step4")}</li>
-            </ol>
-          </div>
-        )}
-
         <div className="flex gap-2 pt-1">
-          <Button onClick={handleTest} disabled={!url || status === "testing"} variant="secondary">
+          <Button onClick={handleTest} disabled={status === "testing"} variant="secondary">
             {t("settings.sheet.testButton")}
           </Button>
-          <Button onClick={handleSave} disabled={!url}>
+          <Button onClick={handleSave}>
             {saved ? t("settings.sheet.saved") : t("settings.sheet.saveButton")}
           </Button>
         </div>
