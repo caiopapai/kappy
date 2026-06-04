@@ -480,6 +480,8 @@
       "rowRemoved": "Fila eliminada",
       "alreadyExists": "Subcategoría ya existe en el presupuesto",
       "selectSub": "Selecciona una subcategoría"
-    }
+    },
+    "expandAll": "Expandir todo",
+    "collapseAll": "Colapsar todo"
   }
 }

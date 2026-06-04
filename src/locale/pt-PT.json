@@ -480,6 +480,8 @@
       "rowRemoved": "Linha removida",
       "alreadyExists": "Subcategoria já existe no orçamento",
       "selectSub": "Seleciona uma subcategoria"
-    }
+    },
+    "expandAll": "Expandir tudo",
+    "collapseAll": "Recolher tudo"
   }
 }

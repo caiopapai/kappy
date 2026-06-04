@@ -3,9 +3,11 @@ import { create } from "zustand";
 import { budgetsApi, IS_CONFIGURED } from "../services/sheetsApi";
 import { INITIAL_BUDGETS } from "../data/mockData";
 
+const ENGINE_URL = import.meta.env.KAPPY_ENGINE_URL || "http://localhost:3001";
+
 export function budgetToRows(budget) {
   return Object.entries(budget.months || {}).map(([month, amount]) => ({
-    id:            `${budget.id}_${month}`,
+    id:            `${budget.subcategoryId}_${month}_${budget.year}`,
     year:          budget.year,
     subcategoryId: budget.subcategoryId,
     month:         parseInt(month),
@@ -19,21 +21,22 @@ export function rowsToBudgets(rows) {
     const key = `${r.year}_${r.subcategoryId}`;
     if (!map[key]) {
       map[key] = {
-        id:            parseFloat(String(r.id).split("_")[0]) || Date.now(),
+        id:            `${r.subcategoryId}_${r.year}`,
         year:          parseInt(r.year),
         subcategoryId: parseInt(r.subcategoryId),
         months:        {},
       };
     }
-    map[key].months[parseInt(r.month)] = parseFloat(r.amount);
+    map[key].months[parseInt(r.month)] = parseFloat(r.amount) || 0;
   });
   return Object.values(map);
 }
 
 export const useBudgetsStore = create((set, get) => ({
-  budgets: IS_CONFIGURED ? [] : INITIAL_BUDGETS,
-  loading: false,
-  error:   null,
+  budgets:  IS_CONFIGURED ? [] : INITIAL_BUDGETS,
+  summary:  {}, // summary[year][month][subcategoryId] = { planned, actual, projected, effective, diff }
+  loading:  false,
+  error:    null,
 
   load: async () => {
     if (!IS_CONFIGURED) return;
@@ -44,6 +47,21 @@ export const useBudgetsStore = create((set, get) => ({
       set({ budgets, loading: false });
     } catch (err) {
       set({ error: err.message, loading: false });
+    }
+  },
+
+  // Carrega o summary do engine para um ano (inclui real + projecção)
+  loadSummary: async (year) => {
+    if (!IS_CONFIGURED) return;
+    try {
+      const res  = await fetch(`${ENGINE_URL}/api/budgets/summary?year=${year}`);
+      const json = await res.json();
+      if (!json.ok) { throw new Error(json.error); }
+      set(state => ({
+        summary: { ...state.summary, [year]: json.monthly },
+      }));
+    } catch (err) {
+      console.error("budgets.loadSummary error", err.message);
     }
   },
 
@@ -59,17 +77,16 @@ export const useBudgetsStore = create((set, get) => ({
           : b
       );
     } else {
-      updated = [...prev, { id: Date.now(), year, subcategoryId, months: { [month]: amount } }];
+      updated = [...prev, { id: `${subcategoryId}_${year}`, year, subcategoryId, months: { [month]: amount } }];
     }
 
     set({ budgets: updated });
 
     if (!IS_CONFIGURED) return;
-    const budget = updated.find(b => b.year === year && b.subcategoryId === subcategoryId);
-    const rows   = budgetToRows(budget);
-    const row    = rows.find(r => r.month === month);
+    const row = { id: `${subcategoryId}_${month}_${year}`, year, subcategoryId, month, amount };
     try {
       await budgetsApi.save(row);
+      get().loadSummary(year);
     } catch {
       set({ budgets: prev });
     }
@@ -83,6 +100,7 @@ export const useBudgetsStore = create((set, get) => ({
     if (!IS_CONFIGURED || !budget) return;
     try {
       await Promise.all(budgetToRows(budget).map(r => budgetsApi.delete(r.id)));
+      get().loadSummary(year);
     } catch {
       set({ budgets: prev });
     }
