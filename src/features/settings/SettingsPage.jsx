@@ -6,6 +6,7 @@ import SheetConfig     from "./SheetConfig";
 import DataConfig      from "./DataConfig";
 import LanguageConfig  from "./LanguageConfig";
 import MarketApisConfig from "./MarketApisConfig";
+import ThemeConfig     from "./ThemeConfig";
 
 export default function SettingsPage() {
   const { t } = useTranslation();
@@ -25,7 +26,7 @@ export default function SettingsPage() {
   return (
     <div className="flex gap-6 h-full">
       <aside className="w-56 shrink-0">
-        <div className="text-[11px] text-[#5a5f78] uppercase tracking-widest font-semibold mb-3 px-1">
+        <div className="text-[11px] text-faint uppercase tracking-widest font-semibold mb-3 px-1">
           {t("settings.title")}
         </div>
         <nav className="flex flex-col gap-0.5">
@@ -37,14 +38,14 @@ export default function SettingsPage() {
                   w-full flex items-center gap-3 px-3 py-2.5 rounded-lg
                   text-left text-sm font-medium transition-all border-l-[3px] border-0
                   ${isActive
-                    ? "bg-[#1e2235] border-l-[#6366f1] text-[#a5b4fc]"
-                    : "border-l-transparent text-[#8a8fa8] hover:text-[#c4c0b8] hover:bg-[#1a1d2e]"}
+                    ? "bg-overlay border-l-[#6366f1] text-brand-light"
+                    : "border-l-transparent text-muted hover:text-secondary hover:bg-raised"}
                 `}
               >
                 <span className="text-base w-5 text-center">{s.icon}</span>
                 <div>
                   <div>{s.label}</div>
-                  <div className={`text-[11px] font-normal mt-0.5 ${isActive ? "text-[#6366f188]" : "text-[#5a5f78]"}`}>
+                  <div className={`text-[11px] font-normal mt-0.5 ${isActive ? "text-[#6366f188]" : "text-faint"}`}>
                     {s.desc}
                   </div>
                 </div>
@@ -58,13 +59,13 @@ export default function SettingsPage() {
         <div className="flex items-center gap-3 mb-6">
           <span className="text-2xl">{current.icon}</span>
           <div>
-            <h2 className="text-base font-semibold text-[#f0ede8] m-0">{current.label}</h2>
-            <div className="text-xs text-[#5a5f78] mt-0.5">{current.desc}</div>
+            <h2 className="text-base font-semibold text-primary m-0">{current.label}</h2>
+            <div className="text-xs text-faint mt-0.5">{current.desc}</div>
           </div>
         </div>
 
         {activeSection === "language"   && <LanguageConfig />}
-        {activeSection === "theme"      && <ComingSoon label={t("settings.sections.theme.label")} />}
+        {activeSection === "theme"      && <ThemeConfig />}
         {activeSection === "currency"   && <ComingSoon label={t("settings.sections.currency.label")} />}
         {activeSection === "data"       && <DataConfig />}
         {activeSection === "marketApis" && <MarketApisConfig />}
@@ -80,8 +81,8 @@ function ComingSoon({ label }) {
     <Card>
       <div className="flex flex-col items-center justify-center py-16 text-center">
         <div className="text-4xl mb-4">🚧</div>
-        <div className="text-[15px] text-[#c4c0b8] mb-2">{label}</div>
-        <div className="text-sm text-[#5a5f78]">{t("common.comingSoon")}</div>
+        <div className="text-[15px] text-secondary mb-2">{label}</div>
+        <div className="text-sm text-faint">{t("common.comingSoon")}</div>
       </div>
     </Card>
   );

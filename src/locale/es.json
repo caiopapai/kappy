@@ -295,6 +295,13 @@
         "subtitle": "Bases de datos SQL y NoSQL",
         "desc": "El soporte para bases de datos se añadirá en versiones futuras de kappy-engine. Cada provider tendrá su propio repositorio con la misma interfaz."
       }
+    },
+    "theme": {
+      "dark": "Oscuro",
+      "light": "Claro",
+      "current": "Tema actual",
+      "hint": "Cambia la apariencia de la aplicación",
+      "toggle": "Cambiar tema"
     }
   },
   "banner": {

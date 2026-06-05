@@ -371,6 +371,13 @@
         "subtitle": "SQL and NoSQL databases",
         "desc": "Database support will be added in future versions of kappy-engine. Each provider will have its own repository implementing the same interface."
       }
+    },
+    "theme": {
+      "dark": "Dark",
+      "light": "Light",
+      "current": "Current theme",
+      "hint": "Changes the app appearance",
+      "toggle": "Toggle theme"
     }
   },
   "banner": {

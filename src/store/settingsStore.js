@@ -75,11 +75,29 @@ async function engineSave(updates) {
 function applyLanguage(lang) {
   if (lang && i18n.language !== lang) {
     i18n.changeLanguage(lang);
-    localStorage.setItem("kappy_language", lang); // compatibilidade com detector
+    localStorage.setItem("kappy_language", lang);
+  }
+}
+
+function applyTheme(theme) {
+  if (theme === "light") {
+    document.documentElement.classList.add("light");
+  } else {
+    document.documentElement.classList.remove("light");
   }
 }
 
 // ── Store ─────────────────────────────────────────────────────
+
+// Aplica o tema guardado em localStorage imediatamente ao carregar
+// evita flash de dark→light antes do engine responder
+const savedTheme = (() => {
+  try {
+    const ls = localStorage.getItem("kappy_settings");
+    return ls ? JSON.parse(ls).theme : null;
+  } catch { return null; }
+})();
+if (savedTheme) applyTheme(savedTheme);
 
 export const useSettingsStore = create((set, get) => ({
   ...DEFAULTS,
@@ -109,11 +127,13 @@ export const useSettingsStore = create((set, get) => ({
 
       set({ ...settings, loading: false });
       applyLanguage(settings.language);
+      applyTheme(settings.theme);
     } catch {
       // Fallback para localStorage em caso de erro
       const settings = lsLoad();
       set({ ...settings, loading: false });
       applyLanguage(settings.language);
+      applyTheme(settings.theme);
     }
   },
 
@@ -126,13 +146,14 @@ export const useSettingsStore = create((set, get) => ({
     set(updates);
 
     // Aplica idioma imediatamente
-    if (updates.language) {
-      applyLanguage(updates.language);
-    }
+    if (updates.language) { applyLanguage(updates.language); }
+    if (updates.theme)    { applyTheme(updates.theme); }
 
     try {
       if (IS_CONFIGURED) {
         await engineSave(updates);
+        // Sincroniza sempre com localStorage para arranque rápido sem flash
+        lsSave({ ...lsLoad(), ...updates });
       } else {
         lsSave({ language: next.language, currency: next.currency, theme: next.theme, firstRunDone: next.firstRunDone });
       }
@@ -146,5 +167,5 @@ export const useSettingsStore = create((set, get) => ({
   // ── Setters de conveniência ──────────────────────────────────
   setLanguage: (lang)     => get().update({ language: lang }),
   setCurrency: (currency) => get().update({ currency }),
-  setTheme:    (theme)    => get().update({ theme }),
+  setTheme:    (theme)    => { applyTheme(theme); return get().update({ theme }); },
 }));
