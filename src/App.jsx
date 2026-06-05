@@ -18,6 +18,7 @@ import InvestmentsPage  from "./features/pages/InvestmentsPage";
 import TransactionsPage from "./features/pages/TransactionsPage";
 import DashboardPage    from "./features/pages/DashboardPage";
 import BudgetPage       from "./features/pages/BudgetPage";
+import CalendarPage     from "./features/pages/CalendarPage";
 import SettingsPage     from "./features/settings/SettingsPage";
 
 // ── Carga inicial ─────────────────────────────────────────────
@@ -36,17 +37,22 @@ function useBootstrap() {
     checkConfig()
       .then(() => loadSettings())
       .then(async () => {
-        if (!IS_CONFIGURED) return; // modo demo — stores já têm mocks
+        if (!IS_CONFIGURED) {
+          // Modo demo — stores já têm mocks, não precisa de fazer nada
+          return;
+        }
 
         try {
           const data = await bootstrapApi();
-          // Hidrata todos os stores de uma vez
-          if (data.accounts?.length)      setAccounts(data.accounts);
-          if (data.categories?.length)    setCategories(data.categories, data.subcategories || []);
-          if (data.goals?.length)         setGoals(data.goals);
-          if (data.investments?.length)   setInvestments(data.investments);
-          if (data.transactions?.length)  setTransactions(data.transactions, data.recurringRules || []);
-          if (data.budgets?.length)       setBudgets(data.budgets);
+
+          // Hidrata os stores com os dados do bootstrap
+          // Mesmo se vazio, substitui os mocks (IS_CONFIGURED = fonte de dados real)
+          setAccounts(data.accounts     || []);
+          setCategories(data.categories || [], data.subcategories || []);
+          setGoals(data.goals           || []);
+          setInvestments(data.investments || []);
+          setTransactions(data.transactions || [], data.recurringRules || []);
+          setBudgets(data.budgets       || []);
         } catch (err) {
           console.error("[kappy] bootstrap failed:", err.message);
         }
@@ -85,6 +91,7 @@ function Sidebar() {
     { to: "/dashboard",    icon: "◈",  label: t("nav.dashboard"),    testId: "nav-dashboard" },
     { to: "/accounts",     icon: "🏦", label: t("nav.accounts"),     testId: "nav-accounts" },
     { to: "/budget",       icon: "📊", label: t("nav.budget"),       testId: "nav-budget" },
+    { to: "/calendar",     icon: "📅", label: t("nav.calendar"),     testId: "nav-calendar" },
     { to: "/transactions", icon: "↕",  label: t("nav.transactions"), testId: "nav-transactions" },
     { to: "/investments",  icon: "📈", label: t("nav.investments"),  testId: "nav-investments" },
     { to: "/goals",        icon: "🎯", label: t("nav.goals"),        testId: "nav-goals" },
@@ -212,6 +219,7 @@ export default function App() {
               <Route path="/investments"        element={<InvestmentsPage />} />
               <Route path="/transactions"       element={<TransactionsPage />} />
               <Route path="/budget"              element={<BudgetPage />} />
+              <Route path="/calendar"            element={<CalendarPage />} />
               <Route path="/settings"           element={<SettingsPage />} />
               <Route path="/settings/:section"  element={<SettingsPage />} />
             </Routes>

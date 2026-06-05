@@ -39,7 +39,8 @@
     "budget": "Presupuesto",
     "investments": "Inversiones",
     "dashboard": "Dashboard",
-    "settings": "Configuración"
+    "settings": "Configuración",
+    "calendar": "Calendario"
   },
   "accounts": {
     "title": "Mis Cuentas",
@@ -498,5 +499,43 @@
     },
     "expandAll": "Expandir todo",
     "collapseAll": "Colapsar todo"
+  },
+  "calendar": {
+    "weekdays": [
+      "Dom",
+      "Lun",
+      "Mar",
+      "Mié",
+      "Jue",
+      "Vie",
+      "Sáb"
+    ],
+    "months": [
+      "Enero",
+      "Febrero",
+      "Marzo",
+      "Abril",
+      "Mayo",
+      "Junio",
+      "Julio",
+      "Agosto",
+      "Septiembre",
+      "Octubre",
+      "Noviembre",
+      "Diciembre"
+    ],
+    "today": "Hoy",
+    "noEvents": "Sin transacciones este día",
+    "event": "evento",
+    "events": "eventos",
+    "recurring": "recurrente",
+    "export": "Exportar .ics",
+    "legend": {
+      "income": "Ingreso",
+      "fixed_expense": "Gasto Fijo",
+      "variable_expense": "Gasto Var.",
+      "investment": "Inversión",
+      "recurring": "Recurrente"
+    }
   }
 }

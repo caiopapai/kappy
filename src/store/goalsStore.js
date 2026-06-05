@@ -8,6 +8,8 @@ export const useGoalsStore = create((set, get) => ({
   loading: false,
   error:   null,
 
+  setAll: (goals) => set({ goals }),
+
   load: async () => {
     if (!IS_CONFIGURED) return;
     set({ loading: true, error: null });

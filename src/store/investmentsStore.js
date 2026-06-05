@@ -8,6 +8,8 @@ export const useInvestmentsStore = create((set, get) => ({
   loading:     false,
   error:       null,
 
+  setAll: (investments) => set({ investments }),
+
   load: async () => {
     if (!IS_CONFIGURED) return;
     set({ loading: true, error: null });
