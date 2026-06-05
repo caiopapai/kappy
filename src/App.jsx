@@ -18,6 +18,7 @@ import InvestmentsPage  from "./features/pages/InvestmentsPage";
 import TransactionsPage from "./features/pages/TransactionsPage";
 import DashboardPage    from "./features/pages/DashboardPage";
 import BudgetPage       from "./features/pages/BudgetPage";
+import CalendarPage     from "./features/pages/CalendarPage";
 import SettingsPage     from "./features/settings/SettingsPage";
 
 // ── Carga inicial ─────────────────────────────────────────────
@@ -36,17 +37,22 @@ function useBootstrap() {
     checkConfig()
       .then(() => loadSettings())
       .then(async () => {
-        if (!IS_CONFIGURED) return; // modo demo — stores já têm mocks
+        if (!IS_CONFIGURED) {
+          // Modo demo — stores já têm mocks, não precisa de fazer nada
+          return;
+        }
 
         try {
           const data = await bootstrapApi();
-          // Hidrata todos os stores de uma vez
-          if (data.accounts?.length)      setAccounts(data.accounts);
-          if (data.categories?.length)    setCategories(data.categories, data.subcategories || []);
-          if (data.goals?.length)         setGoals(data.goals);
-          if (data.investments?.length)   setInvestments(data.investments);
-          if (data.transactions?.length)  setTransactions(data.transactions, data.recurringRules || []);
-          if (data.budgets?.length)       setBudgets(data.budgets);
+
+          // Hidrata os stores com os dados do bootstrap
+          // Mesmo se vazio, substitui os mocks (IS_CONFIGURED = fonte de dados real)
+          setAccounts(data.accounts     || []);
+          setCategories(data.categories || [], data.subcategories || []);
+          setGoals(data.goals           || []);
+          setInvestments(data.investments || []);
+          setTransactions(data.transactions || [], data.recurringRules || []);
+          setBudgets(data.budgets       || []);
         } catch (err) {
           console.error("[kappy] bootstrap failed:", err.message);
         }
@@ -66,8 +72,8 @@ function NavItem({ to, icon, label, testId }) {
         flex items-center gap-2.5 px-3 py-2.5 rounded-lg mb-0.5
         text-sm font-medium transition-all border-l-[3px]
         ${isActive
-          ? "bg-[#1e2235] border-[#6366f1] text-[#a5b4fc]"
-          : "border-transparent text-[#8a8fa8] hover:text-[#c4c0b8] hover:bg-[#1a1d2e]"}
+          ? "bg-overlay border-[var(--border-focus)] text-brand-light"
+          : "border-transparent text-muted hover:text-secondary hover:bg-raised"}
       `}
     >
       <span className="w-5 text-center text-base">{icon}</span>
@@ -85,6 +91,7 @@ function Sidebar() {
     { to: "/dashboard",    icon: "◈",  label: t("nav.dashboard"),    testId: "nav-dashboard" },
     { to: "/accounts",     icon: "🏦", label: t("nav.accounts"),     testId: "nav-accounts" },
     { to: "/budget",       icon: "📊", label: t("nav.budget"),       testId: "nav-budget" },
+    { to: "/calendar",     icon: "📅", label: t("nav.calendar"),     testId: "nav-calendar" },
     { to: "/transactions", icon: "↕",  label: t("nav.transactions"), testId: "nav-transactions" },
     { to: "/investments",  icon: "📈", label: t("nav.investments"),  testId: "nav-investments" },
     { to: "/goals",        icon: "🎯", label: t("nav.goals"),        testId: "nav-goals" },
@@ -92,9 +99,9 @@ function Sidebar() {
   ];
 
   return (
-    <aside className="w-[200px] bg-[#161820] border-r border-[#2a2d3a] flex flex-col shrink-0">
+    <aside className="w-[200px] bg-card border-r border-default flex flex-col shrink-0">
       {/* Logo */}
-      <div className="px-4 py-5 border-b border-[#2a2d3a]">
+      <div className="px-4 py-5 border-b border-default">
         <div className="flex items-center gap-2.5">
           <img
             src="/src/assets/kappy_logo.png"
@@ -104,7 +111,7 @@ function Sidebar() {
               filter: "hue-rotate(-40deg) saturate(0.85) brightness(0.95)",
             }}
           />
-          <span className="font-semibold text-[#f0ede8]">Kappy</span>
+          <span className="font-semibold text-primary">Kappy</span>
         </div>
       </div>
 
@@ -116,7 +123,7 @@ function Sidebar() {
       </nav>
 
       {/* Definições + provider indicator — rodapé */}
-      <div className="p-2 border-t border-[#2a2d3a]">
+      <div className="p-2 border-t border-default">
         <NavItem to="/settings" icon="⚙" label={t("nav.settings")} testId="nav-settings" />
         <ProviderBadge />
       </div>
@@ -135,18 +142,18 @@ function ProviderBadge() {
     <div
       className="mx-2 mt-1 mb-1 px-2 py-1.5 rounded-lg text-[10px] flex items-center gap-1.5"
       style={{
-        background:  connected ? "#162a1f" : "#2a1616",
-        border:      `1px solid ${connected ? "#1f3a2a" : "#3a1f1f"}`,
+        background:  connected ? "var(--success-bg)" : "var(--danger-bg)",
+        border:      `1px solid ${connected ? "var(--success-bg)" : "var(--danger-bg)"}`,
       }}
       title={error || providerLabel}
     >
       <span>{providerIcon || (connected ? "✓" : "✕")}</span>
-      <span style={{ color: connected ? "#4ade80" : "#f87171" }} className="truncate">
+      <span style={{ color: connected ? "var(--success)" : "var(--danger)" }} className="truncate">
         {providerLabel || (connected ? "Conectado" : "Sem ligação")}
       </span>
       <span
         className="ml-auto w-1.5 h-1.5 rounded-full shrink-0"
-        style={{ background: connected ? "#4ade80" : "#f87171" }}
+        style={{ background: connected ? "var(--success)" : "var(--danger)" }}
       />
     </div>
   );
@@ -161,9 +168,9 @@ function ConfigBanner() {
   // Modo demo — engine não configurado
   if (!IS_CONFIGURED) {
     return (
-      <div className="bg-[#1e1a0e] border-b border-[#f59e0b33] px-5 py-2 flex items-center gap-3 text-xs">
+      <div className="bg-warning border-b border-[var(--border)] px-5 py-2 flex items-center gap-3 text-xs">
         <span>🎭</span>
-        <span className="text-[#fcd34d]">
+        <span className="text-warning">
           {t("banner.demoMode")}{" "}
           <NavLink to="/settings" className="text-[#a5b4fc] underline hover:text-[#c4b5fd]">
             {t("banner.demoAction")}
@@ -176,9 +183,9 @@ function ConfigBanner() {
   // Engine configurado mas provider sem ligação
   if (checked && !connected) {
     return (
-      <div className="bg-[#2a1616] border-b border-[#f8717133] px-5 py-2 flex items-center gap-3 text-xs">
+      <div className="bg-danger border-b border-[var(--border)] px-5 py-2 flex items-center gap-3 text-xs">
         <span>⚠️</span>
-        <span className="text-[#f87171]">
+        <span className="text-danger">
           {t("banner.disconnected", { provider: providerLabel || t("banner.dataSource") })}{" "}
           <NavLink to="/settings" className="text-[#a5b4fc] underline hover:text-[#c4b5fd]">
             {t("banner.disconnectedAction")}
@@ -198,7 +205,7 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <div className="flex h-screen bg-[#0f1117] text-[#e8e6e0] overflow-hidden">
+      <div className="flex h-screen bg-base text-primary overflow-hidden">
         <Sidebar />
         <div className="flex flex-col flex-1 overflow-hidden">
           <ConfigBanner />
@@ -212,6 +219,7 @@ export default function App() {
               <Route path="/investments"        element={<InvestmentsPage />} />
               <Route path="/transactions"       element={<TransactionsPage />} />
               <Route path="/budget"              element={<BudgetPage />} />
+              <Route path="/calendar"            element={<CalendarPage />} />
               <Route path="/settings"           element={<SettingsPage />} />
               <Route path="/settings/:section"  element={<SettingsPage />} />
             </Routes>

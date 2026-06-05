@@ -39,7 +39,8 @@
     "budget": "Budget",
     "investments": "Investments",
     "dashboard": "Dashboard",
-    "settings": "Settings"
+    "settings": "Settings",
+    "calendar": "Calendar"
   },
   "accounts": {
     "title": "My Accounts",
@@ -371,6 +372,13 @@
         "subtitle": "SQL and NoSQL databases",
         "desc": "Database support will be added in future versions of kappy-engine. Each provider will have its own repository implementing the same interface."
       }
+    },
+    "theme": {
+      "dark": "Dark",
+      "light": "Light",
+      "current": "Current theme",
+      "hint": "Changes the app appearance",
+      "toggle": "Toggle theme"
     }
   },
   "banner": {
@@ -491,5 +499,43 @@
     },
     "expandAll": "Expand all",
     "collapseAll": "Collapse all"
+  },
+  "calendar": {
+    "weekdays": [
+      "Sun",
+      "Mon",
+      "Tue",
+      "Wed",
+      "Thu",
+      "Fri",
+      "Sat"
+    ],
+    "months": [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ],
+    "today": "Today",
+    "noEvents": "No transactions on this day",
+    "event": "event",
+    "events": "events",
+    "recurring": "recurring",
+    "export": "Export .ics",
+    "legend": {
+      "income": "Income",
+      "fixed_expense": "Fixed Expense",
+      "variable_expense": "Variable Exp.",
+      "investment": "Investment",
+      "recurring": "Recurring"
+    }
   }
 }

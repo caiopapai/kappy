@@ -1,4 +1,4 @@
-// src/features/pages/AccountsPage.jsx
+// src/features/accounts/AccountsPage.jsx
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAccountsStore } from "../../store/accountsStore";
@@ -32,15 +32,15 @@ export default function AccountsPage() {
 
   function validate() {
     const e = {};
-    if (!form.name.trim())                                   e.name    = t("common.required");
-    if (form.balance === "")                                 e.balance = t("common.required");
+    if (!form.name.trim())                                       e.name    = t("common.required");
+    if (form.balance === "")                                     e.balance = t("common.required");
     else if (isNaN(parseFloat(form.balance.replace(",",".")))) e.balance = t("common.invalid");
     setErrors(e);
     return Object.keys(e).length === 0;
   }
 
   async function handleSave() {
-    if (saving) return;           // previne double-click
+    if (saving) return;
     if (!validate()) return;
     setSaving(true);
     const bal = parseFloat(form.balance.replace(",", "."));
@@ -96,11 +96,8 @@ export default function AccountsPage() {
 
       <div>
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-base font-semibold text-[#f0ede8]">{t("accounts.title")}</h2>
-          <Button
-            data-testid="account-add-btn"
-            onClick={() => { handleCancel(); setShowForm(true); }}
-          >
+          <h2 className="text-base font-semibold text-primary">{t("accounts.title")}</h2>
+          <Button data-testid="account-add-btn" onClick={() => { handleCancel(); setShowForm(true); }}>
             + {t("accounts.add")}
           </Button>
         </div>
@@ -113,11 +110,10 @@ export default function AccountsPage() {
               isEditing={editingId === acc.id}
               onEdit={() => handleEdit(acc)}
               onDelete={() => handleDelete(acc.id)}
-              formatCurrency={formatCurrency}
             />
           ))}
           {accounts.length === 0 && (
-            <Card data-testid="accounts-empty" className="text-center text-[#5a5f78] py-10">
+            <Card data-testid="accounts-empty" className="text-center text-faint py-10">
               {t("accounts.empty")}
             </Card>
           )}
@@ -126,23 +122,18 @@ export default function AccountsPage() {
 
       {showForm && (
         <AccountForm
-          form={form}
-          setForm={setForm}
-          errors={errors}
-          editingId={editingId}
-          balanceNum={balanceNum}
-          balanceValid={balanceValid}
-          saving={saving}
-          onSave={handleSave}
-          onCancel={handleCancel}
+          form={form} setForm={setForm} errors={errors}
+          editingId={editingId} balanceNum={balanceNum}
+          balanceValid={balanceValid} saving={saving}
+          onSave={handleSave} onCancel={handleCancel}
         />
       )}
     </div>
   );
 }
 
-function AccountCard({ account, isEditing, onEdit, onDelete, formatCurrency }) {
-  const { t }  = useTranslation();
+function AccountCard({ account, isEditing, onEdit, onDelete }) {
+  const { t }      = useTranslation();
   const isPositive = account.balance >= 0;
   const typeInfo   = ACCOUNT_TYPES.find(a => a.value === account.type);
 
@@ -151,20 +142,21 @@ function AccountCard({ account, isEditing, onEdit, onDelete, formatCurrency }) {
       data-testid={`account-card-${account.id}`}
       data-account-id={account.id}
       data-account-name={account.name}
-      className={`
-        flex justify-between items-center p-4 rounded-xl border transition-colors
-        ${isEditing ? "bg-[#1e2235] border-[#6366f1]"
-          : isPositive ? "bg-[#1a1d2e] border-[#1f3a2a]"
-          : "bg-[#1a1d2e] border-[#3a1f1f]"}
-      `}
+      className="flex justify-between items-center p-4 rounded-xl border transition-colors bg-raised"
+      style={{
+        borderColor: isEditing
+          ? "var(--border-focus)"
+          : isPositive ? "var(--success-bg)" : "var(--danger-bg)",
+        background: isEditing ? "var(--surface-overlay)" : undefined,
+      }}
     >
       <div className="flex items-center gap-3">
         <span className="text-3xl">{accountIcon(account.type)}</span>
         <div>
-          <div data-testid="account-name" className="text-[15px] font-semibold text-[#e8e6e0]">
+          <div data-testid="account-name" className="text-[15px] font-semibold text-primary">
             {account.name}
           </div>
-          <div className="text-xs text-[#5a5f78]">
+          <div className="text-xs text-faint">
             {typeInfo ? t("accounts.types." + account.type) : account.type} · {account.currency}
           </div>
         </div>
@@ -172,7 +164,8 @@ function AccountCard({ account, isEditing, onEdit, onDelete, formatCurrency }) {
       <div className="flex flex-col items-end gap-1.5">
         <span
           data-testid="account-balance"
-          className={`text-base font-bold tabular-nums ${isPositive ? "text-[#4ade80]" : "text-[#f87171]"}`}
+          className="text-base font-bold tabular-nums"
+          style={{ color: isPositive ? "var(--success)" : "var(--danger)" }}
         >
           {account.balance < 0 ? "-" : ""}{formatCurrency(account.balance, account.currency)}
         </span>
@@ -190,40 +183,34 @@ function AccountCard({ account, isEditing, onEdit, onDelete, formatCurrency }) {
 }
 
 function AccountForm({ form, setForm, errors, editingId, balanceNum, balanceValid, saving, onSave, onCancel }) {
-  const { t }    = useTranslation();
-  const set      = (field) => (e) => setForm(f => ({ ...f, [field]: e.target.value }));
+  const { t }     = useTranslation();
+  const set       = (field) => (e) => setForm(f => ({ ...f, [field]: e.target.value }));
   const isEditing = editingId !== null;
 
   return (
-    <Card data-testid="account-form" className={isEditing ? "border-[#6366f1]" : ""}>
-      <div className="text-sm font-semibold text-[#a5b4fc] mb-5">
+    <Card
+      data-testid="account-form"
+      style={{ borderColor: isEditing ? "var(--border-focus)" : undefined }}
+    >
+      <div className="text-sm font-semibold text-brand-light mb-5">
         {isEditing ? "✏ " + t("accounts.edit") : "+ " + t("accounts.add")}
       </div>
       <div className="flex flex-col gap-4">
 
-        {/* Nome — input de texto simples */}
         <div className="flex flex-col gap-1.5">
-          <label className="text-[11px] text-[#5a5f78] uppercase tracking-wide font-medium">
-            {t("accounts.form.name")}
-          </label>
+          <label className="label-base">{t("accounts.form.name")}</label>
           <input
             data-testid="account-name-input"
             type="text"
             placeholder={t("accounts.form.namePlaceholder")}
             value={form.name}
             onChange={set("name")}
-            className={`w-full bg-[#1a1d2e] border rounded-lg px-3 py-2.5 text-sm text-[#e8e6e0]
-              outline-none focus:border-[#6366f1] transition-colors placeholder:text-[#3a3d52]
-              ${errors.name ? "border-[#f87171]" : "border-[#2a2d3a]"}`}
+            className={`input-base ${errors.name ? "error" : ""}`}
           />
         </div>
 
-        <Select
-          data-testid="account-type-select"
-          label={t("accounts.form.type")}
-          value={form.type}
-          onChange={set("type")}
-        >
+        <Select data-testid="account-type-select" label={t("accounts.form.type")}
+          value={form.type} onChange={set("type")}>
           {ACCOUNT_TYPES.map(type => (
             <option key={type.value} value={type.value}>
               {type.icon} {t("accounts.types." + type.value)}
@@ -232,11 +219,8 @@ function AccountForm({ form, setForm, errors, editingId, balanceNum, balanceVali
         </Select>
 
         <div className="grid grid-cols-2 gap-3">
-          {/* Saldo — type=text para aceitar qualquer input nos testes */}
           <div className="flex flex-col gap-1.5">
-            <label className="text-[11px] text-[#5a5f78] uppercase tracking-wide font-medium">
-              {t("accounts.form.balance")}
-            </label>
+            <label className="label-base">{t("accounts.form.balance")}</label>
             <input
               data-testid="account-balance-input"
               type="text"
@@ -244,18 +228,12 @@ function AccountForm({ form, setForm, errors, editingId, balanceNum, balanceVali
               placeholder="0.00"
               value={form.balance}
               onChange={set("balance")}
-              className={`w-full bg-[#1a1d2e] border rounded-lg px-3 py-2.5 text-sm text-[#e8e6e0]
-                outline-none focus:border-[#6366f1] transition-colors placeholder:text-[#3a3d52]
-                ${errors.balance ? "border-[#f87171]" : "border-[#2a2d3a]"}`}
+              className={`input-base ${errors.balance ? "error" : ""}`}
             />
           </div>
 
-          <Select
-            data-testid="account-currency-select"
-            label={t("accounts.form.currency")}
-            value={form.currency}
-            onChange={set("currency")}
-          >
+          <Select data-testid="account-currency-select" label={t("accounts.form.currency")}
+            value={form.currency} onChange={set("currency")}>
             <option value="EUR">€ {t("common.currencies.EUR")}</option>
             <option value="BRL">R$ {t("common.currencies.BRL")}</option>
             <option value="USD">$ {t("common.currencies.USD")}</option>
@@ -265,25 +243,23 @@ function AccountForm({ form, setForm, errors, editingId, balanceNum, balanceVali
         {balanceValid && (
           <div
             data-testid={balanceNum >= 0 ? "balance-positive-badge" : "balance-negative-badge"}
-            className={`px-3 py-2.5 rounded-lg text-sm font-semibold ${
-              balanceNum >= 0 ? "bg-[#1f3a2a] text-[#4ade80]" : "bg-[#3a1f1f] text-[#f87171]"
-            }`}
+            className="px-3 py-2.5 rounded-lg text-sm font-semibold"
+            style={{
+              background: balanceNum >= 0 ? "var(--success-bg)" : "var(--danger-bg)",
+              color:      balanceNum >= 0 ? "var(--success)"    : "var(--danger)",
+            }}
           >
             {balanceNum >= 0 ? t("accounts.balance.positive") : t("accounts.balance.negative")}
           </div>
         )}
 
         <div data-testid="form-errors" className="flex flex-col gap-1">
-          {errors.name    && <span data-testid="error-name"    className="text-xs text-[#f87171]">{errors.name}</span>}
-          {errors.balance && <span data-testid="error-balance" className="text-xs text-[#f87171]">{errors.balance}</span>}
+          {errors.name    && <span data-testid="error-name"    className="text-xs text-danger">{errors.name}</span>}
+          {errors.balance && <span data-testid="error-balance" className="text-xs text-danger">{errors.balance}</span>}
         </div>
 
         <div className="flex gap-2 mt-1">
-          <Button
-            data-testid="account-save-btn"
-            onClick={onSave}
-            disabled={saving}
-          >
+          <Button data-testid="account-save-btn" onClick={onSave} disabled={saving}>
             {saving ? "..." : t("common.save")}
           </Button>
           <Button data-testid="account-cancel-btn" variant="secondary" onClick={onCancel}>
