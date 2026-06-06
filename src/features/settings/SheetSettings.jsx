@@ -30,9 +30,9 @@ export default function SheetConfig() {
     <div className="flex flex-col gap-6">
 
       {/* Aviso de segurança */}
-      <div className="flex gap-3 p-4 rounded-xl bg-[#1e1a0e] border border-[#f59e0b33]">
+      <div className="flex gap-3 p-4 rounded-xl bg-warning border border-[var(--border)]">
         <span className="text-lg shrink-0">⚠️</span>
-        <div className="text-xs text-[#fcd34d] leading-relaxed">
+        <div className="text-xs text-warning leading-relaxed">
           <strong className="block mb-1">{t("settings.sheet.security.title")}</strong>
           {t("settings.sheet.security.message")}
         </div>
@@ -40,7 +40,7 @@ export default function SheetConfig() {
 
       {/* Selector de provider */}
       <div>
-        <div className="text-[11px] text-[#5a5f78] uppercase tracking-widest font-semibold mb-2">
+        <div className="text-[11px] text-faint uppercase tracking-widest font-semibold mb-2">
           {t("settings.sheet.providers.online")}
         </div>
         <div className="grid grid-cols-5 gap-2 mb-4">
@@ -49,7 +49,7 @@ export default function SheetConfig() {
               onSelect={() => p.implemented && setSelectedProvider(p.id)} />
           ))}
         </div>
-        <div className="text-[11px] text-[#5a5f78] uppercase tracking-widest font-semibold mb-2">
+        <div className="text-[11px] text-faint uppercase tracking-widest font-semibold mb-2">
           {t("settings.sheet.providers.offline")}
         </div>
         <div className="grid grid-cols-5 gap-2">
@@ -82,15 +82,15 @@ function ProviderCard({ provider, selected, onSelect }) {
         flex flex-col items-center gap-1.5 p-3 rounded-xl border
         text-center transition-all text-xs font-medium
         ${selected
-          ? "bg-[#1e2235] border-[#6366f1] text-[#a5b4fc]"
+          ? "bg-overlay border-[var(--border-focus)] text-brand-light"
           : isDisabled
-            ? "bg-[#161820] border-[#2a2d3a] text-[#3a3d52] cursor-not-allowed opacity-50"
-            : "bg-[#161820] border-[#2a2d3a] text-[#8a8fa8] hover:border-[#3a3d52] hover:text-[#c4c0b8] cursor-pointer"}
+            ? "bg-card border-default text-faint cursor-not-allowed opacity-50"
+            : "bg-card border-default text-muted hover:border-strong hover:text-secondary cursor-pointer"}
       `}
     >
       <span className="text-xl">{provider.icon}</span>
       <span>{provider.label}</span>
-      <span className={`text-[10px] font-normal ${selected ? "text-[#6366f188]" : "text-[#5a5f78]"}`}>
+      <span className={`text-[10px] font-normal ${selected ? "text-[#6366f188]" : "text-faint"}`}>
         {desc}
       </span>
     </button>
@@ -140,11 +140,11 @@ function GoogleSheetsForm() {
       <div className="flex items-center gap-2 mb-5">
         <span className="text-lg">📗</span>
         <div>
-          <div className="text-sm font-semibold text-[#e8e6e0]">Google Sheets</div>
-          <div className="text-xs text-[#5a5f78]">via kappy-engine + Google Apps Script</div>
+          <div className="text-sm font-semibold text-primary">Google Sheets</div>
+          <div className="text-xs text-faint">via kappy-engine + Google Apps Script</div>
         </div>
         {isConfigured && (
-          <span className="ml-auto text-xs font-semibold text-[#4ade80] bg-[#1f3a2a] px-2.5 py-1 rounded-full">
+          <span className="ml-auto text-xs font-semibold text-success bg-success px-2.5 py-1 rounded-full">
             ● {t("settings.sheet.configured")}
           </span>
         )}
@@ -153,11 +153,11 @@ function GoogleSheetsForm() {
       <div className="flex flex-col gap-4">
 
         {/* Instrução — configura o engine, não o frontend */}
-        <div className="p-3 rounded-lg bg-[#1a1d2e] border border-[#2a2d3a] text-xs">
-          <div className="text-[#8a8fa8] font-semibold mb-2">
+        <div className="p-3 rounded-lg bg-raised border border-default text-xs">
+          <div className="text-muted font-semibold mb-2">
             {t("settings.sheet.manualSetup.title")}
           </div>
-          <ol className="text-[#5a5f78] space-y-1 list-decimal list-inside">
+          <ol className="text-faint space-y-1 list-decimal list-inside">
             <li>{t("settings.sheet.manualSetup.step1")}</li>
             <li>{t("settings.sheet.manualSetup.step2")}</li>
             <li>{t("settings.sheet.manualSetup.step3")}</li>
@@ -165,27 +165,27 @@ function GoogleSheetsForm() {
           </ol>
         </div>
 
-        <div className="flex gap-2.5 p-3 rounded-lg bg-[#1a1d2e] border border-[#2a2d3a] text-xs text-[#5a5f78]">
+        <div className="flex gap-2.5 p-3 rounded-lg bg-raised border border-default text-xs text-faint">
           <span className="shrink-0">🔒</span>
           <span>
             {t("settings.sheet.securityNote")}
-            <strong className="text-[#8a8fa8]"> {t("settings.sheet.securityWarn")}</strong>
+            <strong className="text-muted"> {t("settings.sheet.securityWarn")}</strong>
           </span>
         </div>
 
         {status === "testing" && (
-          <div className="flex items-center gap-2 text-sm text-[#5a5f78]">
-            <div className="w-4 h-4 border-2 border-[#6366f133] border-t-[#6366f1] rounded-full animate-spin" />
+          <div className="flex items-center gap-2 text-sm text-faint">
+            <div className="w-4 h-4 border-2 border-[var(--brand-dim)] border-t-[#6366f1] rounded-full animate-spin" />
             {t("settings.sheet.testing")}
           </div>
         )}
         {status === "ok" && (
-          <div className="flex items-center gap-2 text-sm text-[#4ade80] bg-[#1f3a2a] px-3 py-2 rounded-lg">
+          <div className="flex items-center gap-2 text-sm text-success bg-success px-3 py-2 rounded-lg">
             ✓ {message}
           </div>
         )}
         {status === "error" && (
-          <div className="flex items-center gap-2 text-sm text-[#f87171] bg-[#3a1f1f] px-3 py-2 rounded-lg">
+          <div className="flex items-center gap-2 text-sm text-danger bg-[#3a1f1f] px-3 py-2 rounded-lg">
             ✕ {message}
           </div>
         )}
@@ -209,10 +209,10 @@ function ComingSoonForm({ provider }) {
     <Card>
       <div className="flex flex-col items-center py-12 text-center">
         <span className="text-4xl mb-4">{provider.icon}</span>
-        <div className="text-[15px] text-[#c4c0b8] mb-2">
+        <div className="text-[15px] text-secondary mb-2">
           {provider.label} — {t("common.comingSoon")}
         </div>
-        <div className="text-sm text-[#5a5f78] max-w-xs">
+        <div className="text-sm text-faint max-w-xs">
           {provider.label} {t("settings.sheet.comingSoonDesc")}
         </div>
       </div>

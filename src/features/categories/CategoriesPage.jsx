@@ -1,3 +1,4 @@
+// src/features/categories/CategoriesPage.jsx
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useCategoriesStore } from "../../store/categoriesStore";
@@ -7,12 +8,12 @@ import { Button, Input, Select, Card } from "../../components/ui";
 import { Toast } from "../../components/ui/Toast";
 
 const TYPE_COLOR = {
-  income: "#4ade80", investment: "#60a5fa",
-  fixed_expense: "#f87171", variable_expense: "#fb923c",
+  income: "var(--success)", investment: "var(--info)",
+  fixed_expense: "var(--danger)", variable_expense: "var(--warning)",
 };
 const TYPE_COLOR_BG = {
-  income: "#1f3a2a", investment: "#1a2a3a",
-  fixed_expense: "#3a1f1f", variable_expense: "#3a2a1f",
+  income: "var(--success-bg)", investment: "var(--surface-raised)",
+  fixed_expense: "var(--danger-bg)", variable_expense: "var(--warning-bg)",
 };
 
 export default function CategoriesPage() {
@@ -22,13 +23,13 @@ export default function CategoriesPage() {
 
   const tabStyle = (active) => [
     "px-5 py-2 rounded-lg text-sm font-medium transition-all border-0 cursor-pointer",
-    active ? "bg-[#6366f1] text-white" : "bg-transparent text-[#5a5f78] hover:text-[#c4c0b8]",
+    active ? "bg-[#6366f1] text-white" : "bg-transparent text-faint hover:text-secondary",
   ].join(" ");
 
   return (
     <div>
       <Toast toast={toast} />
-      <div className="flex gap-1 mb-6 bg-[#1a1d2e] rounded-xl p-1 w-fit">
+      <div className="flex gap-1 mb-6 bg-raised rounded-xl p-1 w-fit">
         <button className={tabStyle(activeTab === "categories")}    onClick={() => setActiveTab("categories")}>
           {t("categories.title")}
         </button>
@@ -92,7 +93,7 @@ function CategoriesTab({ showToast }) {
   return (
     <div className="grid gap-5" style={{ gridTemplateColumns: "1.4fr 1fr" }}>
       <div>
-        <h2 className="text-base font-semibold text-[#f0ede8] mb-4">{t("categories.title")}</h2>
+        <h2 className="text-base font-semibold text-primary mb-4">{t("categories.title")}</h2>
         <div className="flex flex-col gap-2">
           {categories.map(cat => (
             <CategoryCard key={cat.id} category={cat}
@@ -103,7 +104,7 @@ function CategoriesTab({ showToast }) {
             />
           ))}
           {categories.length === 0 && (
-            <Card className="text-center text-[#5a5f78] py-10">{t("categories.empty")}</Card>
+            <Card className="text-center text-faint py-10">{t("categories.empty")}</Card>
           )}
         </div>
       </div>
@@ -159,7 +160,7 @@ function SubcategoriesTab({ showToast }) {
   return (
     <div className="grid gap-5" style={{ gridTemplateColumns: "1.4fr 1fr" }}>
       <div>
-        <h2 className="text-base font-semibold text-[#f0ede8] mb-4">{t("categories.titleSub")}</h2>
+        <h2 className="text-base font-semibold text-primary mb-4">{t("categories.titleSub")}</h2>
         <div className="flex flex-col gap-2">
           {subcategories.map(sub => {
             const cat = categories.find(c => c.id === sub.categoryId);
@@ -172,7 +173,7 @@ function SubcategoriesTab({ showToast }) {
             );
           })}
           {subcategories.length === 0 && (
-            <Card className="text-center text-[#5a5f78] py-10">{t("categories.emptySub")}</Card>
+            <Card className="text-center text-faint py-10">{t("categories.emptySub")}</Card>
           )}
         </div>
       </div>
@@ -183,19 +184,19 @@ function SubcategoriesTab({ showToast }) {
 
 function CategoryCard({ category, subCount, isEditing, onEdit, onDelete }) {
   const { t } = useTranslation();
-  const color   = TYPE_COLOR[category.type]    || "#8a8fa8";
-  const colorBg = TYPE_COLOR_BG[category.type] || "#2a2d3a";
+  const color   = TYPE_COLOR[category.type]    || "var(--text-muted)";
+  const colorBg = TYPE_COLOR_BG[category.type] || "var(--border)";
 
   return (
     <div className="flex justify-between items-center px-4 py-3 rounded-xl transition-all"
-      style={{ background: isEditing ? "#1e2235" : "#1a1d2e", border: `1px solid ${isEditing ? "#6366f1" : colorBg}`, borderLeft: `3px solid ${isEditing ? "#6366f1" : color}` }}>
+      style={{ background: isEditing ? "var(--surface-overlay)" : "var(--surface-raised)", border: `1px solid ${isEditing ? "var(--brand)" : colorBg}`, borderLeft: `3px solid ${isEditing ? "var(--brand)" : color}` }}>
       <div>
-        <div className="text-[15px] font-medium text-[#e8e6e0]">{category.name}</div>
+        <div className="text-[15px] font-medium text-primary">{category.name}</div>
         <div className="text-xs mt-0.5" style={{ color }}>{t("categories.types." + category.type)}</div>
       </div>
       <div className="flex items-center gap-2">
-        <span className="text-xs text-[#5a5f78]">{t("categories.subcountLabel", { count: subCount })}</span>
-        <Button variant="secondary" size="sm" onClick={onEdit} className={isEditing ? "text-[#a5b4fc] border-[#6366f1]" : ""}>
+        <span className="text-xs text-faint">{t("categories.subcountLabel", { count: subCount })}</span>
+        <Button variant="secondary" size="sm" onClick={onEdit} className={isEditing ? "text-brand-light border-[var(--border-focus)]" : ""}>
           {isEditing ? t("common.cancel") : t("common.edit")}
         </Button>
         <Button variant="danger" size="sm" onClick={onDelete}>×</Button>
@@ -206,20 +207,20 @@ function CategoryCard({ category, subCount, isEditing, onEdit, onDelete }) {
 
 function SubcategoryCard({ subcategory, categoryName, isEditing, onEdit, onDelete }) {
   const { t } = useTranslation();
-  const color   = TYPE_COLOR[subcategory.type]    || "#8a8fa8";
-  const colorBg = TYPE_COLOR_BG[subcategory.type] || "#2a2d3a";
+  const color   = TYPE_COLOR[subcategory.type]    || "var(--text-muted)";
+  const colorBg = TYPE_COLOR_BG[subcategory.type] || "var(--border)";
 
   return (
     <div className="flex justify-between items-center px-4 py-3 rounded-xl transition-all"
-      style={{ background: isEditing ? "#1e2235" : "#1a1d2e", border: `1px solid ${isEditing ? "#6366f1" : colorBg}`, borderLeft: `3px solid ${isEditing ? "#6366f1" : color}` }}>
+      style={{ background: isEditing ? "var(--surface-overlay)" : "var(--surface-raised)", border: `1px solid ${isEditing ? "var(--brand)" : colorBg}`, borderLeft: `3px solid ${isEditing ? "var(--brand)" : color}` }}>
       <div>
-        <div className="text-[15px] font-medium text-[#e8e6e0]">{subcategory.name}</div>
-        <div className="text-xs mt-0.5 text-[#5a5f78]">
+        <div className="text-[15px] font-medium text-primary">{subcategory.name}</div>
+        <div className="text-xs mt-0.5 text-faint">
           {categoryName || "—"} · <span style={{ color }}>{t("categories.types." + subcategory.type)}</span>
         </div>
       </div>
       <div className="flex gap-2">
-        <Button variant="secondary" size="sm" onClick={onEdit} className={isEditing ? "text-[#a5b4fc] border-[#6366f1]" : ""}>
+        <Button variant="secondary" size="sm" onClick={onEdit} className={isEditing ? "text-brand-light border-[var(--border-focus)]" : ""}>
           {isEditing ? t("common.cancel") : t("common.edit")}
         </Button>
         <Button variant="danger" size="sm" onClick={onDelete}>×</Button>
@@ -231,8 +232,8 @@ function SubcategoryCard({ subcategory, categoryName, isEditing, onEdit, onDelet
 function CategoryForm({ form, setForm, errors, isEditing, onSave, onCancel }) {
   const { t } = useTranslation();
   return (
-    <Card className={isEditing ? "border-[#6366f1]" : ""}>
-      <div className="text-sm font-semibold text-[#a5b4fc] mb-5">
+    <Card className={isEditing ? "border-[var(--border-focus)]" : ""}>
+      <div className="text-sm font-semibold text-brand-light mb-5">
         {isEditing ? "✏ " + t("categories.edit") : "+ " + t("categories.add")}
       </div>
       <div className="flex flex-col gap-4">
@@ -261,8 +262,8 @@ function SubcategoryForm({ form, setForm, errors, isEditing, categories, onSave,
   }
 
   return (
-    <Card className={isEditing ? "border-[#6366f1]" : ""}>
-      <div className="text-sm font-semibold text-[#a5b4fc] mb-5">
+    <Card className={isEditing ? "border-[var(--border-focus)]" : ""}>
+      <div className="text-sm font-semibold text-brand-light mb-5">
         {isEditing ? "✏ " + t("categories.editSub") : "+ " + t("categories.addSub")}
       </div>
       <div className="flex flex-col gap-4">

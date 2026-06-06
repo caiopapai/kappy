@@ -84,30 +84,30 @@ function OptionCard({ opt, isActive, isCurrent, onSelect }) {
         relative flex flex-col items-center gap-2 p-4 rounded-xl border
         text-center transition-all cursor-pointer
         ${isActive
-          ? "bg-[#1e2235] border-[#6366f1]"
+          ? "bg-overlay border-[var(--border-focus)]"
           : isDisabled
-            ? "bg-[#161820] border-[#2a2d3a] opacity-50 cursor-not-allowed"
-            : "bg-[#161820] border-[#2a2d3a] hover:border-[#3a3d52]"}
+            ? "bg-card border-default opacity-50 cursor-not-allowed"
+            : "bg-card border-default hover:border-strong"}
       `}
     >
       <span className="text-2xl">{opt.icon}</span>
-      <div className="text-sm font-semibold" style={{ color: isActive ? "#a5b4fc" : "#c4c0b8" }}>
+      <div className="text-sm font-semibold" style={{ color: isActive ? "var(--brand-light)" : "var(--text-secondary)" }}>
         {t(`settings.data.options.${opt.id}.label`)}
       </div>
-      <div className="text-[11px]" style={{ color: isActive ? "#6366f188" : "#5a5f78" }}>
+      <div className="text-[11px]" style={{ color: isActive ? "var(--brand-dim)" : "var(--text-faint)" }}>
         {isDisabled ? t("common.comingSoon") : t(`settings.data.options.${opt.id}.desc`)}
       </div>
 
       {/* Badge de activo */}
       {isCurrent && (
-        <span className="absolute top-2 right-2 text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-[#4ade8022] text-[#4ade80]">
+        <span className="absolute top-2 right-2 text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-[#4ade8022] text-success">
           {t("settings.data.active")}
         </span>
       )}
 
       {/* Badge em breve */}
       {isDisabled && (
-        <span className="absolute top-2 right-2 text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-[#2a2d3a] text-[#5a5f78]">
+        <span className="absolute top-2 right-2 text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-[#2a2d3a] text-faint">
           {t("common.comingSoon")}
         </span>
       )}
@@ -125,26 +125,26 @@ function DemoPanel() {
       <div className="flex items-center gap-3 mb-5">
         <span className="text-2xl">🎭</span>
         <div>
-          <div className="text-sm font-semibold text-[#e8e6e0]">
+          <div className="text-sm font-semibold text-primary">
             {t("settings.data.options.demo.label")}
           </div>
-          <div className="text-xs text-[#5a5f78]">
+          <div className="text-xs text-faint">
             {t("settings.data.demo.subtitle")}
           </div>
         </div>
       </div>
 
       {/* Aviso de perda de dados */}
-      <div className="flex gap-3 p-4 rounded-xl bg-[#1e1a0e] border border-[#f59e0b33] mb-5">
+      <div className="flex gap-3 p-4 rounded-xl bg-warning border border-[var(--border)] mb-5">
         <span className="text-lg shrink-0">⚠️</span>
-        <div className="text-xs text-[#fcd34d] leading-relaxed">
+        <div className="text-xs text-warning leading-relaxed">
           <strong className="block mb-1">{t("settings.data.demo.warningTitle")}</strong>
           {t("settings.data.demo.warningDesc")}
         </div>
       </div>
 
       {/* Lista de dados mock disponíveis */}
-      <div className="text-xs text-[#5a5f78] mb-3 uppercase tracking-wide font-semibold">
+      <div className="text-xs text-faint mb-3 uppercase tracking-wide font-semibold">
         {t("settings.data.demo.includes")}
       </div>
       <div className="grid grid-cols-2 gap-2">
@@ -156,7 +156,7 @@ function DemoPanel() {
           { icon: "↕",  label: t("nav.transactions") },
           { icon: "📊", label: t("nav.budget") },
         ].map(item => (
-          <div key={item.label} className="flex items-center gap-2 px-3 py-2 bg-[#1a1d2e] rounded-lg border border-[#2a2d3a] text-xs text-[#8a8fa8]">
+          <div key={item.label} className="flex items-center gap-2 px-3 py-2 bg-raised rounded-lg border border-default text-xs text-muted">
             <span>{item.icon}</span>
             <span>{item.label}</span>
           </div>
@@ -176,10 +176,10 @@ function DatabasePanel() {
       <div className="flex items-center gap-3 mb-5">
         <span className="text-2xl">🗄</span>
         <div>
-          <div className="text-sm font-semibold text-[#e8e6e0]">
+          <div className="text-sm font-semibold text-primary">
             {t("settings.data.options.database.label")}
           </div>
-          <div className="text-xs text-[#5a5f78]">
+          <div className="text-xs text-faint">
             {t("settings.data.database.subtitle")}
           </div>
         </div>
@@ -189,18 +189,18 @@ function DatabasePanel() {
         {DB_ENGINES.map(db => (
           <div
             key={db.id}
-            className="flex flex-col items-center gap-2 p-4 rounded-xl border border-[#2a2d3a] bg-[#161820] opacity-60"
+            className="flex flex-col items-center gap-2 p-4 rounded-xl border border-default bg-card opacity-60"
           >
             <span className="text-2xl">{db.icon}</span>
-            <div className="text-sm font-semibold text-[#8a8fa8]">{db.label}</div>
-            <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#2a2d3a] text-[#5a5f78]">
+            <div className="text-sm font-semibold text-muted">{db.label}</div>
+            <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#2a2d3a] text-faint">
               {t("common.comingSoon")}
             </span>
           </div>
         ))}
       </div>
 
-      <div className="mt-4 p-3 rounded-lg bg-[#1a1d2e] border border-[#2a2d3a] text-xs text-[#5a5f78] leading-relaxed">
+      <div className="mt-4 p-3 rounded-lg bg-raised border border-default text-xs text-faint leading-relaxed">
         {t("settings.data.database.desc")}
       </div>
     </Card>

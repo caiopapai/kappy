@@ -11,7 +11,7 @@ import { Toast } from "../../components/ui/Toast";
 import { IS_CONFIGURED } from "../../services/sheetsApi";
 
 const GOAL_TYPE_VALUES = ["invested", "dividends"];
-const goalColor = (type) => type === "dividends" ? "#f59e0b" : "#6366f1";
+const goalColor = (type) => type === "dividends" ? "var(--warning)" : "var(--brand)";
 
 function fmtCurrency(amount, currency) {
   const sym = CURRENCY_SYMBOLS[currency] || currency;
@@ -161,8 +161,8 @@ export default function GoalsPage() {
       {goals.length === 0 && !showForm && (
         <Card className="text-center py-16">
           <div className="text-4xl mb-4">🎯</div>
-          <div className="text-[15px] text-[#c4c0b8] mb-2">{t("goals.empty.title")}</div>
-          <div className="text-sm text-[#5a5f78]">{t("goals.empty.desc")}</div>
+          <div className="text-[15px] text-secondary mb-2">{t("goals.empty.title")}</div>
+          <div className="text-sm text-faint">{t("goals.empty.desc")}</div>
         </Card>
       )}
 
@@ -196,7 +196,7 @@ export default function GoalsPage() {
 }
 
 function SectionHeader({ label }) {
-  return <div className="text-xs font-bold text-[#5a5f78] uppercase tracking-widest mb-3 mt-6">{label}</div>;
+  return <div className="text-xs font-bold text-faint uppercase tracking-widest mb-3 mt-6">{label}</div>;
 }
 
 function GoalForm({ form, setForm, errors, editingId, accounts, onSave, onCancel }) {
@@ -214,12 +214,12 @@ function GoalForm({ form, setForm, errors, editingId, accounts, onSave, onCancel
 
   return (
     <Card className="mb-6" style={{ borderColor: color }}>
-      <div className="text-sm font-semibold text-[#a5b4fc] mb-5">
+      <div className="text-sm font-semibold text-brand-light mb-5">
         {isEditing ? "✏ " + t("goals.edit") : "+ " + t("goals.add")}
       </div>
 
       <div className="mb-4">
-        <label className="block text-[11px] text-[#5a5f78] uppercase tracking-wide font-medium mb-2">
+        <label className="block text-[11px] text-faint uppercase tracking-wide font-medium mb-2">
           {t("goals.form.type")}
         </label>
         <div className="flex gap-3">
@@ -227,9 +227,9 @@ function GoalForm({ form, setForm, errors, editingId, accounts, onSave, onCancel
             <button key={v} onClick={() => setForm(f => ({ ...f, type: v }))}
               className="flex-1 p-3 rounded-xl cursor-pointer text-center transition-all border"
               style={{
-                borderColor: form.type === v ? goalColor(v) : "#2a2d3a",
-                background:  form.type === v ? goalColor(v) + "18" : "#1a1d2e",
-                color:       form.type === v ? goalColor(v) : "#5a5f78",
+                borderColor: form.type === v ? goalColor(v) : "var(--border)",
+                background:  form.type === v ? goalColor(v) + "18" : "var(--surface-raised)",
+                color:       form.type === v ? goalColor(v) : "var(--text-faint)",
               }}
             >
               <div className="text-xl mb-1">{v === "invested" ? "📈" : "💰"}</div>
@@ -260,11 +260,11 @@ function GoalForm({ form, setForm, errors, editingId, accounts, onSave, onCancel
       </div>
 
       <div className="mb-4">
-        <label className="block text-[11px] text-[#5a5f78] uppercase tracking-wide font-medium mb-2">
+        <label className="block text-[11px] text-faint uppercase tracking-wide font-medium mb-2">
           {t("goals.form.accounts")}
         </label>
         {accounts.length === 0 ? (
-          <div className="text-xs text-[#5a5f78] p-3 bg-[#1a1d2e] rounded-lg border border-[#2a2d3a]">
+          <div className="text-xs text-faint p-3 bg-raised rounded-lg border border-default">
             {t("goals.form.noAccounts")}
           </div>
         ) : (
@@ -275,9 +275,9 @@ function GoalForm({ form, setForm, errors, editingId, accounts, onSave, onCancel
                 <button key={a.id} onClick={() => toggleAccount(a.id)}
                   className="px-3 py-1.5 rounded-lg text-xs border transition-all cursor-pointer"
                   style={{
-                    borderColor: selected ? "#6366f1" : "#2a2d3a",
-                    background:  selected ? "#6366f118" : "#1a1d2e",
-                    color:       selected ? "#a5b4fc" : "#5a5f78",
+                    borderColor: selected ? "var(--brand)" : "var(--border)",
+                    background:  selected ? "var(--brand-dim)" : "var(--surface-raised)",
+                    color:       selected ? "var(--brand-light)" : "var(--text-faint)",
                   }}
                 >
                   {selected ? "✓ " : ""}{a.name}
@@ -286,7 +286,7 @@ function GoalForm({ form, setForm, errors, editingId, accounts, onSave, onCancel
             })}
           </div>
         )}
-        <div className="text-[11px] text-[#5a5f78] mt-1.5">
+        <div className="text-[11px] text-faint mt-1.5">
           {t("goals.form.accountsHint")}
         </div>
       </div>
@@ -309,7 +309,7 @@ function GoalCard({ goal, real, accounts, onEdit, onDelete }) {
   const pct       = target > 0 ? Math.min((real / target) * 100, 100) : 0;
   const remaining = Math.max(target - real, 0);
   const done      = real >= target;
-  const color     = done ? "#4ade80" : pct >= 70 ? "#f59e0b" : "#6366f1";
+  const color     = done ? "var(--success)" : pct >= 70 ? "var(--warning)" : "var(--brand)";
   const suffix    = goal.type === "dividends" ? "/mês" : "";
   const R = 44, stroke = 8, size = 104;
   const circ = 2 * Math.PI * R;
@@ -328,16 +328,16 @@ function GoalCard({ goal, real, accounts, onEdit, onDelete }) {
         <Button data-testid="goal-delete-btn" variant="danger" size="sm" onClick={onDelete}>×</Button>
       </div>
       <div className="mb-4 pr-20">
-        <div className="text-[15px] font-semibold text-[#e8e6e0]">
+        <div className="text-[15px] font-semibold text-primary">
           {goal.type === "invested" ? "📈" : "💰"} {goal.label}
         </div>
-        <div className="text-xs text-[#5a5f78] mt-0.5">
+        <div className="text-xs text-faint mt-0.5">
           {t("goals.card." + goal.type)} · {goal.currency}
         </div>
         {linkedAccounts.length > 0 && (
           <div className="flex flex-wrap gap-1 mt-2">
             {linkedAccounts.map(a => (
-              <span key={a.id} className="text-[10px] px-2 py-0.5 rounded-full bg-[#1e2235] text-[#6366f1] border border-[#6366f133]">
+              <span key={a.id} className="text-[10px] px-2 py-0.5 rounded-full bg-overlay text-brand border border-[#6366f133]">
                 {a.name}
               </span>
             ))}
@@ -347,30 +347,30 @@ function GoalCard({ goal, real, accounts, onEdit, onDelete }) {
       <div className="flex items-center gap-5">
         <div className="relative shrink-0">
           <svg width={size} height={size} style={{ transform: "rotate(-90deg)" }}>
-            <circle cx={size/2} cy={size/2} r={R} fill="none" stroke="#2a2d3a" strokeWidth={stroke} />
+            <circle cx={size/2} cy={size/2} r={R} fill="none" stroke="var(--border)" strokeWidth={stroke} />
             <circle cx={size/2} cy={size/2} r={R} fill="none" stroke={color} strokeWidth={stroke}
               strokeDasharray={`${dash} ${circ}`} strokeLinecap="round"
               style={{ transition: "stroke-dasharray 0.6s ease" }} />
           </svg>
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
             <div className="text-[17px] font-extrabold leading-none" style={{ color }}>{Math.round(pct)}%</div>
-            {done && <div className="text-[9px] text-[#4ade80] mt-0.5">✓</div>}
+            {done && <div className="text-[9px] text-success mt-0.5">✓</div>}
           </div>
         </div>
         <div className="flex-1">
           <div className="flex justify-between mb-2.5">
             <div>
-              <div className="text-[10px] text-[#5a5f78] uppercase tracking-wide mb-1">{t("goals.card.real")}</div>
+              <div className="text-[10px] text-faint uppercase tracking-wide mb-1">{t("goals.card.real")}</div>
               <div className="text-lg font-bold tabular-nums" style={{ color }}>
                 {sym} {real.toLocaleString("pt-PT", { minimumFractionDigits: 2 })}
-                <span className="text-xs text-[#5a5f78] font-normal">{suffix}</span>
+                <span className="text-xs text-faint font-normal">{suffix}</span>
               </div>
             </div>
             <div className="text-right">
-              <div className="text-[10px] text-[#5a5f78] uppercase tracking-wide mb-1">{t("goals.card.target")}</div>
-              <div className="text-lg font-bold text-[#e8e6e0] tabular-nums">
+              <div className="text-[10px] text-faint uppercase tracking-wide mb-1">{t("goals.card.target")}</div>
+              <div className="text-lg font-bold text-primary tabular-nums">
                 {sym} {target.toLocaleString("pt-PT", { minimumFractionDigits: 2 })}
-                <span className="text-xs text-[#5a5f78] font-normal">{suffix}</span>
+                <span className="text-xs text-faint font-normal">{suffix}</span>
               </div>
             </div>
           </div>
@@ -378,11 +378,11 @@ function GoalCard({ goal, real, accounts, onEdit, onDelete }) {
             <div className="h-full rounded-full transition-all duration-500" style={{ width: pct + "%", background: color }} />
           </div>
           {done ? (
-            <div className="text-xs font-semibold text-[#4ade80]">{t("goals.card.achieved")}</div>
+            <div className="text-xs font-semibold text-success">{t("goals.card.achieved")}</div>
           ) : (
-            <div className="text-xs text-[#5a5f78]">
+            <div className="text-xs text-faint">
               {t("goals.card.remaining")}{" "}
-              <span className="text-[#e8e6e0] font-semibold">
+              <span className="text-primary font-semibold">
                 {sym} {remaining.toLocaleString("pt-PT", { minimumFractionDigits: 2 })}{suffix}
               </span>
               {" · "}<span style={{ color }}>+{(100 - pct).toFixed(1)}%</span>
