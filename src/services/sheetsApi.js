@@ -58,8 +58,27 @@ function makeApi(entity) {
 // ── APIs por entidade ─────────────────────────────────────────
 
 export const accountsApi       = makeApi("accounts");
-export const categoriesApi     = makeApi("categories");
-export const subcategoriesApi  = makeApi("subcategories");
+export const categoriesApi = {
+  ...makeApi("categories"),
+  getPage: async (page, limit = 10) => {
+    const res  = await fetch(`${ENGINE_URL}/api/categories?page=${page}&limit=${limit}`);
+    if (!res.ok) { throw new Error("HTTP " + res.status); }
+    const json = await res.json();
+    if (!json.ok) { throw new Error(json.error); }
+    return json; // { data, total, page, pages, limit }
+  },
+};
+
+export const subcategoriesApi = {
+  ...makeApi("subcategories"),
+  getPage: async (page, limit = 10) => {
+    const res  = await fetch(`${ENGINE_URL}/api/subcategories?page=${page}&limit=${limit}`);
+    if (!res.ok) { throw new Error("HTTP " + res.status); }
+    const json = await res.json();
+    if (!json.ok) { throw new Error(json.error); }
+    return json;
+  },
+};
 export const transactionsApi   = makeApi("transactions");
 export const recurringRulesApi = makeApi("recurring_rules");
 export const investmentsApi    = makeApi("investments");

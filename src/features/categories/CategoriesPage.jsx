@@ -1,11 +1,12 @@
 // src/features/categories/CategoriesPage.jsx
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useCategoriesStore } from "../../store/categoriesStore";
 import { useToast } from "../../hooks/useToast";
 import { TRANSACTION_TYPES } from "../../data/constants";
 import { Button, Input, Select, Card } from "../../components/ui";
 import { Toast } from "../../components/ui/Toast";
+import { IS_CONFIGURED } from "../../services/sheetsApi";
 
 const TYPE_COLOR = {
   income: "var(--success)", investment: "var(--info)",
@@ -16,6 +17,49 @@ const TYPE_COLOR_BG = {
   fixed_expense: "var(--danger-bg)", variable_expense: "var(--warning-bg)",
 };
 
+// ── Pagination component ──────────────────────────────────────
+
+function Pagination({ page, pages, total, onPage }) {
+  if (pages <= 1) return null;
+  return (
+    <div className="flex items-center justify-between mt-4 pt-3 border-t border-default">
+      <span className="text-xs text-faint">{total} itens · página {page} de {pages}</span>
+      <div className="flex gap-1">
+        <button
+          onClick={() => onPage(page - 1)} disabled={page <= 1}
+          className="px-3 py-1 rounded-lg text-xs border border-default bg-raised text-muted
+            disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
+        >‹</button>
+        {Array.from({ length: pages }, (_, i) => i + 1)
+          .filter(p => p === 1 || p === pages || Math.abs(p - page) <= 1)
+          .reduce((acc, p, i, arr) => {
+            if (i > 0 && p - arr[i-1] > 1) acc.push("...");
+            acc.push(p);
+            return acc;
+          }, [])
+          .map((p, i) => p === "..." ? (
+            <span key={`dots-${i}`} className="px-2 py-1 text-xs text-faint">…</span>
+          ) : (
+            <button key={p} onClick={() => onPage(p)}
+              className="px-3 py-1 rounded-lg text-xs border cursor-pointer"
+              style={{
+                background:   p === page ? "var(--brand)" : "var(--surface-raised)",
+                borderColor:  p === page ? "var(--brand)" : "var(--border)",
+                color:        p === page ? "#fff" : "var(--text-muted)",
+              }}
+            >{p}</button>
+          ))
+        }
+        <button
+          onClick={() => onPage(page + 1)} disabled={page >= pages}
+          className="px-3 py-1 rounded-lg text-xs border border-default bg-raised text-muted
+            disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
+        >›</button>
+      </div>
+    </div>
+  );
+}
+
 export default function CategoriesPage() {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState("categories");
@@ -23,11 +67,11 @@ export default function CategoriesPage() {
 
   const tabStyle = (active) => [
     "px-5 py-2 rounded-lg text-sm font-medium transition-all border-0 cursor-pointer",
-    active ? "bg-[#6366f1] text-white" : "bg-transparent text-faint hover:text-secondary",
+    active ? "bg-[var(--brand)] text-white" : "bg-transparent text-faint hover:text-secondary",
   ].join(" ");
 
   return (
-    <div>
+    <div data-testid="categories-page">
       <Toast toast={toast} />
       <div className="flex gap-1 mb-6 bg-raised rounded-xl p-1 w-fit">
         <button className={tabStyle(activeTab === "categories")}    onClick={() => setActiveTab("categories")}>
@@ -45,9 +89,12 @@ export default function CategoriesPage() {
 
 function CategoriesTab({ showToast }) {
   const { t } = useTranslation();
-  const { categories, subcategories, saveCategory, deleteCategory } = useCategoriesStore();
+  const {
+    categories, subcategories, saveCategory, deleteCategory,
+    catPage, catPages, catTotal, loadCatPage, loading,
+  } = useCategoriesStore();
   const emptyForm = { name: "", type: "income" };
-  const [form, setForm]         = useState(emptyForm);
+  const [form, setForm] = useState(emptyForm);
   const [editingId, setEditingId] = useState(null);
   const [errors, setErrors]     = useState({});
 
@@ -90,6 +137,11 @@ function CategoriesTab({ showToast }) {
   function handleEdit(cat) { setForm({ name: cat.name, type: cat.type }); setEditingId(cat.id); setErrors({}); }
   function handleCancel()   { setForm(emptyForm); setEditingId(null); setErrors({}); }
 
+  // Carrega primeira página ao montar (só com engine configurado)
+  useEffect(() => {
+    if (IS_CONFIGURED) loadCatPage(1);
+  }, []);
+
   return (
     <div className="grid gap-5" style={{ gridTemplateColumns: "1.4fr 1fr" }}>
       <div>
@@ -103,10 +155,17 @@ function CategoriesTab({ showToast }) {
               onDelete={() => handleDelete(cat.id)}
             />
           ))}
-          {categories.length === 0 && (
+          {categories.length === 0 && !loading && (
             <Card className="text-center text-faint py-10">{t("categories.empty")}</Card>
           )}
+          {loading && (
+            <Card className="text-center text-faint py-6">
+              <div className="w-5 h-5 border-2 border-[var(--brand-dim)] border-t-[var(--brand)] rounded-full animate-spin mx-auto" />
+            </Card>
+          )}
         </div>
+        <Pagination page={catPage} pages={catPages} total={catTotal}
+          onPage={p => loadCatPage(p)} />
       </div>
       <CategoryForm form={form} setForm={setForm} errors={errors} isEditing={editingId !== null} onSave={handleSave} onCancel={handleCancel} />
     </div>
@@ -115,11 +174,18 @@ function CategoriesTab({ showToast }) {
 
 function SubcategoriesTab({ showToast }) {
   const { t } = useTranslation();
-  const { categories, subcategories, saveSubcategory, deleteSubcategory } = useCategoriesStore();
+  const {
+    categories, subcategories, saveSubcategory, deleteSubcategory,
+    subPage, subPages, subTotal, loadSubPage, loading,
+  } = useCategoriesStore();
   const emptyForm = { name: "", type: "income", categoryId: "" };
   const [form, setForm]           = useState(emptyForm);
   const [editingId, setEditingId] = useState(null);
   const [errors, setErrors]       = useState({});
+
+  useEffect(() => {
+    if (IS_CONFIGURED) loadSubPage(1);
+  }, []);
 
   function validate() {
     const e = {};
@@ -172,10 +238,17 @@ function SubcategoriesTab({ showToast }) {
               />
             );
           })}
-          {subcategories.length === 0 && (
+          {subcategories.length === 0 && !loading && (
             <Card className="text-center text-faint py-10">{t("categories.emptySub")}</Card>
           )}
+          {loading && (
+            <Card className="text-center text-faint py-6">
+              <div className="w-5 h-5 border-2 border-[var(--brand-dim)] border-t-[var(--brand)] rounded-full animate-spin mx-auto" />
+            </Card>
+          )}
         </div>
+        <Pagination page={subPage} pages={subPages} total={subTotal}
+          onPage={p => loadSubPage(p)} />
       </div>
       <SubcategoryForm form={form} setForm={setForm} errors={errors} isEditing={editingId !== null} categories={categories} onSave={handleSave} onCancel={handleCancel} />
     </div>

@@ -3,6 +3,8 @@ import { create } from "zustand";
 import { categoriesApi, subcategoriesApi, IS_CONFIGURED } from "../services/sheetsApi";
 import { INITIAL_CATEGORIES, INITIAL_SUBCATEGORIES } from "../data/mockData";
 
+const PAGE_SIZE = 10;
+
 export const useCategoriesStore = create((set, get) => ({
   // ── Estado ─────────────────────────────────────────────────
   categories:    IS_CONFIGURED ? [] : INITIAL_CATEGORIES,
@@ -10,7 +12,15 @@ export const useCategoriesStore = create((set, get) => ({
   loading:       false,
   error:         null,
 
-  // ── Carga inicial ───────────────────────────────────────────
+  // Paginação
+  catPage:   1,
+  catPages:  1,
+  catTotal:  0,
+  subPage:   1,
+  subPages:  1,
+  subTotal:  0,
+
+  // ── Carga inicial (bootstrap — carrega tudo) ────────────────
   setAll: (categories, subcategories) => set({ categories, subcategories }),
 
   load: async () => {
@@ -25,6 +35,42 @@ export const useCategoriesStore = create((set, get) => ({
     } catch (err) {
       set({ error: err.message, loading: false });
       throw err;
+    }
+  },
+
+  // ── Paginação — categorias ──────────────────────────────────
+  loadCatPage: async (page = 1) => {
+    if (!IS_CONFIGURED) return;
+    set({ loading: true });
+    try {
+      const res = await categoriesApi.getPage(page, PAGE_SIZE);
+      set({
+        categories: res.data,
+        catPage:    res.page,
+        catPages:   res.pages,
+        catTotal:   res.total,
+        loading:    false,
+      });
+    } catch (err) {
+      set({ error: err.message, loading: false });
+    }
+  },
+
+  // ── Paginação — subcategorias ───────────────────────────────
+  loadSubPage: async (page = 1) => {
+    if (!IS_CONFIGURED) return;
+    set({ loading: true });
+    try {
+      const res = await subcategoriesApi.getPage(page, PAGE_SIZE);
+      set({
+        subcategories: res.data,
+        subPage:       res.page,
+        subPages:      res.pages,
+        subTotal:      res.total,
+        loading:       false,
+      });
+    } catch (err) {
+      set({ error: err.message, loading: false });
     }
   },
 
