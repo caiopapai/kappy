@@ -7,22 +7,30 @@ const THEMES = [
     id:    "dark",
     icon:  "🌙",
     preview: {
-      bg:     "#0f1117",
-      card:   "#161820",
-      text:   "#e8e6e0",
-      muted:  "#5a5f78",
-      accent: "#6366f1",
+      bg:         "#0f1117",
+      card:       "#161820",
+      text:       "#e8e6e0",
+      muted:      "#5a5f78",
+      accent:     "#6366f1",
+      labelBg:    "#1a1d2e",
+      labelText:  "#8a8fa8",
+      activeBg:   "#6366f122",
+      activeText: "#a5b4fc",
     },
   },
   {
     id:    "light",
     icon:  "☀️",
     preview: {
-      bg:     "#f0f2f5",
-      card:   "#ffffff",
-      text:   "#1a1a2e",
-      muted:  "#8a8fa8",
-      accent: "#6366f1",
+      bg:         "#f0f2f5",
+      card:       "#ffffff",
+      text:       "#1a1a2e",
+      muted:      "#8a8fa8",
+      accent:     "#6366f1",
+      labelBg:    "#f8f9fc",
+      labelText:  "#5a5f78",
+      activeBg:   "#6366f122",
+      activeText: "#4f52c9",
     },
   },
 ];
@@ -101,17 +109,17 @@ export default function ThemeConfig() {
 
               {/* Label */}
               <div className="px-3 py-2 flex items-center justify-between"
-                style={{ background: isActive ? "var(--brand-dim)" : "var(--surface-raised)" }}>
+                style={{ background: isActive ? th.preview.activeBg : th.preview.labelBg }}>
                 <div className="flex items-center gap-2">
                   <span className="text-base">{th.icon}</span>
                   <span className="text-sm font-semibold"
-                    style={{ color: isActive ? "var(--brand-light)" : "var(--text-muted)" }}>
+                    style={{ color: isActive ? th.preview.activeText : th.preview.labelText }}>
                     {t("settings.theme." + th.id)}
                   </span>
                 </div>
                 {isActive && (
                   <span className="text-xs font-bold px-2 py-0.5 rounded-full"
-                    style={{ background: "var(--brand)", color: "#fff" }}>
+                    style={{ background: "#6366f1", color: "#fff" }}>
                     ✓
                   </span>
                 )}

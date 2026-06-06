@@ -281,11 +281,11 @@ export default function InvestmentsPage() {
 
   const tabStyle = (active) => [
     "px-5 py-2 rounded-lg text-sm font-medium transition-all border-0 cursor-pointer",
-    active ? "bg-[#6366f1] text-white" : "bg-transparent text-[#5a5f78] hover:text-[#c4c0b8]",
+    active ? "bg-[#6366f1] text-white" : "bg-transparent text-faint hover:text-secondary",
   ].join(" ");
 
-  const inp = "w-full bg-[#1a1d2e] border border-[#2a2d3a] rounded-lg px-3 py-2.5 text-sm text-[#e8e6e0] outline-none focus:border-[#6366f1] transition-colors";
-  const lbl = "block text-[11px] text-[#5a5f78] uppercase tracking-wide font-medium mb-1.5";
+  const inp = "w-full bg-raised border border-default rounded-lg px-3 py-2.5 text-sm text-primary outline-none focus:border-[var(--border-focus)] transition-colors";
+  const lbl = "block text-[11px] text-faint uppercase tracking-wide font-medium mb-1.5";
 
   return (
     <div>
@@ -293,7 +293,7 @@ export default function InvestmentsPage() {
 
       {/* Header */}
       <div className="flex justify-between items-center mb-5">
-        <div className="flex gap-1 bg-[#1a1d2e] rounded-xl p-1">
+        <div className="flex gap-1 bg-raised rounded-xl p-1">
           <button className={tabStyle(activeTab === "portfolio")} onClick={() => setActiveTab("portfolio")}>
             {t("investments.tabs.portfolio")}
           </button>
@@ -309,13 +309,13 @@ export default function InvestmentsPage() {
       {/* KPIs */}
       <div className="grid grid-cols-4 gap-3 mb-5">
         {[
-          { label: t("investments.kpi.totalBought"),     value: fmt(totalBought, "EUR"), color: "#60a5fa" },
-          { label: t("investments.kpi.totalSold"),       value: fmt(totalSold,   "EUR"), color: "#4ade80" },
-          { label: t("investments.kpi.openPositions"),   value: portfolio.length,        color: "#a5b4fc" },
-          { label: t("investments.kpi.totalOperations"), value: investments.length,      color: "#fb923c" },
+          { label: t("investments.kpi.totalBought"),     value: fmt(totalBought, "EUR"), color: "var(--info)" },
+          { label: t("investments.kpi.totalSold"),       value: fmt(totalSold,   "EUR"), color: "var(--success)" },
+          { label: t("investments.kpi.openPositions"),   value: portfolio.length,        color: "var(--brand-light)" },
+          { label: t("investments.kpi.totalOperations"), value: investments.length,      color: "var(--warning)" },
         ].map(s => (
           <Card key={s.label} className="py-3 px-4">
-            <div className="text-[11px] text-[#5a5f78] uppercase tracking-wide mb-1">{s.label}</div>
+            <div className="text-[11px] text-faint uppercase tracking-wide mb-1">{s.label}</div>
             <div className="text-xl font-bold tabular-nums" style={{ color: s.color }}>{s.value}</div>
           </Card>
         ))}
@@ -326,16 +326,16 @@ export default function InvestmentsPage() {
         <Card className={`mb-5 ${form.opType === "buy" ? "border-[#166534]" : "border-[#991b1b]"}`}>
           {/* Toggle compra/venda */}
           <div className="flex items-center gap-4 mb-5 flex-wrap">
-            <div className="text-sm font-semibold text-[#a5b4fc]">
+            <div className="text-sm font-semibold text-brand-light">
               {editingId ? "✏ " + t("investments.editOperation") : "+ " + t("investments.addOperation")}
             </div>
-            <div className="flex gap-0.5 bg-[#0f1117] rounded-lg p-0.5">
+            <div className="flex gap-0.5 bg-base rounded-lg p-0.5">
               {[["buy", "🟢 " + t("investments.buy")], ["sell", "🔴 " + t("investments.sell")]].map(([v, l]) => (
                 <button key={v} onClick={() => setForm(f => ({ ...f, opType: v }))}
                   className="px-4 py-1.5 rounded-md text-sm font-semibold transition-all border-0 cursor-pointer"
                   style={{
-                    background: form.opType === v ? (v === "buy" ? "#1f3a2a" : "#3a1f1f") : "transparent",
-                    color:      form.opType === v ? (v === "buy" ? "#4ade80" : "#f87171") : "#5a5f78",
+                    background: form.opType === v ? (v === "buy" ? "var(--success-bg)" : "var(--danger-bg)") : "transparent",
+                    color:      form.opType === v ? (v === "buy" ? "var(--success)" : "var(--danger)") : "var(--text-faint)",
                   }}
                 >{l}</button>
               ))}
@@ -367,7 +367,7 @@ export default function InvestmentsPage() {
             ) : (
               <div>
                 <label className={lbl}>{t("investments.form.exchange")}</label>
-                <div className={inp + " text-[#5a5f78] cursor-default"} style={{ opacity: 0.5 }}>
+                <div className={inp + " text-faint cursor-default"} style={{ opacity: 0.5 }}>
                   {form.assetType === "fii"        ? "🇧🇷 B3 – Bovespa"
                   : form.assetType === "bdr"        ? "🇧🇷 B3 – Bovespa"
                   : form.assetType === "tesouro"    ? "🇧🇷 Tesouro Nacional"
@@ -404,22 +404,22 @@ export default function InvestmentsPage() {
 
                   {/* Dropdown de resultados */}
                   {stockSearch.showDropdown && stockSearch.results.length > 0 && (
-                    <div className="absolute top-full left-0 right-0 z-50 mt-1 bg-[#1a1d2e] border border-[#2a2d3a] rounded-xl shadow-2xl max-h-64 overflow-auto">
+                    <div className="absolute top-full left-0 right-0 z-50 mt-1 bg-raised border border-default rounded-xl shadow-2xl max-h-64 overflow-auto">
                       {stockSearch.results.map(stock => (
                         <button
                           key={stock.ticker}
                           onClick={() => handleSelectStock(stock)}
-                          className="w-full flex flex-col px-4 py-2.5 hover:bg-[#1e2235] transition-colors cursor-pointer border-0 bg-transparent text-left"
+                          className="w-full flex flex-col px-4 py-2.5 hover:bg-overlay transition-colors cursor-pointer border-0 bg-transparent text-left"
                         >
                           <div className="flex items-center justify-between w-full">
-                            <span className="text-sm font-bold text-[#e8e6e0]">{stock.ticker}</span>
+                            <span className="text-sm font-bold text-primary">{stock.ticker}</span>
                             {stock.price && (
-                              <span className="text-sm font-semibold text-[#4ade80] tabular-nums">
+                              <span className="text-sm font-semibold text-success tabular-nums">
                                 R$ {stock.price.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
                               </span>
                             )}
                           </div>
-                          <span className="text-xs text-[#5a5f78] truncate w-full mt-0.5">{stock.name}</span>
+                          <span className="text-xs text-faint truncate w-full mt-0.5">{stock.name}</span>
                         </button>
                       ))}
                     </div>
@@ -453,20 +453,20 @@ export default function InvestmentsPage() {
 
           {/* Ativo seleccionado + cotação */}
           {form.ticker && form.name && (
-            <div className="flex items-center justify-between bg-[#1a1d2e] border border-[#2a2d3a] rounded-xl px-4 py-3 mb-3 flex-wrap gap-3">
+            <div className="flex items-center justify-between bg-raised border border-default rounded-xl px-4 py-3 mb-3 flex-wrap gap-3">
               <div className="flex items-center gap-3">
                 <div className="w-9 h-9 rounded-lg flex items-center justify-center text-lg"
-                  style={{ background: (ASSET_COLOR[form.assetType] || "#60a5fa") + "22" }}>
+                  style={{ background: (ASSET_COLOR[form.assetType] || "var(--info)") + "22" }}>
                   {assetInfo(form.assetType).icon}
                 </div>
                 <div>
-                  <div className="text-[15px] font-bold text-[#e8e6e0]">{form.ticker}</div>
-                  <div className="text-xs text-[#5a5f78] max-w-[240px] truncate">{form.name}</div>
+                  <div className="text-[15px] font-bold text-primary">{form.ticker}</div>
+                  <div className="text-xs text-faint max-w-[240px] truncate">{form.name}</div>
                 </div>
               </div>
               <div className="flex items-center gap-3">
                 {quoteState.loading && (
-                  <div className="flex items-center gap-2 text-xs text-[#5a5f78]">
+                  <div className="flex items-center gap-2 text-xs text-faint">
                     <div className="w-3.5 h-3.5 border-2 border-[#6366f133] border-t-[#6366f1] rounded-full animate-spin" />
                     {t("investments.quote.loading")}
                   </div>
@@ -474,11 +474,11 @@ export default function InvestmentsPage() {
                 {quoteState.price && !quoteState.loading && (
                   <div className="flex items-center gap-3">
                     <div className="bg-[#1f3a2a] border border-[#4ade8044] rounded-lg px-3 py-1.5 text-center">
-                      <div className="text-[10px] text-[#5a5f78] uppercase tracking-wide">{t("investments.quote.current")}</div>
-                      <div className="text-base font-bold text-[#4ade80] tabular-nums">
+                      <div className="text-[10px] text-faint uppercase tracking-wide">{t("investments.quote.current")}</div>
+                      <div className="text-base font-bold text-success tabular-nums">
                         {fmt(quoteState.price, form.currency)}
                       </div>
-                      {quoteState.source && <div className="text-[10px] text-[#5a5f78]">{quoteState.source}</div>}
+                      {quoteState.source && <div className="text-[10px] text-faint">{quoteState.source}</div>}
                     </div>
                     <Button size="sm" onClick={() => setForm(f => ({ ...f, unitPrice: String(quoteState.price) }))}>
                       {t("investments.quote.apply")}
@@ -488,8 +488,8 @@ export default function InvestmentsPage() {
                 {quoteState.error && !quoteState.loading && (
                   <div className={`text-xs px-3 py-1.5 rounded-lg ${
                     quoteState.available === false
-                      ? "text-[#f59e0b] bg-[#1e1a0e]"
-                      : "text-[#f87171]"
+                      ? "text-warning bg-[#1e1a0e]"
+                      : "text-danger"
                   }`}>
                     {quoteState.available === false ? "⚠ " : "✕ "}{quoteState.error}
                   </div>
@@ -556,9 +556,9 @@ export default function InvestmentsPage() {
 
           {/* Total preview */}
           {liveTotal > 0 && (
-            <div className="flex items-center justify-between bg-[#1a1d2e] border border-[#2a2d3a] rounded-lg px-4 py-2.5 mb-4">
-              <span className="text-sm text-[#5a5f78]">{t("investments.form.total")}</span>
-              <span className={`text-base font-bold tabular-nums ${form.opType === "buy" ? "text-[#60a5fa]" : "text-[#4ade80]"}`}>
+            <div className="flex items-center justify-between bg-raised border border-default rounded-lg px-4 py-2.5 mb-4">
+              <span className="text-sm text-faint">{t("investments.form.total")}</span>
+              <span className={`text-base font-bold tabular-nums ${form.opType === "buy" ? "text-info" : "text-success"}`}>
                 {form.opType === "buy" ? "-" : "+"}{fmt(liveTotal, form.currency)}
               </span>
             </div>
@@ -593,8 +593,8 @@ function PortfolioTab({ portfolio, investments }) {
     return (
       <Card className="text-center py-16">
         <div className="text-4xl mb-4">📈</div>
-        <div className="text-[15px] text-[#c4c0b8] mb-2">{t("investments.portfolio.empty")}</div>
-        <div className="text-sm text-[#5a5f78]">{t("investments.portfolio.emptyDesc")}</div>
+        <div className="text-[15px] text-secondary mb-2">{t("investments.portfolio.empty")}</div>
+        <div className="text-sm text-faint">{t("investments.portfolio.emptyDesc")}</div>
       </Card>
     );
   }
@@ -610,7 +610,7 @@ function PortfolioTab({ portfolio, investments }) {
     <Card className="overflow-auto">
       <table className="w-full border-collapse">
         <thead>
-          <tr className="text-[11px] text-[#5a5f78] uppercase tracking-wide">
+          <tr className="text-[11px] text-faint uppercase tracking-wide">
             {headers.map((h, i) => (
               <th key={h} className={`pb-3 font-semibold ${i >= 2 ? "text-right" : "text-left"}`}>{h}</th>
             ))}
@@ -621,19 +621,19 @@ function PortfolioTab({ portfolio, investments }) {
             .filter(at => portfolio.some(p => p.assetType === at.value))
             .map(at => {
               const group = portfolio.filter(p => p.assetType === at.value);
-              const color = ASSET_COLOR[at.value] || "#60a5fa";
+              const color = ASSET_COLOR[at.value] || "var(--info)";
               const groupTotal = group.reduce((s, p) => s + p.totalBought + p.costs, 0);
 
               return [
                 // ── Cabeçalho do grupo ──────────────────────
-                <tr key={`group-${at.value}`} style={{ background: "#0f1117" }}>
+                <tr key={`group-${at.value}`} style={{ background: "var(--surface-base)" }}>
                   <td colSpan={headers.length} style={{ padding: "8px 4px 6px" }}>
                     <div className="flex items-center gap-2.5">
                       <span className="text-base">{at.icon}</span>
                       <span className="text-[12px] font-bold uppercase tracking-widest" style={{ color }}>
                         {at.label}
                       </span>
-                      <span className="text-[11px] text-[#5a5f78]">
+                      <span className="text-[11px] text-faint">
                         {group.length} {group.length === 1 ? "activo" : "activos"}
                       </span>
                       <span className="ml-auto text-[11px] font-semibold tabular-nums" style={{ color }}>
@@ -652,9 +652,9 @@ function PortfolioTab({ portfolio, investments }) {
                   const avgPrice  = allBuyQty > 0 ? p.totalBought / allBuyQty : 0;
                   return (
                     <tr key={p.ticker} className="border-t border-[#2a2d3a11]"
-                      style={{ background: "#161820" }}
-                      onMouseEnter={e => { e.currentTarget.style.background = "#1a1d2e"; }}
-                      onMouseLeave={e => { e.currentTarget.style.background = "#161820"; }}
+                      style={{ background: "var(--surface-card)" }}
+                      onMouseEnter={e => { e.currentTarget.style.background = "var(--surface-raised)"; }}
+                      onMouseLeave={e => { e.currentTarget.style.background = "var(--surface-card)"; }}
                     >
                       <td className="py-3 pl-3">
                         <div className="flex items-center gap-2.5">
@@ -662,8 +662,8 @@ function PortfolioTab({ portfolio, investments }) {
                             {ai.icon}
                           </div>
                           <div>
-                            <div className="text-sm font-bold text-[#e8e6e0]">{p.ticker}</div>
-                            <div className="text-xs text-[#5a5f78] max-w-[160px] truncate">{p.name}</div>
+                            <div className="text-sm font-bold text-primary">{p.ticker}</div>
+                            <div className="text-xs text-faint max-w-[160px] truncate">{p.name}</div>
                           </div>
                         </div>
                       </td>
@@ -672,20 +672,20 @@ function PortfolioTab({ portfolio, investments }) {
                           {ai.label}
                         </span>
                       </td>
-                      <td className="py-3 text-right tabular-nums text-[#e8e6e0] font-semibold">
+                      <td className="py-3 text-right tabular-nums text-primary font-semibold">
                         {p.qty % 1 === 0 ? p.qty : p.qty.toFixed(6)}
                       </td>
-                      <td className="py-3 text-right tabular-nums text-[#c4c0b8]">{fmt(avgPrice, p.currency)}</td>
-                      <td className="py-3 text-right tabular-nums text-[#60a5fa] font-semibold">{fmt(p.totalBought + p.costs, p.currency)}</td>
-                      <td className="py-3 text-right tabular-nums" style={{ color: p.totalSold > 0 ? "#4ade80" : "#5a5f78" }}>
+                      <td className="py-3 text-right tabular-nums text-secondary">{fmt(avgPrice, p.currency)}</td>
+                      <td className="py-3 text-right tabular-nums text-info font-semibold">{fmt(p.totalBought + p.costs, p.currency)}</td>
+                      <td className="py-3 text-right tabular-nums" style={{ color: p.totalSold > 0 ? "var(--success)" : "var(--text-faint)" }}>
                         {p.totalSold > 0 ? fmt(p.totalSold, p.currency) : "—"}
                       </td>
-                      <td className="py-3 text-right tabular-nums text-[#f59e0b] text-sm">
+                      <td className="py-3 text-right tabular-nums text-warning text-sm">
                         {p.dyAnnual > 0 ? p.dyAnnual.toFixed(1) + "%" : "—"}
                       </td>
                       <td className="py-3 text-right text-xs">
-                        <span className="text-[#4ade80]">{p.buyOps}C</span>
-                        {p.sellOps > 0 && <span className="text-[#f87171]"> · {p.sellOps}V</span>}
+                        <span className="text-success">{p.buyOps}C</span>
+                        {p.sellOps > 0 && <span className="text-danger"> · {p.sellOps}V</span>}
                       </td>
                     </tr>
                   );
@@ -713,18 +713,18 @@ function HistoryTab({ sorted, investments, filterAsset, setFilterAsset, onEdit, 
   return (
     <div>
       <div className="flex gap-2 mb-4 flex-wrap items-center">
-        <span className="text-xs text-[#5a5f78]">{t("investments.filter")}:</span>
+        <span className="text-xs text-faint">{t("investments.filter")}:</span>
         <button onClick={() => setFilterAsset("all")}
           className="px-3 py-1 rounded-lg text-xs border cursor-pointer transition-all"
-          style={{ borderColor: filterAsset === "all" ? "#6366f1" : "#2a2d3a", color: filterAsset === "all" ? "#a5b4fc" : "#5a5f78", background: "transparent" }}>
+          style={{ borderColor: filterAsset === "all" ? "var(--brand)" : "var(--border)", color: filterAsset === "all" ? "var(--brand-light)" : "var(--text-faint)", background: "transparent" }}>
           {t("investments.filterAll")}
         </button>
         {ASSET_TYPES.filter(a => investments.some(i => i.assetType === a.value)).map(a => (
           <button key={a.value} onClick={() => setFilterAsset(a.value)}
             className="px-3 py-1 rounded-lg text-xs border cursor-pointer transition-all"
             style={{
-              borderColor: filterAsset === a.value ? (ASSET_COLOR[a.value] || "#6366f1") : "#2a2d3a",
-              color: filterAsset === a.value ? (ASSET_COLOR[a.value] || "#a5b4fc") : "#5a5f78",
+              borderColor: filterAsset === a.value ? (ASSET_COLOR[a.value] || "var(--brand)") : "var(--border)",
+              color: filterAsset === a.value ? (ASSET_COLOR[a.value] || "var(--brand-light)") : "var(--text-faint)",
               background: "transparent",
             }}>
             {a.icon} {a.label}
@@ -735,7 +735,7 @@ function HistoryTab({ sorted, investments, filterAsset, setFilterAsset, onEdit, 
       <Card className="overflow-auto">
         <table className="w-full border-collapse">
           <thead>
-            <tr className="text-[11px] text-[#5a5f78] uppercase tracking-wide">
+            <tr className="text-[11px] text-faint uppercase tracking-wide">
               {headers.map((h, i) => (
                 <th key={i} className={`pb-3 pr-2 font-semibold ${i >= 4 && i <= 7 ? "text-right" : "text-left"}`}>{h}</th>
               ))}
@@ -745,35 +745,35 @@ function HistoryTab({ sorted, investments, filterAsset, setFilterAsset, onEdit, 
             {sorted.map(op => {
               const ai    = assetInfo(op.assetType);
               const isBuy = op.opType === "buy";
-              const color = ASSET_COLOR[op.assetType] || "#60a5fa";
+              const color = ASSET_COLOR[op.assetType] || "var(--info)";
               return (
-                <tr key={op.id} className="border-t border-[#2a2d3a]">
+                <tr key={op.id} className="border-t border-default">
                   <td className="py-2.5 pr-2">
                     <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold"
-                      style={{ background: isBuy ? "#1f3a2a" : "#3a1f1f", color: isBuy ? "#4ade80" : "#f87171" }}>
+                      style={{ background: isBuy ? "var(--success-bg)" : "var(--danger-bg)", color: isBuy ? "var(--success)" : "var(--danger)" }}>
                       {isBuy ? "🟢 " + t("investments.buy") : "🔴 " + t("investments.sell")}
                     </span>
                   </td>
-                  <td className="py-2.5 pr-2 text-sm text-[#8a8fa8] whitespace-nowrap">
+                  <td className="py-2.5 pr-2 text-sm text-muted whitespace-nowrap">
                     {new Date(op.date).toLocaleDateString("pt-PT")}
                   </td>
                   <td className="py-2.5 pr-2">
-                    <div className="text-sm font-bold text-[#e8e6e0]">{op.ticker}</div>
-                    <div className="text-xs text-[#5a5f78] max-w-[130px] truncate">{op.name}</div>
+                    <div className="text-sm font-bold text-primary">{op.ticker}</div>
+                    <div className="text-xs text-faint max-w-[130px] truncate">{op.name}</div>
                   </td>
                   <td className="py-2.5 pr-2">
                     <span className="inline-block px-2 py-0.5 rounded-full text-[11px] font-semibold" style={{ background: color + "22", color }}>
                       {ai.icon} {ai.label}
                     </span>
                   </td>
-                  <td className="py-2.5 pr-2 text-right tabular-nums text-[#e8e6e0]">
+                  <td className="py-2.5 pr-2 text-right tabular-nums text-primary">
                     {op.quantity % 1 === 0 ? op.quantity : op.quantity.toFixed(6)}
                   </td>
-                  <td className="py-2.5 pr-2 text-right tabular-nums text-[#c4c0b8]">{fmt(op.unitPrice, op.currency)}</td>
-                  <td className="py-2.5 pr-2 text-right tabular-nums" style={{ color: op.otherCosts > 0 ? "#fb923c" : "#3a3d50" }}>
+                  <td className="py-2.5 pr-2 text-right tabular-nums text-secondary">{fmt(op.unitPrice, op.currency)}</td>
+                  <td className="py-2.5 pr-2 text-right tabular-nums" style={{ color: op.otherCosts > 0 ? "var(--warning)" : "var(--text-ghost)" }}>
                     {op.otherCosts > 0 ? fmt(op.otherCosts, op.currency) : "—"}
                   </td>
-                  <td className="py-2.5 pr-2 text-right text-sm font-bold tabular-nums" style={{ color: isBuy ? "#60a5fa" : "#4ade80" }}>
+                  <td className="py-2.5 pr-2 text-right text-sm font-bold tabular-nums" style={{ color: isBuy ? "var(--info)" : "var(--success)" }}>
                     {isBuy ? "-" : "+"}{fmt(op.totalValue, op.currency)}
                   </td>
                   <td className="py-2.5 whitespace-nowrap">
@@ -785,7 +785,7 @@ function HistoryTab({ sorted, investments, filterAsset, setFilterAsset, onEdit, 
             })}
             {sorted.length === 0 && (
               <tr>
-                <td colSpan={9} className="py-10 text-center text-[#5a5f78]">
+                <td colSpan={9} className="py-10 text-center text-faint">
                   {t("investments.history.empty")}
                   {filterAsset !== "all" && " " + t("investments.history.emptyFilter")}
                 </td>

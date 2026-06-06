@@ -271,9 +271,9 @@ export default function MarketApisConfig() {
       <Toast toast={toast} />
 
       {/* Aviso de segurança */}
-      <div className="flex gap-3 p-4 rounded-xl bg-[#1e1a0e] border border-[#f59e0b33]">
+      <div className="flex gap-3 p-4 rounded-xl bg-warning border border-[var(--border)]">
         <span className="text-lg shrink-0">⚠️</span>
-        <div className="text-xs text-[#fcd34d] leading-relaxed">
+        <div className="text-xs text-warning leading-relaxed">
           <strong className="block mb-1">{t("settings.marketApis.securityTitle")}</strong>
           {t("settings.marketApis.securityMessage")}
         </div>
@@ -282,7 +282,7 @@ export default function MarketApisConfig() {
       {/* Configurações guardadas */}
       {savedList.length > 0 && (
         <div>
-          <div className="text-[11px] text-[#5a5f78] uppercase tracking-widest font-semibold mb-3">
+          <div className="text-[11px] text-faint uppercase tracking-widest font-semibold mb-3">
             {t("settings.marketApis.configured")}
           </div>
           <div className="flex flex-col gap-2">
@@ -292,18 +292,18 @@ export default function MarketApisConfig() {
                 <div key={exValue}
                   className={`flex items-center justify-between px-4 py-3 rounded-xl border transition-all ${
                     editingExchange === exValue
-                      ? "bg-[#1e2235] border-[#6366f1]"
-                      : "bg-[#1a1d2e] border-[#1f3a2a]"
+                      ? "bg-overlay border-[var(--border-focus)]"
+                      : "bg-raised border-[#1f3a2a]"
                   }`}
                 >
                   <div className="flex items-center gap-3">
                     <span className="text-xl">{ex?.flag}</span>
                     <div>
-                      <div className="text-sm font-semibold text-[#e8e6e0]">{cfg.exchangeLabel || exValue}</div>
-                      <div className="text-xs text-[#5a5f78]">
+                      <div className="text-sm font-semibold text-primary">{cfg.exchangeLabel || exValue}</div>
+                      <div className="text-xs text-faint">
                         {cfg.providerName}
                         {cfg.fields && Object.values(cfg.fields).some(v => v) && (
-                          <span className="ml-2 text-[#4ade80]">● {t("settings.marketApis.withCredentials")}</span>
+                          <span className="ml-2 text-success">● {t("settings.marketApis.withCredentials")}</span>
                         )}
                       </div>
                     </div>
@@ -311,7 +311,7 @@ export default function MarketApisConfig() {
                   <div className="flex gap-2">
                     <Button variant="secondary" size="sm"
                       onClick={() => editingExchange === exValue ? handleCancel() : handleEdit(exValue)}
-                      className={editingExchange === exValue ? "text-[#a5b4fc] border-[#6366f1]" : ""}>
+                      className={editingExchange === exValue ? "text-brand-light border-[var(--border-focus)]" : ""}>
                       {editingExchange === exValue ? t("common.cancel") : t("common.edit")}
                     </Button>
                     <Button variant="danger" size="sm" onClick={() => handleDelete(exValue)}>×</Button>
@@ -324,8 +324,8 @@ export default function MarketApisConfig() {
       )}
 
       {/* Formulário */}
-      <Card className={isEditing ? "border-[#6366f1]" : ""}>
-        <div className="text-sm font-semibold text-[#a5b4fc] mb-5">
+      <Card className={isEditing ? "border-[var(--border-focus)]" : ""}>
+        <div className="text-sm font-semibold text-brand-light mb-5">
           {isEditing
             ? "✏ " + t("settings.marketApis.editConfig")
             : "+ " + t("settings.marketApis.addConfig")}
@@ -333,7 +333,7 @@ export default function MarketApisConfig() {
 
         {/* Selector de bolsa */}
         <div className="mb-4">
-          <label className="block text-[11px] text-[#5a5f78] uppercase tracking-wide font-medium mb-1.5">
+          <label className="block text-[11px] text-faint uppercase tracking-wide font-medium mb-1.5">
             {t("settings.marketApis.exchange")}
           </label>
           <div className="grid grid-cols-4 gap-2">
@@ -350,10 +350,10 @@ export default function MarketApisConfig() {
                     flex items-center gap-2 px-3 py-2.5 rounded-xl border text-sm
                     font-medium transition-all cursor-pointer text-left
                     ${isSelected
-                      ? "bg-[#1e2235] border-[#6366f1] text-[#a5b4fc]"
+                      ? "bg-overlay border-[var(--border-focus)] text-brand-light"
                       : hasSupport
-                        ? "bg-[#161820] border-[#2a2d3a] text-[#8a8fa8] hover:border-[#3a3d52] hover:text-[#c4c0b8]"
-                        : "bg-[#161820] border-[#2a2d3a] text-[#3a3d52] cursor-not-allowed opacity-50"}
+                        ? "bg-card border-default text-muted hover:border-strong hover:text-secondary"
+                        : "bg-card border-default text-faint cursor-not-allowed opacity-50"}
                   `}
                 >
                   <span>{ex.flag}</span>
@@ -364,7 +364,7 @@ export default function MarketApisConfig() {
                     </div>
                   </div>
                   {isSaved && !isSelected && (
-                    <span className="ml-auto text-[#4ade80] text-xs shrink-0">✓</span>
+                    <span className="ml-auto text-success text-xs shrink-0">✓</span>
                   )}
                 </button>
               );
@@ -375,7 +375,7 @@ export default function MarketApisConfig() {
         {/* Selector de provider */}
         {exchange && (
           <div className="mb-4">
-            <label className="block text-[11px] text-[#5a5f78] uppercase tracking-wide font-medium mb-1.5">
+            <label className="block text-[11px] text-faint uppercase tracking-wide font-medium mb-1.5">
               {t("settings.marketApis.provider")}
             </label>
             <div className="flex flex-col gap-2">
@@ -390,28 +390,28 @@ export default function MarketApisConfig() {
                       text-left transition-all
                       ${!p.implemented ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
                       ${isSelected
-                        ? "bg-[#1e2235] border-[#6366f1]"
-                        : "bg-[#161820] border-[#2a2d3a] hover:border-[#3a3d52]"}
+                        ? "bg-overlay border-[var(--border-focus)]"
+                        : "bg-card border-default hover:border-strong"}
                     `}
                   >
                     <div>
-                      <div className={`text-sm font-semibold ${isSelected ? "text-[#a5b4fc]" : "text-[#c4c0b8]"}`}>
+                      <div className={`text-sm font-semibold ${isSelected ? "text-brand-light" : "text-secondary"}`}>
                         {p.name}
                       </div>
                       <a href={p.url} target="_blank" rel="noreferrer"
-                        className="text-xs text-[#5a5f78] hover:text-[#a5b4fc] transition-colors"
+                        className="text-xs text-faint hover:text-brand-light transition-colors"
                         onClick={e => e.stopPropagation()}>
                         {p.url} ↗
                       </a>
                     </div>
                     <div className="flex items-center gap-2">
                       {!p.implemented && (
-                        <span className="text-xs text-[#5a5f78] bg-[#2a2d3a] px-2 py-0.5 rounded-full">
+                        <span className="text-xs text-faint bg-[#2a2d3a] px-2 py-0.5 rounded-full">
                           {t("common.comingSoon")}
                         </span>
                       )}
                       {isSelected && p.implemented && (
-                        <span className="text-[#6366f1] text-base">✓</span>
+                        <span className="text-brand text-base">✓</span>
                       )}
                     </div>
                   </button>
@@ -424,20 +424,20 @@ export default function MarketApisConfig() {
         {/* Campos do provider seleccionado */}
         {provider && provider.implemented && provider.fields.length > 0 && (
           <div className="mb-4 flex flex-col gap-3">
-            <div className="text-[11px] text-[#5a5f78] uppercase tracking-wide font-medium">
+            <div className="text-[11px] text-faint uppercase tracking-wide font-medium">
               {t("settings.marketApis.credentials")}
             </div>
             {provider.fields.map(field => (
               <div key={field.key}>
-                <label className="block text-[11px] text-[#5a5f78] uppercase tracking-wide font-medium mb-1.5">
+                <label className="block text-[11px] text-faint uppercase tracking-wide font-medium mb-1.5">
                   {field.label}
                   {!field.required && (
-                    <span className="ml-2 normal-case text-[#3a3d52]">({t("settings.marketApis.optional")})</span>
+                    <span className="ml-2 normal-case text-faint">({t("settings.marketApis.optional")})</span>
                   )}
                 </label>
                 <div className="relative">
                   <input
-                    className="w-full bg-[#1a1d2e] border border-[#2a2d3a] rounded-lg px-3 py-2.5 pr-10 text-sm text-[#e8e6e0] outline-none focus:border-[#6366f1] transition-colors"
+                    className="w-full bg-raised border border-default rounded-lg px-3 py-2.5 pr-10 text-sm text-primary outline-none focus:border-[var(--border-focus)] transition-colors"
                     type={showReveal[field.key] ? "text" : field.type}
                     placeholder={field.placeholder}
                     value={fieldValues[field.key] || ""}
@@ -446,18 +446,18 @@ export default function MarketApisConfig() {
                   {field.type === "password" && (
                     <button
                       onClick={() => setShowReveal(r => ({ ...r, [field.key]: !r[field.key] }))}
-                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#5a5f78] hover:text-[#8a8fa8] cursor-pointer bg-transparent border-0 p-0"
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-faint hover:text-muted cursor-pointer bg-transparent border-0 p-0"
                     >
                       {showReveal[field.key] ? "🙈" : "👁"}
                     </button>
                   )}
                 </div>
                 {field.helpText && (
-                  <div className="text-[11px] text-[#5a5f78] mt-1.5 leading-relaxed">
+                  <div className="text-[11px] text-faint mt-1.5 leading-relaxed">
                     {field.helpText}{" "}
                     {field.helpLink && (
                       <a href={field.helpLink} target="_blank" rel="noreferrer"
-                        className="text-[#a5b4fc] hover:underline">
+                        className="text-brand-light hover:underline">
                         {field.helpLinkLabel}
                       </a>
                     )}
@@ -467,7 +467,7 @@ export default function MarketApisConfig() {
             ))}
 
             {/* Nota de segurança */}
-            <div className="flex gap-2 p-3 rounded-lg bg-[#1a1d2e] border border-[#2a2d3a] text-xs text-[#5a5f78]">
+            <div className="flex gap-2 p-3 rounded-lg bg-raised border border-default text-xs text-faint">
               <span className="shrink-0">🔒</span>
               <span>{t("settings.marketApis.storageNote")}</span>
             </div>
@@ -476,7 +476,7 @@ export default function MarketApisConfig() {
 
         {/* Provider sem fields (só selecção) */}
         {provider && provider.implemented && provider.fields.length === 0 && (
-          <div className="mb-4 flex gap-2 p-3 rounded-lg bg-[#1a1d2e] border border-[#2a2d3a] text-xs text-[#5a5f78]">
+          <div className="mb-4 flex gap-2 p-3 rounded-lg bg-raised border border-default text-xs text-faint">
             <span>ℹ️</span>
             <span>{t("settings.marketApis.noCredentialsNeeded")}</span>
           </div>
@@ -496,7 +496,7 @@ export default function MarketApisConfig() {
 
         {/* Empty state */}
         {!selectedExchange && savedList.length === 0 && (
-          <div className="text-center py-8 text-[#5a5f78] text-sm">
+          <div className="text-center py-8 text-faint text-sm">
             {t("settings.marketApis.emptyState")}
           </div>
         )}

@@ -28,18 +28,18 @@ export default function LanguageConfig() {
       <Toast toast={toast} />
 
       <div className="flex flex-col gap-5">
-        <div className="flex items-center gap-3 pb-4 border-b border-[#2a2d3a]">
+        <div className="flex items-center gap-3 pb-4 border-b border-default">
           <span className="text-2xl">{current?.flag}</span>
           <div>
-            <div className="text-sm font-semibold text-[#e8e6e0]">
+            <div className="text-sm font-semibold text-primary">
               {current?.label}
             </div>
-            <div className="text-xs text-[#5a5f78] mt-0.5">
+            <div className="text-xs text-faint mt-0.5">
               {t("settings.language.label")}
             </div>
           </div>
           {saved && (
-            <span className="ml-auto text-xs font-semibold text-[#4ade80] bg-[#1f3a2a] px-2.5 py-1 rounded-full">
+            <span className="ml-auto text-xs font-semibold text-success bg-success px-2.5 py-1 rounded-full">
               ✓ {t("settings.language.saved")}
             </span>
           )}
@@ -54,18 +54,18 @@ export default function LanguageConfig() {
                   flex items-center gap-3 p-4 rounded-xl border text-left
                   transition-all cursor-pointer
                   ${isSelected
-                    ? "bg-[#1e2235] border-[#6366f1]"
-                    : "bg-[#161820] border-[#2a2d3a] hover:border-[#3a3d52]"}
+                    ? "bg-overlay border-[var(--border-focus)]"
+                    : "bg-card border-default hover:border-strong"}
                 `}
               >
                 <span className="text-2xl">{lang.flag}</span>
                 <div>
-                  <div className={`text-sm font-semibold ${isSelected ? "text-[#a5b4fc]" : "text-[#c4c0b8]"}`}>
+                  <div className={`text-sm font-semibold ${isSelected ? "text-brand-light" : "text-secondary"}`}>
                     {lang.label}
                   </div>
-                  <div className="text-xs text-[#5a5f78] mt-0.5">{lang.code}</div>
+                  <div className="text-xs text-faint mt-0.5">{lang.code}</div>
                 </div>
-                {isSelected && <span className="ml-auto text-[#6366f1] text-base">✓</span>}
+                {isSelected && <span className="ml-auto text-brand text-base">✓</span>}
               </button>
             );
           })}
@@ -82,7 +82,7 @@ export default function LanguageConfig() {
           )}
         </div>
 
-        <div className="text-xs text-[#5a5f78] bg-[#1a1d2e] rounded-lg p-3 border border-[#2a2d3a]">
+        <div className="text-xs text-faint bg-raised rounded-lg p-3 border border-default">
           {t("settings.language.instantApply")}
         </div>
       </div>

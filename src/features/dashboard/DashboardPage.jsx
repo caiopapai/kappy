@@ -49,11 +49,11 @@ function KpiCard({ icon, label, value, color, sub }) {
   return (
     <Card className="py-3 px-4">
       <div className="flex items-start justify-between mb-2">
-        <div className="text-[11px] text-[#5a5f78] uppercase tracking-wide leading-tight">{label}</div>
+        <div className="text-[11px] text-faint uppercase tracking-wide leading-tight">{label}</div>
         <span className="text-lg ml-2 shrink-0">{icon}</span>
       </div>
       <div className="text-xl font-bold tabular-nums" style={{ color }}>{value}</div>
-      {sub && <div className="text-xs text-[#5a5f78] mt-1">{sub}</div>}
+      {sub && <div className="text-xs text-faint mt-1">{sub}</div>}
     </Card>
   );
 }
@@ -87,37 +87,37 @@ function MonthSelector({ year, month, onPrev, onNext, onSelect, disableNext }) {
     <div className="relative flex items-center gap-2">
       {/* Seta esquerda */}
       <button onClick={onPrev}
-        className="w-7 h-7 rounded-lg bg-[#1a1d2e] text-[#8a8fa8]
-          hover:border-[#6366f1] hover:text-[#a5b4fc] transition-all cursor-pointer
+        className="w-7 h-7 rounded-lg bg-raised text-muted
+          hover:border-[var(--border-focus)] hover:text-brand-light transition-all cursor-pointer
           flex items-center justify-center text-base leading-none"
-        style={{ border: "1px solid #2a2d3a" }}>
+        style={{ border: "1px solid var(--border)" }}>
         ‹
       </button>
 
       {/* Texto clicável */}
       <button
         onClick={handleOpen}
-        className="text-sm font-semibold text-[#e8e6e0] min-w-[130px] text-center
-          hover:text-[#a5b4fc] transition-colors cursor-pointer bg-transparent border-0
-          px-2 py-1 rounded-lg hover:bg-[#1a1d2e]"
+        className="text-sm font-semibold text-primary min-w-[130px] text-center
+          hover:text-brand-light transition-colors cursor-pointer bg-transparent border-0
+          px-2 py-1 rounded-lg hover:bg-raised"
       >
         {MONTH_NAMES[month]} {year}
-        <span className="ml-1 text-[#5a5f78] text-xs">{open ? "▲" : "▼"}</span>
+        <span className="ml-1 text-faint text-xs">{open ? "▲" : "▼"}</span>
       </button>
 
       {/* Seta direita */}
       <button onClick={onNext} disabled={disableNext}
-        className="w-7 h-7 rounded-lg bg-[#1a1d2e] text-[#8a8fa8]
-          hover:border-[#6366f1] hover:text-[#a5b4fc] transition-all cursor-pointer
+        className="w-7 h-7 rounded-lg bg-raised text-muted
+          hover:border-[var(--border-focus)] hover:text-brand-light transition-all cursor-pointer
           flex items-center justify-center text-base leading-none
           disabled:opacity-30 disabled:cursor-not-allowed"
-        style={{ border: "1px solid #2a2d3a" }}>
+        style={{ border: "1px solid var(--border)" }}>
         ›
       </button>
 
       {/* Picker dropdown */}
       {open && (
-        <div className="absolute top-full right-0 mt-2 z-50 bg-[#1a1d2e] border border-[#2a2d3a]
+        <div className="absolute top-full right-0 mt-2 z-50 bg-raised border border-default
           rounded-xl shadow-2xl p-4 w-64">
 
           {/* Selector de ano */}
@@ -125,16 +125,16 @@ function MonthSelector({ year, month, onPrev, onNext, onSelect, disableNext }) {
             <button
               onClick={() => setPickerYear(y => Math.max(y - 1, minYear))}
               disabled={pickerYear <= minYear}
-              className="w-7 h-7 rounded-lg text-[#8a8fa8] hover:text-[#a5b4fc] cursor-pointer
-                bg-[#0f1117] border border-[#2a2d3a] flex items-center justify-center
+              className="w-7 h-7 rounded-lg text-muted hover:text-brand-light cursor-pointer
+                bg-base border border-default flex items-center justify-center
                 disabled:opacity-30 disabled:cursor-not-allowed text-sm"
             >‹</button>
-            <span className="text-sm font-bold text-[#e8e6e0]">{pickerYear}</span>
+            <span className="text-sm font-bold text-primary">{pickerYear}</span>
             <button
               onClick={() => setPickerYear(y => Math.min(y + 1, maxYear))}
               disabled={pickerYear >= maxYear}
-              className="w-7 h-7 rounded-lg text-[#8a8fa8] hover:text-[#a5b4fc] cursor-pointer
-                bg-[#0f1117] border border-[#2a2d3a] flex items-center justify-center
+              className="w-7 h-7 rounded-lg text-muted hover:text-brand-light cursor-pointer
+                bg-base border border-default flex items-center justify-center
                 disabled:opacity-30 disabled:cursor-not-allowed text-sm"
             >›</button>
           </div>
@@ -151,9 +151,9 @@ function MonthSelector({ year, month, onPrev, onNext, onSelect, disableNext }) {
                   className="py-1.5 rounded-lg text-xs font-medium cursor-pointer
                     transition-all border"
                   style={{
-                    background:  isSelected ? "#6366f1" : "transparent",
-                    color:       isSelected ? "#fff" : isToday ? "#a5b4fc" : "#8a8fa8",
-                    borderColor: isSelected ? "#6366f1" : isToday ? "#6366f133" : "transparent",
+                    background:  isSelected ? "var(--brand)" : "transparent",
+                    color:       isSelected ? "#fff" : isToday ? "var(--brand-light)" : "var(--text-muted)",
+                    borderColor: isSelected ? "var(--brand)" : isToday ? "var(--brand-dim)" : "transparent",
                     fontWeight:  isToday ? "700" : undefined,
                   }}
                 >
@@ -166,8 +166,8 @@ function MonthSelector({ year, month, onPrev, onNext, onSelect, disableNext }) {
           {/* Botão "Hoje" */}
           <button
             onClick={() => { onSelect(now.getFullYear(), now.getMonth()); setOpen(false); }}
-            className="w-full mt-3 py-1.5 rounded-lg text-xs text-[#6366f1] border border-[#6366f133]
-              hover:bg-[#1e2235] transition-colors cursor-pointer bg-transparent font-semibold"
+            className="w-full mt-3 py-1.5 rounded-lg text-xs text-brand border border-[var(--brand-dim)]
+              hover:bg-overlay transition-colors cursor-pointer bg-transparent font-semibold"
           >
             Hoje — {MONTH_NAMES[now.getMonth()]} {now.getFullYear()}
           </button>
@@ -201,14 +201,14 @@ function ExpensesByCategory({ transactions, categories, subcategories, year, mon
   const max    = sorted[0]?.total || 1;
 
   const TYPE_COLOR = {
-    fixed_expense:    "#f87171",
-    variable_expense: "#fb923c",
-    investment:       "#60a5fa",
+    fixed_expense:    "var(--danger)",
+    variable_expense: "var(--warning)",
+    investment:       "var(--info)",
   };
 
   if (sorted.length === 0) {
     return (
-      <div className="text-sm text-[#5a5f78] text-center py-8">
+      <div className="text-sm text-faint text-center py-8">
         {t("dashboard.expenses.empty")}
       </div>
     );
@@ -217,12 +217,12 @@ function ExpensesByCategory({ transactions, categories, subcategories, year, mon
   return (
     <div className="flex flex-col gap-3">
       {sorted.map(cat => {
-        const color = TYPE_COLOR[cat.type] || "#8a8fa8";
+        const color = TYPE_COLOR[cat.type] || "var(--text-muted)";
         const pct   = (cat.total / max) * 100;
         return (
           <div key={cat.name}>
             <div className="flex justify-between text-xs mb-1">
-              <span className="text-[#c4c0b8]">{cat.name}</span>
+              <span className="text-secondary">{cat.name}</span>
               <span className="tabular-nums font-semibold" style={{ color }}>
                 {fmt(cat.total)}
               </span>
@@ -269,18 +269,18 @@ function MonthComparison({ transactions, year, month }) {
         const pct    = row.prev > 0 ? Math.abs(diff / row.prev * 100).toFixed(0) : null;
         const isUp   = diff > 0;
         const isGood = row.invert ? !isUp : isUp;
-        const color  = diff === 0 ? "#5a5f78" : isGood ? "#4ade80" : "#f87171";
+        const color  = diff === 0 ? "var(--text-faint)" : isGood ? "var(--success)" : "var(--danger)";
         const arrow  = diff === 0 ? "—" : isUp ? "↑" : "↓";
 
         return (
-          <div key={row.label} className="bg-[#1a1d2e] rounded-xl p-4 border border-[#2a2d3a]">
-            <div className="text-xs text-[#5a5f78] mb-3">{row.label}</div>
+          <div key={row.label} className="bg-raised rounded-xl p-4 border border-default">
+            <div className="text-xs text-faint mb-3">{row.label}</div>
             <div className="grid grid-cols-3 gap-2 items-end">
               <div>
-                <div className="text-[10px] text-[#5a5f78] mb-1">
+                <div className="text-[10px] text-faint mb-1">
                   {MONTH_NAMES[prevMonth].slice(0, 3)}
                 </div>
-                <div className="text-sm font-semibold text-[#8a8fa8] tabular-nums">
+                <div className="text-sm font-semibold text-muted tabular-nums">
                   {fmt(row.prev)}
                 </div>
               </div>
@@ -289,7 +289,7 @@ function MonthComparison({ transactions, year, month }) {
                 {pct && <div className="text-[10px]" style={{ color }}>{pct}%</div>}
               </div>
               <div className="text-right">
-                <div className="text-[10px] text-[#5a5f78] mb-1">
+                <div className="text-[10px] text-faint mb-1">
                   {MONTH_NAMES[month].slice(0, 3)}
                 </div>
                 <div className="text-sm font-bold tabular-nums" style={{ color }}>
@@ -399,7 +399,7 @@ function DonutChart({ slices, size = 140 }) {
   return (
     <svg viewBox={`0 0 ${size} ${size}`} width={size} height={size}>
       {paths.map((p, i) => (
-        <path key={i} d={p.d} fill={p.color} stroke="#161820" strokeWidth="1.5" />
+        <path key={i} d={p.d} fill={p.color} stroke="var(--surface-card)" strokeWidth="1.5" />
       ))}
     </svg>
   );
@@ -414,7 +414,7 @@ function InvestmentsDonut({ investments }) {
 
   if (currencies.length === 0) {
     return (
-      <div className="text-sm text-[#5a5f78] text-center py-8">
+      <div className="text-sm text-faint text-center py-8">
         {t("dashboard.investments.empty")}
       </div>
     );
@@ -426,7 +426,7 @@ function InvestmentsDonut({ investments }) {
   const slices = activeCurrency.map(item => ({
     label: ASSET_TYPES.find(a => a.value === item.assetType)?.label || item.assetType,
     value: item.total,
-    color: ASSET_COLOR[item.assetType] || "#8a8fa8",
+    color: ASSET_COLOR[item.assetType] || "var(--text-muted)",
     icon:  ASSET_TYPES.find(a => a.value === item.assetType)?.icon || "💹",
   })).sort((a, b) => b.value - a.value);
 
@@ -442,9 +442,9 @@ function InvestmentsDonut({ investments }) {
               onClick={() => setCurrency(c)}
               className="px-3 py-1 rounded-lg text-xs font-semibold border cursor-pointer transition-all"
               style={{
-                borderColor: currency === c ? "#6366f1" : "#2a2d3a",
-                background:  currency === c ? "#1e2235" : "transparent",
-                color:       currency === c ? "#a5b4fc" : "#5a5f78",
+                borderColor: currency === c ? "var(--brand)" : "var(--border)",
+                background:  currency === c ? "var(--surface-overlay)" : "transparent",
+                color:       currency === c ? "var(--brand-light)" : "var(--text-faint)",
               }}>
               {CURRENCY_SYMBOLS[c]} {c}
             </button>
@@ -457,8 +457,8 @@ function InvestmentsDonut({ investments }) {
         <div className="relative shrink-0">
           <DonutChart slices={slices} size={140} />
           <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-            <div className="text-[10px] text-[#5a5f78] uppercase tracking-wide">Total</div>
-            <div className="text-xs font-bold text-[#e8e6e0] tabular-nums">
+            <div className="text-[10px] text-faint uppercase tracking-wide">Total</div>
+            <div className="text-xs font-bold text-primary tabular-nums">
               {sym} {total.toLocaleString("pt-PT", { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
             </div>
           </div>
@@ -471,11 +471,11 @@ function InvestmentsDonut({ investments }) {
             return (
               <div key={sl.label} className="flex items-center gap-2">
                 <div className="w-2.5 h-2.5 rounded-sm shrink-0" style={{ background: sl.color }} />
-                <span className="text-xs text-[#8a8fa8] truncate flex-1">{sl.icon} {sl.label}</span>
+                <span className="text-xs text-muted truncate flex-1">{sl.icon} {sl.label}</span>
                 <span className="text-xs tabular-nums font-semibold shrink-0" style={{ color: sl.color }}>
                   {pct}%
                 </span>
-                <span className="text-xs tabular-nums text-[#5a5f78] shrink-0">
+                <span className="text-xs tabular-nums text-faint shrink-0">
                   {sym} {sl.value.toLocaleString("pt-PT", { maximumFractionDigits: 0 })}
                 </span>
               </div>
@@ -557,7 +557,7 @@ function BurndownChart({ data, today }) {
 
   if (!days.length || totalIncome === 0) {
     return (
-      <div className="flex items-center justify-center h-44 text-[#5a5f78] text-sm">
+      <div className="flex items-center justify-center h-44 text-faint text-sm">
         {t("dashboard.burndown.noIncome")}
       </div>
     );
@@ -596,8 +596,8 @@ function BurndownChart({ data, today }) {
     <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ maxHeight: 220 }}>
       {gridLines.map(({ val, y }) => (
         <g key={val}>
-          <line x1={PL} y1={y} x2={W - PR} y2={y} stroke="#2a2d3a" strokeWidth="1" />
-          <text x={PL - 6} y={y + 4} textAnchor="end" fontSize="9" fill="#5a5f78">
+          <line x1={PL} y1={y} x2={W - PR} y2={y} stroke="var(--border)" strokeWidth="1" />
+          <text x={PL - 6} y={y + 4} textAnchor="end" fontSize="9" fill="var(--text-faint)">
             {Math.round(val)}
           </text>
         </g>
@@ -605,12 +605,12 @@ function BurndownChart({ data, today }) {
 
       {minVal < 0 && (
         <line x1={PL} y1={yPos(0)} x2={W - PR} y2={yPos(0)}
-          stroke="#f59e0b" strokeWidth="1" strokeDasharray="4 3" opacity="0.5" />
+          stroke="var(--warning)" strokeWidth="1" strokeDasharray="4 3" opacity="0.5" />
       )}
 
       {days.filter(d => d === 1 || d % 5 === 0 || d === days.length).map(d => (
         <text key={d} x={xPos(d - 1)} y={H - PB + 14}
-          textAnchor="middle" fontSize="9" fill="#5a5f78">
+          textAnchor="middle" fontSize="9" fill="var(--text-faint)">
           {d}
         </text>
       ))}
@@ -618,25 +618,25 @@ function BurndownChart({ data, today }) {
       {todayX && (
         <>
           <line x1={todayX} y1={PT} x2={todayX} y2={H - PB}
-            stroke="#6366f1" strokeWidth="1.5" strokeDasharray="4 3" opacity="0.6" />
-          <text x={todayX} y={PT - 4} textAnchor="middle" fontSize="8" fill="#6366f1">
+            stroke="var(--brand)" strokeWidth="1.5" strokeDasharray="4 3" opacity="0.6" />
+          <text x={todayX} y={PT - 4} textAnchor="middle" fontSize="8" fill="var(--brand)">
             {t("dashboard.burndown.today")}
           </text>
         </>
       )}
 
-      <path d={budgetPath} fill="none" stroke="#4ade80" strokeWidth="1.5"
+      <path d={budgetPath} fill="none" stroke="var(--success)" strokeWidth="1.5"
         strokeDasharray="6 3" opacity="0.7" />
-      <path d={realPath}   fill="none" stroke="#60a5fa" strokeWidth="2.5" />
+      <path d={realPath}   fill="none" stroke="var(--info)" strokeWidth="2.5" />
 
       <line x1={PL + 8}  y1={H - 6} x2={PL + 22} y2={H - 6}
-        stroke="#4ade80" strokeWidth="1.5" strokeDasharray="6 3" />
-      <text x={PL + 26} y={H - 2} fontSize="9" fill="#4ade80">
+        stroke="var(--success)" strokeWidth="1.5" strokeDasharray="6 3" />
+      <text x={PL + 26} y={H - 2} fontSize="9" fill="var(--success)">
         {t("dashboard.burndown.budget")}
       </text>
       <line x1={PL + 100} y1={H - 6} x2={PL + 114} y2={H - 6}
-        stroke="#60a5fa" strokeWidth="2.5" />
-      <text x={PL + 118} y={H - 2} fontSize="9" fill="#60a5fa">
+        stroke="var(--info)" strokeWidth="2.5" />
+      <text x={PL + 118} y={H - 2} fontSize="9" fill="var(--info)">
         {t("dashboard.burndown.real")}
       </text>
     </svg>
@@ -698,8 +698,8 @@ export default function DashboardPage() {
       {/* Header com selector de mês */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-base font-semibold text-[#f0ede8] m-0">{t("nav.dashboard")}</h2>
-          <div className="text-xs text-[#5a5f78] mt-0.5">{MONTH_NAMES[month]} {year}</div>
+          <h2 className="text-base font-semibold text-primary m-0">{t("nav.dashboard")}</h2>
+          <div className="text-xs text-faint mt-0.5">{MONTH_NAMES[month]} {year}</div>
         </div>
         <MonthSelector year={year} month={month}
           onPrev={prevMonth} onNext={nextMonth}
@@ -710,26 +710,26 @@ export default function DashboardPage() {
       <div className="grid grid-cols-4 gap-3">
         <KpiCard icon="🏦" label={t("dashboard.kpi.totalBalance")}
           value={fmt(totalBalance)}
-          color={totalBalance >= 0 ? "#4ade80" : "#f87171"}
+          color={totalBalance >= 0 ? "var(--success)" : "var(--danger)"}
           sub={`${accounts.length} ${t("dashboard.kpi.accounts")}`} />
         <KpiCard icon="💰" label={t("dashboard.kpi.monthlyIncome")}
-          value={fmt(totalIncome)} color="#4ade80"
+          value={fmt(totalIncome)} color="var(--success)"
           sub={t("dashboard.kpi.incomeNote")} />
         <KpiCard icon="💸" label={t("dashboard.kpi.monthlyExpense")}
-          value={fmt(totalExpense)} color="#f87171"
+          value={fmt(totalExpense)} color="var(--danger)"
           sub={totalIncome > 0
             ? ((totalExpense / totalIncome) * 100).toFixed(0) + "% " + t("dashboard.kpi.ofIncome")
             : null} />
         <KpiCard icon="📊" label={t("dashboard.kpi.netBalance")}
           value={fmtSigned(netBalance)}
-          color={netBalance >= 0 ? "#4ade80" : "#f87171"}
+          color={netBalance >= 0 ? "var(--success)" : "var(--danger)"}
           sub={t("dashboard.kpi.remaining") + " " + fmt(Math.max(totalIncome - totalExpense, 0))} />
       </div>
 
       {/* Row 1: Gastos por categoria | Comparação mês */}
       <div className="grid grid-cols-2 gap-5">
         <Card>
-          <div className="text-sm font-semibold text-[#e8e6e0] mb-4">
+          <div className="text-sm font-semibold text-primary mb-4">
             {t("dashboard.expenses.title")}
           </div>
           <ExpensesByCategory
@@ -738,7 +738,7 @@ export default function DashboardPage() {
         </Card>
 
         <Card>
-          <div className="text-sm font-semibold text-[#e8e6e0] mb-4">
+          <div className="text-sm font-semibold text-primary mb-4">
             {t("dashboard.comparison.title")}
           </div>
           <MonthComparison transactions={transactions} year={year} month={month} />
@@ -748,7 +748,7 @@ export default function DashboardPage() {
       {/* Row 2: Distribuição investimentos | Burndown */}
       <div className="grid grid-cols-2 gap-5">
         <Card>
-          <div className="text-sm font-semibold text-[#e8e6e0] mb-4">
+          <div className="text-sm font-semibold text-primary mb-4">
             {t("dashboard.investments.title")}
           </div>
           <InvestmentsDonut investments={investments} />
@@ -757,10 +757,10 @@ export default function DashboardPage() {
         <Card>
           <div className="flex items-center justify-between mb-3">
             <div>
-              <div className="text-sm font-semibold text-[#e8e6e0]">
+              <div className="text-sm font-semibold text-primary">
                 {t("dashboard.burndown.title")}
               </div>
-              <div className="text-xs text-[#5a5f78] mt-0.5">
+              <div className="text-xs text-faint mt-0.5">
                 {t("dashboard.burndown.subtitle")}
               </div>
             </div>
@@ -769,14 +769,14 @@ export default function DashboardPage() {
           {totalIncome > 0 && (
             <div className="grid grid-cols-3 gap-2 mb-3">
               {[
-                { label: t("dashboard.burndown.startBudget"), value: fmt(totalIncome),  color: "#4ade80" },
-                { label: t("dashboard.burndown.spent"),       value: fmt(totalExpense), color: "#f87171" },
+                { label: t("dashboard.burndown.startBudget"), value: fmt(totalIncome),  color: "var(--success)" },
+                { label: t("dashboard.burndown.spent"),       value: fmt(totalExpense), color: "var(--danger)" },
                 { label: t("dashboard.burndown.remaining"),
                   value: fmt(Math.max(totalIncome - totalExpense, 0)),
-                  color: (totalIncome - totalExpense) >= 0 ? "#60a5fa" : "#f87171" },
+                  color: (totalIncome - totalExpense) >= 0 ? "var(--info)" : "var(--danger)" },
               ].map(s => (
-                <div key={s.label} className="bg-[#1a1d2e] rounded-lg px-3 py-2 border border-[#2a2d3a]">
-                  <div className="text-[10px] text-[#5a5f78] uppercase tracking-wide mb-1">{s.label}</div>
+                <div key={s.label} className="bg-raised rounded-lg px-3 py-2 border border-default">
+                  <div className="text-[10px] text-faint uppercase tracking-wide mb-1">{s.label}</div>
                   <div className="text-sm font-bold tabular-nums" style={{ color: s.color }}>{s.value}</div>
                 </div>
               ))}

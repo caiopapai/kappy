@@ -19,12 +19,12 @@ function fmt(amount, currency) {
 }
 
 const TYPE_COLOR = {
-  income: "#4ade80", investment: "#60a5fa",
-  fixed_expense: "#f87171", variable_expense: "#fb923c",
+  income: "var(--success)", investment: "var(--info)",
+  fixed_expense: "var(--danger)", variable_expense: "var(--warning)",
 };
 const TYPE_BG = {
-  income: "#1f3a2a", investment: "#1a2a3a",
-  fixed_expense: "#3a1f1f", variable_expense: "#3a2a1f",
+  income: "var(--success-bg)", investment: "var(--surface-raised)",
+  fixed_expense: "var(--danger-bg)", variable_expense: "var(--warning-bg)",
 };
 
 function accountIcon(type) {
@@ -172,7 +172,7 @@ export default function TransactionsPage() {
 
   const tabStyle = (active) => [
     "px-5 py-2 rounded-lg text-sm font-medium transition-all border-0 cursor-pointer",
-    active ? "bg-[#6366f1] text-white" : "bg-transparent text-[#5a5f78] hover:text-[#c4c0b8]",
+    active ? "bg-[#6366f1] text-white" : "bg-transparent text-faint hover:text-secondary",
   ].join(" ");
 
   return (
@@ -181,7 +181,7 @@ export default function TransactionsPage() {
 
       {/* Header */}
       <div className="flex justify-between items-center mb-5">
-        <div className="flex gap-1 bg-[#1a1d2e] rounded-xl p-1">
+        <div className="flex gap-1 bg-raised rounded-xl p-1">
           <button className={tabStyle(activeTab === "all")} onClick={() => setActiveTab("all")}>
             {t("transactions.tabs.all")}
           </button>
@@ -202,16 +202,16 @@ export default function TransactionsPage() {
       {/* Form */}
       {showForm && (
         <Card className={`mb-5 ${form.recurring ? "border-[#7c3aed]" : ""}`}>
-          <div className="text-sm font-semibold text-[#a5b4fc] mb-5">+ {t("transactions.add")}</div>
+          <div className="text-sm font-semibold text-brand-light mb-5">+ {t("transactions.add")}</div>
 
           <div className="grid gap-3 mb-3" style={{ gridTemplateColumns: "1.5fr 1fr 1fr" }}>
             {/* Conta */}
             <div>
-              <label className="block text-[11px] text-[#5a5f78] uppercase tracking-wide font-medium mb-1.5">
+              <label className="block text-[11px] text-faint uppercase tracking-wide font-medium mb-1.5">
                 {t("transactions.form.account")}
               </label>
               <select
-                className="w-full bg-[#1a1d2e] border border-[#2a2d3a] rounded-lg px-3 py-2.5 text-sm text-[#e8e6e0] outline-none focus:border-[#6366f1]"
+                className="w-full bg-raised border border-default rounded-lg px-3 py-2.5 text-sm text-primary outline-none focus:border-[var(--border-focus)]"
                 value={form.accountId}
                 onChange={e => {
                   const acc = accounts.find(a => a.id === parseInt(e.target.value));
@@ -248,11 +248,11 @@ export default function TransactionsPage() {
           <div className="grid gap-3 mb-3" style={{ gridTemplateColumns: "1.5fr 1fr 1fr" }}>
             {/* Subcategoria agrupada por categoria */}
             <div>
-              <label className="block text-[11px] text-[#5a5f78] uppercase tracking-wide font-medium mb-1.5">
+              <label className="block text-[11px] text-faint uppercase tracking-wide font-medium mb-1.5">
                 {t("transactions.form.subcategory")}
               </label>
               <select
-                className="w-full bg-[#1a1d2e] border border-[#2a2d3a] rounded-lg px-3 py-2.5 text-sm text-[#e8e6e0] outline-none focus:border-[#6366f1]"
+                className="w-full bg-raised border border-default rounded-lg px-3 py-2.5 text-sm text-primary outline-none focus:border-[var(--border-focus)]"
                 value={form.subcategoryId}
                 onChange={e => setForm(f => ({ ...f, subcategoryId: e.target.value }))}
               >
@@ -287,7 +287,7 @@ export default function TransactionsPage() {
           {/* Toggle recorrente */}
           <div
             className="p-4 rounded-xl mb-4 border transition-colors"
-            style={{ borderColor: form.recurring ? "#7c3aed" : "#2a2d3a", background: "#1a1d2e" }}
+            style={{ borderColor: form.recurring ? "var(--brand)" : "var(--border)", background: "var(--surface-raised)" }}
           >
             <label className="flex items-center gap-3 cursor-pointer">
               <input
@@ -297,15 +297,15 @@ export default function TransactionsPage() {
                 onChange={e => setForm(f => ({ ...f, recurring: e.target.checked, hasEndDate: false, endDate: "" }))}
               />
               <div>
-                <div className={`text-sm font-semibold ${form.recurring ? "text-[#c084fc]" : "text-[#8a8fa8]"}`}>
+                <div className={`text-sm font-semibold ${form.recurring ? "text-[#c084fc]" : "text-muted"}`}>
                   🔄 {t("transactions.recurring.label")}
                 </div>
-                <div className="text-xs text-[#5a5f78] mt-0.5">{t("transactions.recurring.desc")}</div>
+                <div className="text-xs text-faint mt-0.5">{t("transactions.recurring.desc")}</div>
               </div>
             </label>
 
             {form.recurring && (
-              <div className="mt-4 pt-4 border-t border-[#2a2d3a]">
+              <div className="mt-4 pt-4 border-t border-default">
                 <label className="flex items-center gap-3 cursor-pointer mb-3">
                   <input
                     type="checkbox"
@@ -313,7 +313,7 @@ export default function TransactionsPage() {
                     checked={form.hasEndDate}
                     onChange={e => setForm(f => ({ ...f, hasEndDate: e.target.checked, endDate: "" }))}
                   />
-                  <span className="text-sm text-[#8a8fa8]">{t("transactions.recurring.hasEndDate")}</span>
+                  <span className="text-sm text-muted">{t("transactions.recurring.hasEndDate")}</span>
                 </label>
                 {form.hasEndDate ? (
                   <div className="max-w-[220px]">
@@ -326,7 +326,7 @@ export default function TransactionsPage() {
                     />
                   </div>
                 ) : (
-                  <div className="text-xs text-[#5a5f78] italic">{t("transactions.recurring.noEndDesc")}</div>
+                  <div className="text-xs text-faint italic">{t("transactions.recurring.noEndDesc")}</div>
                 )}
               </div>
             )}
@@ -337,8 +337,8 @@ export default function TransactionsPage() {
             <div
               className="px-4 py-2.5 rounded-lg mb-4 text-sm font-semibold"
               style={{
-                background: selectedSub.type === "income" ? "#1f3a2a" : "#3a1f1f",
-                color: selectedSub.type === "income" ? "#4ade80" : "#f87171",
+                background: selectedSub.type === "income" ? "var(--success-bg)" : "var(--danger-bg)",
+                color: selectedSub.type === "income" ? "var(--success)" : "var(--danger)",
               }}
             >
               {form.recurring
@@ -351,7 +351,7 @@ export default function TransactionsPage() {
           <div className="flex gap-2">
             <Button
               onClick={handleSave}
-              style={{ background: form.recurring ? "#7c3aed" : undefined }}
+              style={{ background: form.recurring ? "var(--brand)" : undefined }}
             >
               {form.recurring ? "🔄 " + t("transactions.recurring.create") : t("transactions.register")}
             </Button>
@@ -365,7 +365,7 @@ export default function TransactionsPage() {
         <Card className="overflow-auto">
           <table className="w-full border-collapse">
             <thead>
-              <tr className="text-[11px] text-[#5a5f78] uppercase tracking-wide">
+              <tr className="text-[11px] text-faint uppercase tracking-wide">
                 {[t("common.date"), t("transactions.table.subcategory"), t("transactions.table.account"), t("common.type"), t("common.notes"), t("transactions.table.value"), ""].map((h, i) => (
                   <th key={i} className={`pb-3 font-semibold ${i === 5 ? "text-right" : "text-left"}`}>{h}</th>
                 ))}
@@ -377,26 +377,26 @@ export default function TransactionsPage() {
                 const cat  = categories.find(c => c.id === sub?.categoryId);
                 const acc  = accounts.find(a => a.id === tx.accountId);
                 const isPos = tx.type === "income";
-                const color = TYPE_COLOR[tx.type] || "#8a8fa8";
-                const bg    = TYPE_BG[tx.type]    || "#2a2d3a";
+                const color = TYPE_COLOR[tx.type] || "var(--text-muted)";
+                const bg    = TYPE_BG[tx.type]    || "var(--border)";
 
                 return (
-                  <tr key={tx.id} className="border-t border-[#2a2d3a]">
-                    <td className="py-3 text-sm text-[#8a8fa8] whitespace-nowrap pr-4">
+                  <tr key={tx.id} className="border-t border-default">
+                    <td className="py-3 text-sm text-muted whitespace-nowrap pr-4">
                       {new Date(tx.date).toLocaleDateString("pt-PT")}
                     </td>
                     <td className="py-3 pr-4">
-                      <div className="text-sm text-[#e8e6e0]">{sub?.name || "—"}</div>
-                      <div className="text-xs text-[#5a5f78]">{cat?.name}</div>
+                      <div className="text-sm text-primary">{sub?.name || "—"}</div>
+                      <div className="text-xs text-faint">{cat?.name}</div>
                     </td>
-                    <td className="py-3 pr-4 text-sm text-[#8a8fa8]">{acc?.name || "—"}</td>
+                    <td className="py-3 pr-4 text-sm text-muted">{acc?.name || "—"}</td>
                     <td className="py-3 pr-4">
                       <span className="inline-block px-2 py-0.5 rounded-full text-[11px] font-semibold" style={{ background: bg, color }}>
                         {t("categories.types." + tx.type)}
                       </span>
                     </td>
-                    <td className="py-3 pr-4 text-sm text-[#5a5f78] max-w-[140px] truncate">{tx.notes || "—"}</td>
-                    <td className="py-3 text-right text-sm font-bold tabular-nums" style={{ color: isPos ? "#4ade80" : "#f87171" }}>
+                    <td className="py-3 pr-4 text-sm text-faint max-w-[140px] truncate">{tx.notes || "—"}</td>
+                    <td className="py-3 text-right text-sm font-bold tabular-nums" style={{ color: isPos ? "var(--success)" : "var(--danger)" }}>
                       {isPos ? "+" : "-"}{fmt(tx.amount, tx.currency)}
                     </td>
                     <td className="py-3 pl-3">
@@ -407,7 +407,7 @@ export default function TransactionsPage() {
               })}
               {sorted.length === 0 && (
                 <tr>
-                  <td colSpan={7} className="py-10 text-center text-[#5a5f78] text-sm">
+                  <td colSpan={7} className="py-10 text-center text-faint text-sm">
                     {t("transactions.empty")}
                   </td>
                 </tr>
@@ -420,12 +420,12 @@ export default function TransactionsPage() {
       {/* Tab: Recorrentes */}
       {activeTab === "recurring" && (
         <div>
-          <div className="text-xs text-[#5a5f78] mb-4 leading-relaxed">
+          <div className="text-xs text-faint mb-4 leading-relaxed">
             {t("transactions.recurring.helpText")}
           </div>
 
           {recurringRules.length === 0 && (
-            <Card className="text-center py-10 text-[#5a5f78]">
+            <Card className="text-center py-10 text-faint">
               {t("transactions.recurring.empty")}
             </Card>
           )}
@@ -436,8 +436,8 @@ export default function TransactionsPage() {
               const cat      = categories.find(c => c.id === sub?.categoryId);
               const acc      = accounts.find(a => a.id === rule.accountId);
               const isPos    = rule.type === "income";
-              const color    = TYPE_COLOR[rule.type] || "#8a8fa8";
-              const bg       = TYPE_BG[rule.type]    || "#2a2d3a";
+              const color    = TYPE_COLOR[rule.type] || "var(--text-muted)";
+              const bg       = TYPE_BG[rule.type]    || "var(--border)";
               const isEditing = editingRule === rule.id;
               const endLabel  = rule.hasNoEnd
                 ? t("transactions.recurring.noEnd")
@@ -450,9 +450,9 @@ export default function TransactionsPage() {
                   key={rule.id}
                   className="rounded-xl p-4 transition-all"
                   style={{
-                    background:  "#1a1d2e",
-                    border:      `1px solid ${isEditing ? "#a855f7" : rule.active ? "#2a2d3a" : "#1e2030"}`,
-                    borderLeft:  `3px solid ${rule.active ? color : "#3a3d52"}`,
+                    background:  "var(--surface-raised)",
+                    border:      `1px solid ${isEditing ? "var(--brand-light)" : rule.active ? "var(--border)" : "var(--surface-overlay)"}`,
+                    borderLeft:  `3px solid ${rule.active ? color : "var(--border-strong)"}`,
                     opacity:     rule.active ? 1 : 0.6,
                   }}
                 >
@@ -462,33 +462,33 @@ export default function TransactionsPage() {
                         <span className="text-2xl">🔄</span>
                         <div>
                           <div className="flex items-center gap-2 flex-wrap">
-                            <span className="text-[15px] font-semibold text-[#e8e6e0]">{sub?.name || "—"}</span>
+                            <span className="text-[15px] font-semibold text-primary">{sub?.name || "—"}</span>
                             <span className="inline-block px-2 py-0.5 rounded-full text-[11px] font-semibold" style={{ background: bg, color }}>
                               {t("categories.types." + rule.type)}
                             </span>
                             {!rule.active && (
-                              <span className="text-[11px] text-[#5a5f78] border border-[#3a3d52] rounded-full px-2 py-0.5">
+                              <span className="text-[11px] text-faint border border-[#3a3d52] rounded-full px-2 py-0.5">
                                 {t("transactions.recurring.paused")}
                               </span>
                             )}
                           </div>
-                          <div className="text-xs text-[#5a5f78] mt-1">
+                          <div className="text-xs text-faint mt-1">
                             {cat?.name} · {acc?.name} · {new Date(rule.startDate).toLocaleDateString("pt-PT")} → {endLabel}
                           </div>
-                          {rule.notes && <div className="text-xs text-[#5a5f78] italic mt-0.5">{rule.notes}</div>}
+                          {rule.notes && <div className="text-xs text-faint italic mt-0.5">{rule.notes}</div>}
                         </div>
                       </div>
                       <div className="flex items-center gap-3">
-                        <span className="text-base font-bold tabular-nums" style={{ color: isPos ? "#4ade80" : "#f87171" }}>
+                        <span className="text-base font-bold tabular-nums" style={{ color: isPos ? "var(--success)" : "var(--danger)" }}>
                           {isPos ? "+" : "-"}{fmt(rule.amount, rule.currency)}
-                          <span className="text-xs text-[#5a5f78] font-normal">/mês</span>
+                          <span className="text-xs text-faint font-normal">/mês</span>
                         </span>
                         <div className="flex gap-1.5">
                           <Button variant="secondary" size="sm" onClick={() => startEditRule(rule)}>✏</Button>
                           <Button
                             variant="secondary" size="sm"
                             onClick={() => handleToggleRule(rule.id)}
-                            className={rule.active ? "text-[#fb923c]" : "text-[#4ade80]"}
+                            className={rule.active ? "text-warning" : "text-success"}
                           >
                             {rule.active ? "⏸" : "▶"}
                           </Button>
@@ -518,7 +518,7 @@ export default function TransactionsPage() {
                           />
                         </div>
                         <div className="flex-1 min-w-[160px]">
-                          <label className="flex items-center gap-2 text-[11px] text-[#5a5f78] uppercase tracking-wide font-medium mb-1.5 cursor-pointer">
+                          <label className="flex items-center gap-2 text-[11px] text-faint uppercase tracking-wide font-medium mb-1.5 cursor-pointer">
                             <input
                               type="checkbox"
                               className="accent-[#6366f1]"
@@ -530,7 +530,7 @@ export default function TransactionsPage() {
                           {!editRuleForm.hasNoEnd && (
                             <input
                               type="date"
-                              className="w-full bg-[#1a1d2e] border border-[#2a2d3a] rounded-lg px-3 py-2.5 text-sm text-[#e8e6e0] outline-none focus:border-[#6366f1]"
+                              className="w-full bg-raised border border-default rounded-lg px-3 py-2.5 text-sm text-primary outline-none focus:border-[var(--border-focus)]"
                               value={editRuleForm.endDate}
                               onChange={e => setEditRuleForm(f => ({ ...f, endDate: e.target.value }))}
                             />
@@ -538,7 +538,7 @@ export default function TransactionsPage() {
                         </div>
                       </div>
                       <div className="flex gap-2">
-                        <Button onClick={() => saveEditRule(rule)} style={{ background: "#7c3aed" }}>
+                        <Button onClick={() => saveEditRule(rule)} style={{ background: "var(--brand)" }}>
                           {t("transactions.recurring.saveFuture")}
                         </Button>
                         <Button variant="secondary" onClick={() => setEditingRule(null)}>{t("common.cancel")}</Button>
