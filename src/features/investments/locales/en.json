@@ -1,0 +1,76 @@
+{
+  "addOperation": "New Operation",
+  "editOperation": "Edit Operation",
+  "buy": "Buy",
+  "sell": "Sell",
+  "filter": "Filter",
+  "filterAll": "All",
+  "tabs": {
+    "portfolio": "Portfolio",
+    "history": "Operations History"
+  },
+  "kpi": {
+    "totalBought": "Total Bought",
+    "totalSold": "Total Sold",
+    "openPositions": "Open Positions",
+    "totalOperations": "Total Operations"
+  },
+  "form": {
+    "assetType": "Asset Type",
+    "exchange": "Exchange / Market",
+    "selectExchange": "Select exchange...",
+    "stock": "Stock",
+    "selectStock": "Select stock...",
+    "ticker": "Ticker / Code",
+    "assetName": "Asset Name",
+    "date": "Operation Date",
+    "quantity": "Quantity",
+    "unitPrice": "Unit Price",
+    "otherCosts": "Other Costs",
+    "dyAnnual": "Annual DY (%)",
+    "total": "Operation Total",
+    "selectAssetType": "Select type...",
+    "account": "Account",
+    "selectAccount": "Select account..."
+  },
+  "quote": {
+    "loading": "Fetching quote...",
+    "current": "Current Quote",
+    "apply": "Use Quote",
+    "notFound": "Quote not found",
+    "error": "Error fetching quote"
+  },
+  "table": {
+    "asset": "Asset",
+    "type": "Type",
+    "quantity": "Quantity",
+    "avgPrice": "Avg. Price",
+    "totalBought": "Total Bought",
+    "totalSold": "Total Sold",
+    "dy": "Annual DY",
+    "ops": "Ops.",
+    "operation": "Operation",
+    "date": "Date",
+    "unitPrice": "Unit Price",
+    "costs": "Costs",
+    "total": "Total"
+  },
+  "portfolio": {
+    "empty": "No positions in portfolio",
+    "emptyDesc": "Register your first buy operation"
+  },
+  "history": {
+    "empty": "No operations",
+    "emptyFilter": "for this asset type"
+  },
+  "toast": {
+    "buyRegistered": "Buy registered!",
+    "sellRegistered": "Sell registered!",
+    "updated": "Operation updated!",
+    "deleted": "Operation deleted",
+    "fillRequired": "Fill in ticker, date, quantity and price",
+    "invalidValues": "Quantity and price must be positive",
+    "selectAssetType": "Select an asset type",
+    "selectAccount": "Select an account"
+  }
+}

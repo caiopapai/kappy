@@ -1,0 +1,31 @@
+{
+  "title": "Mis Cuentas",
+  "add": "Nueva Cuenta",
+  "edit": "Editar Cuenta",
+  "form": {
+    "name": "Nombre de la Cuenta",
+    "namePlaceholder": "Ej: Cuenta Principal",
+    "type": "Tipo",
+    "balance": "Saldo Inicial",
+    "currency": "Moneda"
+  },
+  "types": {
+    "checking": "Cuenta Corriente",
+    "savings": "Cuenta de Ahorros",
+    "investment": "Inversión",
+    "credit_card": "Tarjeta de Crédito",
+    "personal_credit": "Crédito Personal",
+    "car_credit": "Crédito de Auto",
+    "housing_credit": "Hipoteca"
+  },
+  "balance": {
+    "positive": "✓ Saldo positivo",
+    "negative": "⚠ Saldo negativo"
+  },
+  "toast": {
+    "created": "¡Cuenta creada!",
+    "updated": "¡Cuenta actualizada!",
+    "deleted": "Cuenta eliminada"
+  },
+  "empty": "Sin cuentas. ¡Crea la primera!"
+}

@@ -1,0 +1,34 @@
+{
+  "title": "Categorias",
+  "titleSub": "Subcategorias",
+  "add": "Nova Categoria",
+  "addSub": "Nova Subcategoria",
+  "edit": "Editar Categoria",
+  "editSub": "Editar Subcategoria",
+  "form": {
+    "name": "Nome",
+    "namePlaceholder": "Ex: Alimentação",
+    "namePlaceholderSub": "Ex: Supermercado",
+    "type": "Tipo",
+    "parentCategory": "Categoria Pai",
+    "selectCategory": "Selecionar categoria..."
+  },
+  "types": {
+    "income": "Ganho",
+    "investment": "Investimento",
+    "fixed_expense": "Despesa Fixa",
+    "variable_expense": "Despesa Variável"
+  },
+  "subcountLabel": "{{count}} sub.",
+  "toast": {
+    "created": "Categoria criada!",
+    "updated": "Categoria atualizada!",
+    "deleted": "Categoria removida",
+    "createdSub": "Subcategoria criada!",
+    "updatedSub": "Subcategoria atualizada!",
+    "deletedSub": "Subcategoria removida",
+    "deletedWithSubs": "Categoria e {{count}} subcategoria(s) removidas"
+  },
+  "empty": "Sem categorias. Crie a primeira!",
+  "emptySub": "Sem subcategorias. Crie a primeira!"
+}

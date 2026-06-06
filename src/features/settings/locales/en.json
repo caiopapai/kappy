@@ -1,0 +1,154 @@
+{
+  "title": "Settings",
+  "sections": {
+    "language": {
+      "label": "Default Language",
+      "desc": "Interface language"
+    },
+    "theme": {
+      "label": "Default Theme",
+      "desc": "Application appearance"
+    },
+    "currency": {
+      "label": "Default Currency",
+      "desc": "Currency used by default"
+    },
+    "sheet": {
+      "label": "Sheet Config",
+      "desc": "Google Sheet URL and access key"
+    },
+    "backup": {
+      "label": "Backups",
+      "desc": "Export and import data"
+    },
+    "marketApis": {
+      "label": "Market APIs",
+      "desc": "Stock quotes by exchange"
+    },
+    "data": {
+      "label": "Data",
+      "desc": "Active data source"
+    }
+  },
+  "language": {
+    "title": "Default Language",
+    "label": "Interface language",
+    "select": "Select language",
+    "saved": "Language saved!",
+    "saveButton": "Save Language",
+    "instantApply": "💡 Language changes are applied immediately across the entire application.",
+    "languages": {
+      "pt-BR": "Português (Brasil)",
+      "pt-PT": "Português (Portugal)",
+      "en": "English",
+      "es": "Español"
+    }
+  },
+  "sheet": {
+    "url": "Apps Script URL",
+    "urlPlaceholder": "https://script.google.com/macros/s/.../exec",
+    "urlHelp": "Generated when publishing the Apps Script as a Web App.",
+    "urlHelpLink": "How to get the URL →",
+    "apiKey": "Access Key (API Key)",
+    "apiKeyPlaceholder": "Your secret key",
+    "apiKeyHelp": "Recommended. Set a key in the Apps Script to protect your data.",
+    "securityNote": "These credentials are stored only on your device. Kappy never sends them to external servers.",
+    "securityWarn": "Never share the URL or the key.",
+    "configured": "Configured",
+    "testButton": "🔍 Test Connection",
+    "saveButton": "Save",
+    "saved": "✓ Saved!",
+    "testing": "Testing connection...",
+    "testOk": "Connection established! Engine and Google Sheets are working.",
+    "testError": "Could not connect. Check the URL and try again.",
+    "comingSoonDesc": "is being developed. Stay tuned for upcoming Kappy updates.",
+    "manualSetup": {
+      "title": "How to configure manually:",
+      "step1": "Open the kappy-engine/.env file",
+      "step2": "Set SHEETS_URL= with your Apps Script URL",
+      "step3": "Set SHEETS_API_KEY= with your key",
+      "step4": "Restart kappy-engine with npm run dev"
+    },
+    "security": {
+      "title": "Security information",
+      "message": "The URL and access key give full access to your financial data. Never share them with anyone. Store them in a password manager. Kappy stores these credentials only locally on your device."
+    },
+    "providers": {
+      "online": "☁️ Online",
+      "offline": "💾 Offline",
+      "descs": {
+        "google_sheets": "Google Drive",
+        "excel_365": "Microsoft OneDrive",
+        "apple_numbers_cloud": "Apple iCloud",
+        "airtable": "Airtable Cloud",
+        "notion": "Notion Database",
+        "excel_local": "Local .xlsx file",
+        "libreoffice": "LibreOffice / OpenOffice",
+        "apple_numbers_local": "Apple Numbers local",
+        "csv": "Universal .csv file"
+      }
+    },
+    "engineError": "kappy-engine did not respond",
+    "engineOffline": "kappy-engine offline. Check it's running at http://localhost:3001",
+    "step": {
+      "engineUrl": "Configure kappy-engine in the frontend",
+      "engineUrlDesc": "Add to file",
+      "engineEnv": "Configure credentials in the engine",
+      "engineEnvDesc": "Add to file"
+    }
+  },
+  "marketApis": {
+    "securityTitle": "Security information",
+    "securityMessage": "API tokens and keys are stored locally on your device and sent only to kappy-engine. They are never exposed in the browser or shared with third parties.",
+    "configured": "Configured exchanges",
+    "addConfig": "Add exchange",
+    "editConfig": "Edit configuration",
+    "saveConfig": "Save configuration",
+    "exchange": "Exchange / Market",
+    "provider": "Quote provider",
+    "credentials": "Credentials",
+    "optional": "optional",
+    "withCredentials": "with credentials",
+    "noCredentialsNeeded": "This provider does not require credentials to work.",
+    "storageNote": "Credentials are stored locally. kappy-engine uses them to authenticate with the API — they are never sent to the browser.",
+    "emptyState": "Select an exchange to configure the quote provider.",
+    "toast": {
+      "saved": "Configuration saved!",
+      "deleted": "Configuration deleted"
+    }
+  },
+  "data": {
+    "active": "Active",
+    "options": {
+      "demo": {
+        "label": "Demo",
+        "desc": "Sample data"
+      },
+      "sheets": {
+        "label": "Sheets",
+        "desc": "Online & offline"
+      },
+      "database": {
+        "label": "Database",
+        "desc": "SQL & NoSQL"
+      }
+    },
+    "demo": {
+      "subtitle": "Demo data with no persistence",
+      "warningTitle": "Temporary data",
+      "warningDesc": "Demo mode data is stored in memory only and will be lost on page reload. To persist data, configure a data source under Sheets or Database.",
+      "includes": "Included data"
+    },
+    "database": {
+      "subtitle": "SQL and NoSQL databases",
+      "desc": "Database support will be added in future versions of kappy-engine. Each provider will have its own repository implementing the same interface."
+    }
+  },
+  "theme": {
+    "dark": "Dark",
+    "light": "Light",
+    "current": "Current theme",
+    "hint": "Changes the app appearance",
+    "toggle": "Toggle theme"
+  }
+}

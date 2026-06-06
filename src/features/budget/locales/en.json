@@ -1,0 +1,25 @@
+{
+  "title": "Annual Planning",
+  "addRow": "Add Row",
+  "add": "Add",
+  "selectSubcategory": "Subcategory",
+  "selectSubcategoryPlaceholder": "Select...",
+  "defaultValue": "Monthly value",
+  "subcategory": "Category / Subcategory",
+  "total": "Year Total",
+  "netBalance": "Monthly Balance",
+  "legend": {
+    "planned": "Budgeted",
+    "actual": "Actual",
+    "diff": "Difference",
+    "hint": "Click a cell to edit"
+  },
+  "toast": {
+    "rowAdded": "Row added",
+    "rowRemoved": "Row removed",
+    "alreadyExists": "Subcategory already in budget",
+    "selectSub": "Select a subcategory"
+  },
+  "expandAll": "Expand all",
+  "collapseAll": "Collapse all"
+}

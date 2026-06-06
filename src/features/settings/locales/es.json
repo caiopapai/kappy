@@ -1,0 +1,154 @@
+{
+  "title": "Configuración",
+  "sections": {
+    "language": {
+      "label": "Idioma Predeterminado",
+      "desc": "Idioma de la interfaz"
+    },
+    "theme": {
+      "label": "Tema Predeterminado",
+      "desc": "Apariencia de la aplicación"
+    },
+    "currency": {
+      "label": "Moneda Predeterminada",
+      "desc": "Moneda usada por defecto"
+    },
+    "sheet": {
+      "label": "Sheet Config",
+      "desc": "URL y clave de acceso a Google Sheets"
+    },
+    "backup": {
+      "label": "Copias de Seguridad",
+      "desc": "Exportar e importar datos"
+    },
+    "marketApis": {
+      "label": "APIs de Mercado",
+      "desc": "Cotizaciones por bolsa"
+    },
+    "data": {
+      "label": "Datos",
+      "desc": "Fuente de datos activa"
+    }
+  },
+  "language": {
+    "title": "Idioma Predeterminado",
+    "label": "Idioma de la interfaz",
+    "select": "Seleccionar idioma",
+    "saved": "¡Idioma guardado!",
+    "saveButton": "Guardar Idioma",
+    "instantApply": "💡 El cambio de idioma se aplica inmediatamente en toda la aplicación.",
+    "languages": {
+      "pt-BR": "Português (Brasil)",
+      "pt-PT": "Português (Portugal)",
+      "en": "English",
+      "es": "Español"
+    }
+  },
+  "sheet": {
+    "url": "URL del Apps Script",
+    "urlPlaceholder": "https://script.google.com/macros/s/.../exec",
+    "urlHelp": "Generado al publicar el Apps Script como Web App.",
+    "urlHelpLink": "Cómo obtener la URL →",
+    "apiKey": "Clave de Acceso (API Key)",
+    "apiKeyPlaceholder": "Tu clave secreta",
+    "apiKeyHelp": "Recomendado. Define una clave en el Apps Script para proteger tus datos.",
+    "securityNote": "Estas credenciales se almacenan solo en tu dispositivo. Kappy nunca las envía a servidores externos.",
+    "securityWarn": "Nunca compartas la URL ni la clave.",
+    "configured": "Configurado",
+    "testButton": "🔍 Probar Conexión",
+    "saveButton": "Guardar",
+    "saved": "✓ ¡Guardado!",
+    "testing": "Probando conexión...",
+    "testOk": "¡Conexión establecida con éxito! Engine y Google Sheets funcionando.",
+    "testError": "No fue posible conectar. Verifica la URL e intenta de nuevo.",
+    "comingSoonDesc": "está siendo desarrollado. Estate atento a las próximas actualizaciones de Kappy.",
+    "manualSetup": {
+      "title": "Cómo configurar manualmente:",
+      "step1": "Abre el archivo kappy-engine/.env",
+      "step2": "Define SHEETS_URL= con la URL de tu Apps Script",
+      "step3": "Define SHEETS_API_KEY= con tu clave",
+      "step4": "Reinicia kappy-engine con npm run dev"
+    },
+    "security": {
+      "title": "Información de seguridad",
+      "message": "La URL y la clave de acceso dan acceso completo a tus datos financieros. Nunca los compartas con nadie. Guárdalos en un gestor de contraseñas. Kappy almacena estas credenciales solo localmente en tu dispositivo."
+    },
+    "providers": {
+      "online": "☁️ Online",
+      "offline": "💾 Offline",
+      "descs": {
+        "google_sheets": "Google Drive",
+        "excel_365": "Microsoft OneDrive",
+        "apple_numbers_cloud": "Apple iCloud",
+        "airtable": "Airtable Cloud",
+        "notion": "Notion Database",
+        "excel_local": "Archivo local .xlsx",
+        "libreoffice": "LibreOffice / OpenOffice",
+        "apple_numbers_local": "Apple Numbers local",
+        "csv": "Archivo .csv universal"
+      }
+    },
+    "engineError": "kappy-engine no respondió",
+    "engineOffline": "kappy-engine offline. Verifica que esté corriendo en http://localhost:3001",
+    "step": {
+      "engineUrl": "Configura kappy-engine en el frontend",
+      "engineUrlDesc": "Añade al archivo",
+      "engineEnv": "Configura las credenciales en el engine",
+      "engineEnvDesc": "Añade al archivo"
+    }
+  },
+  "marketApis": {
+    "securityTitle": "Información de seguridad",
+    "securityMessage": "Los tokens y claves de API se guardan localmente en tu dispositivo y se envían solo al kappy-engine. Nunca se exponen en el browser ni se comparten con terceros.",
+    "configured": "Bolsas configuradas",
+    "addConfig": "Añadir bolsa",
+    "editConfig": "Editar configuración",
+    "saveConfig": "Guardar configuración",
+    "exchange": "Bolsa / Mercado",
+    "provider": "Proveedor de cotizaciones",
+    "credentials": "Credenciales",
+    "optional": "opcional",
+    "withCredentials": "con credenciales",
+    "noCredentialsNeeded": "Este proveedor no necesita credenciales para funcionar.",
+    "storageNote": "Las credenciales se guardan localmente. kappy-engine las usa para autenticarse con la API — nunca se envían al browser.",
+    "emptyState": "Selecciona una bolsa para configurar el proveedor de cotizaciones.",
+    "toast": {
+      "saved": "¡Configuración guardada!",
+      "deleted": "Configuración eliminada"
+    }
+  },
+  "data": {
+    "active": "Activo",
+    "options": {
+      "demo": {
+        "label": "Demo",
+        "desc": "Datos de muestra"
+      },
+      "sheets": {
+        "label": "Sheets",
+        "desc": "Online y offline"
+      },
+      "database": {
+        "label": "Database",
+        "desc": "SQL y NoSQL"
+      }
+    },
+    "demo": {
+      "subtitle": "Datos de demostración sin persistencia",
+      "warningTitle": "Datos temporales",
+      "warningDesc": "Los datos del modo Demo se almacenan solo en memoria y se perderán al recargar la página. Para persistir los datos, configura una fuente de datos en Sheets o Database.",
+      "includes": "Datos incluidos"
+    },
+    "database": {
+      "subtitle": "Bases de datos SQL y NoSQL",
+      "desc": "El soporte para bases de datos se añadirá en versiones futuras de kappy-engine. Cada provider tendrá su propio repositorio con la misma interfaz."
+    }
+  },
+  "theme": {
+    "dark": "Oscuro",
+    "light": "Claro",
+    "current": "Tema actual",
+    "hint": "Cambia la apariencia de la aplicación",
+    "toggle": "Cambiar tema"
+  }
+}
