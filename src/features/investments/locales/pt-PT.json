@@ -1,0 +1,76 @@
+{
+  "addOperation": "Nova Operação",
+  "editOperation": "Editar Operação",
+  "buy": "Compra",
+  "sell": "Venda",
+  "filter": "Filtrar",
+  "filterAll": "Todos",
+  "tabs": {
+    "portfolio": "Carteira",
+    "history": "Histórico de Operações"
+  },
+  "kpi": {
+    "totalBought": "Total Comprado",
+    "totalSold": "Total Vendido",
+    "openPositions": "Posições Abertas",
+    "totalOperations": "Total de Operações"
+  },
+  "form": {
+    "assetType": "Tipo de Activo",
+    "exchange": "Bolsa / Mercado",
+    "selectExchange": "Seleccionar bolsa...",
+    "stock": "Acção",
+    "selectStock": "Seleccionar acção...",
+    "ticker": "Ticker / Código",
+    "assetName": "Nome do Activo",
+    "date": "Data da Operação",
+    "quantity": "Quantidade",
+    "unitPrice": "Preço Unitário",
+    "otherCosts": "Outros Custos",
+    "dyAnnual": "DY Anual (%)",
+    "total": "Total da Operação",
+    "selectAssetType": "Selecionar tipo...",
+    "account": "Conta",
+    "selectAccount": "Selecionar conta..."
+  },
+  "quote": {
+    "loading": "A buscar cotação...",
+    "current": "Cotação Actual",
+    "apply": "Usar Cotação",
+    "notFound": "Cotação não encontrada",
+    "error": "Erro ao buscar cotação"
+  },
+  "table": {
+    "asset": "Activo",
+    "type": "Tipo",
+    "quantity": "Quantidade",
+    "avgPrice": "Preço Médio",
+    "totalBought": "Total Comprado",
+    "totalSold": "Total Vendido",
+    "dy": "DY Anual",
+    "ops": "Ops.",
+    "operation": "Operação",
+    "date": "Data",
+    "unitPrice": "Preço Unit.",
+    "costs": "Custos",
+    "total": "Total"
+  },
+  "portfolio": {
+    "empty": "Sem posições em carteira",
+    "emptyDesc": "Regista a primeira operação de compra"
+  },
+  "history": {
+    "empty": "Sem operações",
+    "emptyFilter": "para este tipo de activo"
+  },
+  "toast": {
+    "buyRegistered": "Compra registada!",
+    "sellRegistered": "Venda registada!",
+    "updated": "Operação actualizada!",
+    "deleted": "Operação removida",
+    "fillRequired": "Preenche ticker, data, quantidade e preço",
+    "invalidValues": "Quantidade e preço devem ser positivos",
+    "selectAssetType": "Selecciona o tipo de activo",
+    "selectAccount": "Selecciona uma conta"
+  }
+}

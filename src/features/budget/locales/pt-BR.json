@@ -1,0 +1,25 @@
+{
+  "title": "Planeamento Anual",
+  "addRow": "Adicionar Linha",
+  "add": "Adicionar",
+  "selectSubcategory": "Subcategoria",
+  "selectSubcategoryPlaceholder": "Selecionar...",
+  "defaultValue": "Valor mensal",
+  "subcategory": "Categoria / Subcategoria",
+  "total": "Total Ano",
+  "netBalance": "Saldo do Mês",
+  "legend": {
+    "planned": "Orçamentado",
+    "actual": "Realizado",
+    "diff": "Diferença",
+    "hint": "Clique numa célula para editar"
+  },
+  "toast": {
+    "rowAdded": "Linha adicionada",
+    "rowRemoved": "Linha removida",
+    "alreadyExists": "Subcategoria já existe no orçamento",
+    "selectSub": "Seleciona uma subcategoria"
+  },
+  "expandAll": "Expandir tudo",
+  "collapseAll": "Recolher tudo"
+}

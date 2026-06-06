@@ -1,0 +1,76 @@
+{
+  "addOperation": "Nueva Operación",
+  "editOperation": "Editar Operación",
+  "buy": "Compra",
+  "sell": "Venta",
+  "filter": "Filtrar",
+  "filterAll": "Todos",
+  "tabs": {
+    "portfolio": "Cartera",
+    "history": "Historial de Operaciones"
+  },
+  "kpi": {
+    "totalBought": "Total Comprado",
+    "totalSold": "Total Vendido",
+    "openPositions": "Posiciones Abiertas",
+    "totalOperations": "Total de Operaciones"
+  },
+  "form": {
+    "assetType": "Tipo de Activo",
+    "exchange": "Bolsa / Mercado",
+    "selectExchange": "Seleccionar bolsa...",
+    "stock": "Acción",
+    "selectStock": "Seleccionar acción...",
+    "ticker": "Ticker / Código",
+    "assetName": "Nombre del Activo",
+    "date": "Fecha de la Operación",
+    "quantity": "Cantidad",
+    "unitPrice": "Precio Unitario",
+    "otherCosts": "Otros Costos",
+    "dyAnnual": "DY Anual (%)",
+    "total": "Total de la Operación",
+    "selectAssetType": "Seleccionar tipo...",
+    "account": "Cuenta",
+    "selectAccount": "Seleccionar cuenta..."
+  },
+  "quote": {
+    "loading": "Buscando cotización...",
+    "current": "Cotización Actual",
+    "apply": "Usar Cotización",
+    "notFound": "Cotización no encontrada",
+    "error": "Error al buscar cotización"
+  },
+  "table": {
+    "asset": "Activo",
+    "type": "Tipo",
+    "quantity": "Cantidad",
+    "avgPrice": "Precio Medio",
+    "totalBought": "Total Comprado",
+    "totalSold": "Total Vendido",
+    "dy": "DY Anual",
+    "ops": "Ops.",
+    "operation": "Operación",
+    "date": "Fecha",
+    "unitPrice": "Precio Unit.",
+    "costs": "Costos",
+    "total": "Total"
+  },
+  "portfolio": {
+    "empty": "Sin posiciones en cartera",
+    "emptyDesc": "Registra la primera operación de compra"
+  },
+  "history": {
+    "empty": "Sin operaciones",
+    "emptyFilter": "para este tipo de activo"
+  },
+  "toast": {
+    "buyRegistered": "¡Compra registrada!",
+    "sellRegistered": "¡Venta registrada!",
+    "updated": "¡Operación actualizada!",
+    "deleted": "Operación eliminada",
+    "fillRequired": "Completa ticker, fecha, cantidad y precio",
+    "invalidValues": "Cantidad y precio deben ser positivos",
+    "selectAssetType": "Selecciona el tipo de activo",
+    "selectAccount": "Selecciona una cuenta"
+  }
+}

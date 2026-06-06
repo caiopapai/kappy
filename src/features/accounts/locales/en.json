@@ -1,0 +1,31 @@
+{
+  "title": "My Accounts",
+  "add": "New Account",
+  "edit": "Edit Account",
+  "form": {
+    "name": "Account Name",
+    "namePlaceholder": "E.g.: Main Account",
+    "type": "Type",
+    "balance": "Initial Balance",
+    "currency": "Currency"
+  },
+  "types": {
+    "checking": "Checking Account",
+    "savings": "Savings Account",
+    "investment": "Investment",
+    "credit_card": "Credit Card",
+    "personal_credit": "Personal Credit",
+    "car_credit": "Car Loan",
+    "housing_credit": "Mortgage"
+  },
+  "balance": {
+    "positive": "✓ Positive balance",
+    "negative": "⚠ Negative balance"
+  },
+  "toast": {
+    "created": "Account created!",
+    "updated": "Account updated!",
+    "deleted": "Account deleted"
+  },
+  "empty": "No accounts yet. Create the first one!"
+}

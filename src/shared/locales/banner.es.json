@@ -1,0 +1,7 @@
+{
+  "demoMode": "Operando en modo Demo. Los datos no se guardan.",
+  "demoAction": "Elige una fuente de datos para persistir.",
+  "disconnected": "{{provider}} sin conexión. Los datos pueden estar desactualizados.",
+  "disconnectedAction": "Verificar configuración",
+  "dataSource": "Fuente de datos"
+}

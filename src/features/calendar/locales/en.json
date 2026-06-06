@@ -1,0 +1,38 @@
+{
+  "weekdays": [
+    "Sun",
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thu",
+    "Fri",
+    "Sat"
+  ],
+  "months": [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ],
+  "today": "Today",
+  "noEvents": "No transactions on this day",
+  "event": "event",
+  "events": "events",
+  "recurring": "recurring",
+  "export": "Export .ics",
+  "legend": {
+    "income": "Income",
+    "fixed_expense": "Fixed Expense",
+    "variable_expense": "Variable Exp.",
+    "investment": "Investment",
+    "recurring": "Recurring"
+  }
+}

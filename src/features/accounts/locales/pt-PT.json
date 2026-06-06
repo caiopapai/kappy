@@ -1,0 +1,31 @@
+{
+  "title": "As Minhas Contas",
+  "add": "Nova Conta",
+  "edit": "Editar Conta",
+  "form": {
+    "name": "Nome da Conta",
+    "namePlaceholder": "Ex: Conta BCP",
+    "type": "Tipo",
+    "balance": "Saldo Inicial",
+    "currency": "Moeda"
+  },
+  "types": {
+    "checking": "Conta Corrente",
+    "savings": "Poupança",
+    "investment": "Investimento",
+    "credit_card": "Cartão de Crédito",
+    "personal_credit": "Crédito Pessoal",
+    "car_credit": "Crédito de Carro",
+    "housing_credit": "Crédito Habitação"
+  },
+  "balance": {
+    "positive": "✓ Saldo positivo",
+    "negative": "⚠ Saldo negativo"
+  },
+  "toast": {
+    "created": "Conta criada!",
+    "updated": "Conta actualizada!",
+    "deleted": "Conta removida"
+  },
+  "empty": "Sem contas. Cria a primeira!"
+}

@@ -2,11 +2,11 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Card } from "../../components/ui";
-import SheetConfig     from "./SheetConfig";
-import DataConfig      from "./DataConfig";
-import LanguageConfig  from "./LanguageConfig";
-import MarketApisConfig from "./MarketApisConfig";
-import ThemeConfig     from "./ThemeConfig";
+import SheetConfig     from "./SheetSettings";
+import DataConfig      from "./DataSettings";
+import LanguageConfig  from "./LanguageSettings";
+import MarketApisConfig from "./MarketApisSettings";
+import ThemeConfig     from "./ThemeSettings";
 
 export default function SettingsPage() {
   const { t } = useTranslation();

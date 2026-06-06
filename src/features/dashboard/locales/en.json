@@ -1,0 +1,36 @@
+{
+  "kpi": {
+    "totalBalance": "Total Balance",
+    "accounts": "accounts",
+    "monthlyIncome": "Monthly Income",
+    "incomeNote": "income transactions",
+    "monthlyExpense": "Monthly Expenses",
+    "ofIncome": "of income",
+    "netBalance": "Net Balance",
+    "remaining": "Available:"
+  },
+  "expenses": {
+    "title": "Expenses by Category",
+    "empty": "No expenses recorded this month"
+  },
+  "comparison": {
+    "title": "vs Previous Month",
+    "income": "Income",
+    "expense": "Expenses"
+  },
+  "investments": {
+    "title": "Portfolio Distribution",
+    "empty": "No investments recorded"
+  },
+  "burndown": {
+    "title": "Salary Burndown",
+    "subtitle": "Budget evolution throughout the month",
+    "budget": "Ideal budget",
+    "real": "Actual spending",
+    "today": "Today",
+    "noIncome": "No income recorded this month",
+    "startBudget": "Starting budget",
+    "spent": "Spent",
+    "remaining": "Available"
+  }
+}

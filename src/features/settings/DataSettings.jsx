@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Card } from "../../components/ui";
 import { useConfigStore } from "../../store/configStore";
-import SheetConfig from "./SheetConfig";
+import SheetConfig from "./SheetSettings";
 
 // ── Opções de fonte de dados ──────────────────────────────────
 

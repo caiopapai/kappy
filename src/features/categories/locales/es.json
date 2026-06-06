@@ -1,0 +1,34 @@
+{
+  "title": "Categorías",
+  "titleSub": "Subcategorías",
+  "add": "Nueva Categoría",
+  "addSub": "Nueva Subcategoría",
+  "edit": "Editar Categoría",
+  "editSub": "Editar Subcategoría",
+  "form": {
+    "name": "Nombre",
+    "namePlaceholder": "Ej: Alimentación",
+    "namePlaceholderSub": "Ej: Supermercado",
+    "type": "Tipo",
+    "parentCategory": "Categoría Padre",
+    "selectCategory": "Seleccionar categoría..."
+  },
+  "types": {
+    "income": "Ingreso",
+    "investment": "Inversión",
+    "fixed_expense": "Gasto Fijo",
+    "variable_expense": "Gasto Variable"
+  },
+  "subcountLabel": "{{count}} sub.",
+  "toast": {
+    "created": "¡Categoría creada!",
+    "updated": "¡Categoría actualizada!",
+    "deleted": "Categoría eliminada",
+    "createdSub": "¡Subcategoría creada!",
+    "updatedSub": "¡Subcategoría actualizada!",
+    "deletedSub": "Subcategoría eliminada",
+    "deletedWithSubs": "Categoría y {{count}} subcategoría(s) eliminadas"
+  },
+  "empty": "Sin categorías. ¡Crea la primera!",
+  "emptySub": "Sin subcategorías. ¡Crea la primera!"
+}

@@ -1,0 +1,44 @@
+{
+  "title": "Minhas Metas",
+  "add": "Nova Meta",
+  "edit": "Editar Meta",
+  "form": {
+    "type": "Tipo de Meta",
+    "name": "Nome da Meta",
+    "namePlaceholder": "Ex: Independência Financeira",
+    "targetValue": "Valor Alvo",
+    "currency": "Moeda",
+    "accounts": "Contas Associadas",
+    "noAccounts": "Nenhuma conta disponível. Cria uma conta primeiro.",
+    "accountsHint": "O progresso será calculado pelas operações de investimento nestas contas."
+  },
+  "types": {
+    "invested": "Capital Investido",
+    "dividends": "Dividendos Mensais"
+  },
+  "desc": {
+    "invested": "Total em carteira",
+    "dividends": "Rendimento passivo/mês"
+  },
+  "card": {
+    "real": "Real",
+    "target": "Meta",
+    "remaining": "Falta",
+    "achieved": "🎉 Meta atingida!",
+    "invested": "Capital investido em carteira",
+    "dividends": "Rendimento passivo estimado/mês"
+  },
+  "sections": {
+    "invested": "📈 Capital Investido",
+    "dividends": "💰 Dividendos Mensais"
+  },
+  "toast": {
+    "created": "Meta criada!",
+    "updated": "Meta atualizada!",
+    "deleted": "Meta removida"
+  },
+  "empty": {
+    "title": "Ainda não tem metas definidas",
+    "desc": "Clique em \"+ Nova Meta\" para começar a acompanhar o seu progresso"
+  }
+}

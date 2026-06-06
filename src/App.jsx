@@ -11,14 +11,14 @@ import { useBudgetsStore }      from "./store/budgetsStore";
 import { useConfigStore }       from "./store/configStore";
 import { useSettingsStore }      from "./store/settingsStore";
 import { IS_CONFIGURED, bootstrapApi } from "./services/sheetsApi";
-import AccountsPage     from "./features/pages/AccountsPage";
-import CategoriesPage   from "./features/pages/CategoriesPage";
-import GoalsPage        from "./features/pages/GoalsPage";
-import InvestmentsPage  from "./features/pages/InvestmentsPage";
-import TransactionsPage from "./features/pages/TransactionsPage";
-import DashboardPage    from "./features/pages/DashboardPage";
-import BudgetPage       from "./features/pages/BudgetPage";
-import CalendarPage     from "./features/pages/CalendarPage";
+import AccountsPage     from "./features/accounts/AccountsPage";
+import CategoriesPage   from "./features/categories/CategoriesPage";
+import GoalsPage        from "./features/goals/GoalsPage";
+import InvestmentsPage  from "./features/investments/InvestmentsPage";
+import TransactionsPage from "./features/transactions/TransactionsPage";
+import DashboardPage    from "./features/dashboard/DashboardPage";
+import BudgetPage       from "./features/budget/BudgetPage";
+import CalendarPage     from "./features/calendar/CalendarPage";
 import SettingsPage     from "./features/settings/SettingsPage";
 
 // ── Carga inicial ─────────────────────────────────────────────

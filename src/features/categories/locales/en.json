@@ -1,0 +1,34 @@
+{
+  "title": "Categories",
+  "titleSub": "Subcategories",
+  "add": "New Category",
+  "addSub": "New Subcategory",
+  "edit": "Edit Category",
+  "editSub": "Edit Subcategory",
+  "form": {
+    "name": "Name",
+    "namePlaceholder": "E.g.: Food",
+    "namePlaceholderSub": "E.g.: Groceries",
+    "type": "Type",
+    "parentCategory": "Parent Category",
+    "selectCategory": "Select category..."
+  },
+  "types": {
+    "income": "Income",
+    "investment": "Investment",
+    "fixed_expense": "Fixed Expense",
+    "variable_expense": "Variable Expense"
+  },
+  "subcountLabel": "{{count}} sub.",
+  "toast": {
+    "created": "Category created!",
+    "updated": "Category updated!",
+    "deleted": "Category deleted",
+    "createdSub": "Subcategory created!",
+    "updatedSub": "Subcategory updated!",
+    "deletedSub": "Subcategory deleted",
+    "deletedWithSubs": "Category and {{count}} subcategory(ies) deleted"
+  },
+  "empty": "No categories. Create the first one!",
+  "emptySub": "No subcategories. Create the first one!"
+}

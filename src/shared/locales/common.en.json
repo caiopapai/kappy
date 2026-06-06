@@ -1,0 +1,32 @@
+{
+  "save": "Save",
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "edit": "Edit",
+  "add": "Add",
+  "close": "Close",
+  "confirm": "Confirm",
+  "back": "Back",
+  "loading": "Loading...",
+  "error": "Error",
+  "success": "Success",
+  "yes": "Yes",
+  "no": "No",
+  "name": "Name",
+  "type": "Type",
+  "value": "Value",
+  "date": "Date",
+  "notes": "Notes",
+  "currency": "Currency",
+  "actions": "Actions",
+  "noData": "No data",
+  "comingSoon": "Coming soon",
+  "required": "Required",
+  "invalid": "Invalid value",
+  "connectionError": "Connection error — check your connection",
+  "currencies": {
+    "EUR": "Euro",
+    "BRL": "Real",
+    "USD": "Dollar"
+  }
+}

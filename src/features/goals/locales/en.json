@@ -1,0 +1,44 @@
+{
+  "title": "My Goals",
+  "add": "New Goal",
+  "edit": "Edit Goal",
+  "form": {
+    "type": "Goal Type",
+    "name": "Goal Name",
+    "namePlaceholder": "E.g.: Financial Independence",
+    "targetValue": "Target Value",
+    "currency": "Currency",
+    "accounts": "Associated Accounts",
+    "noAccounts": "No accounts available. Create an account first.",
+    "accountsHint": "Progress will be calculated from investment operations in these accounts."
+  },
+  "types": {
+    "invested": "Invested Capital",
+    "dividends": "Monthly Dividends"
+  },
+  "desc": {
+    "invested": "Total in portfolio",
+    "dividends": "Passive income/month"
+  },
+  "card": {
+    "real": "Actual",
+    "target": "Target",
+    "remaining": "Remaining",
+    "achieved": "🎉 Goal achieved!",
+    "invested": "Capital invested in portfolio",
+    "dividends": "Estimated passive income/month"
+  },
+  "sections": {
+    "invested": "📈 Invested Capital",
+    "dividends": "💰 Monthly Dividends"
+  },
+  "toast": {
+    "created": "Goal created!",
+    "updated": "Goal updated!",
+    "deleted": "Goal deleted"
+  },
+  "empty": {
+    "title": "No goals defined yet",
+    "desc": "Click \"+ New Goal\" to start tracking your progress"
+  }
+}
