@@ -17,7 +17,7 @@ const PROVIDERS = {
     { id: "excel_local",         label: "Excel",           icon: "📊", implemented: false },
     { id: "libreoffice",         label: "LibreOffice Calc",icon: "📋", implemented: false },
     { id: "apple_numbers_local", label: "Numbers",         icon: "🍎", implemented: false },
-    { id: "csv",                 label: "CSV",             icon: "📄", implemented: false },
+    { id: "csv",                 label: "CSV",             icon: "📄", implemented: true  },
   ],
 };
 
@@ -63,6 +63,7 @@ export default function SheetConfig() {
       {/* Formulário */}
       <div>
         {selectedProvider === "google_sheets" && <GoogleSheetsForm />}
+        {selectedProvider === "csv"           && <CsvForm />}
         {provider && !provider.implemented && <ComingSoonForm provider={provider} />}
       </div>
     </div>
@@ -199,6 +200,86 @@ function GoogleSheetsForm() {
           </Button>
         </div>
       </div>
+    </Card>
+  );
+}
+
+function CsvForm() {
+  const { t } = useTranslation();
+
+  const RISKS = [
+    { icon: "⚠️", key: "concurrency" },
+    { icon: "💥", key: "atomic" },
+    { icon: "🔗", key: "relations" },
+    { icon: "🐢", key: "performance" },
+  ];
+
+  return (
+    <Card>
+      <div className="flex items-center gap-3 mb-5">
+        <span className="text-2xl">📄</span>
+        <div>
+          <div className="text-sm font-semibold text-primary">CSV</div>
+          <div className="text-xs text-faint">{t("settings.sheet.csv.subtitle")}</div>
+        </div>
+      </div>
+
+      {/* Aviso */}
+      <div className="flex gap-3 p-4 rounded-xl mb-5"
+        style={{ background: "var(--warning-bg)", border: "1px solid var(--warning)" }}>
+        <span className="text-lg shrink-0">⚠️</span>
+        <div className="text-xs leading-relaxed" style={{ color: "var(--warning)" }}>
+          <strong className="block mb-1">{t("settings.sheet.csv.warningTitle")}</strong>
+          {t("settings.sheet.csv.warningDesc")}
+        </div>
+      </div>
+
+      {/* Riscos */}
+      <div className="text-xs text-faint uppercase tracking-wide font-semibold mb-3">
+        {t("settings.sheet.csv.risksTitle")}
+      </div>
+      <div className="flex flex-col gap-2 mb-5">
+        {RISKS.map(r => (
+          <div key={r.key} className="flex gap-3 p-3 rounded-lg bg-raised border border-default">
+            <span className="shrink-0">{r.icon}</span>
+            <div className="text-xs text-secondary leading-relaxed">
+              <strong className="block text-primary mb-0.5">
+                {t(`settings.sheet.csv.risks.${r.key}.title`)}
+              </strong>
+              {t(`settings.sheet.csv.risks.${r.key}.desc`)}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Casos de uso */}
+      <div className="text-xs text-faint uppercase tracking-wide font-semibold mb-3">
+        {t("settings.sheet.csv.useCasesTitle")}
+      </div>
+      <div className="flex flex-col gap-1.5 mb-5">
+        {["solo", "migration", "backup"].map(u => (
+          <div key={u} className="flex gap-2 items-start text-xs text-secondary">
+            <span className="text-success mt-0.5">✓</span>
+            {t(`settings.sheet.csv.useCases.${u}`)}
+          </div>
+        ))}
+      </div>
+
+      {/* Setup */}
+      <div className="text-xs text-faint uppercase tracking-wide font-semibold mb-3">
+        {t("settings.sheet.csv.setupTitle")}
+      </div>
+      <div className="p-3 rounded-lg bg-raised border border-default text-xs mb-2">
+        <div className="text-secondary mb-2">
+          {t("settings.sheet.csv.setupDesc")}{" "}
+          <code className="text-brand-light bg-base px-1 rounded">kappy-engine/.env</code>
+        </div>
+        <pre className="text-success bg-base p-2 rounded text-[10px] leading-relaxed whitespace-pre">
+{`DATA_PROVIDER=csv
+CSV_DIR=./data`}
+        </pre>
+      </div>
+      <div className="text-[11px] text-faint">{t("settings.sheet.csv.filesDesc")}</div>
     </Card>
   );
 }

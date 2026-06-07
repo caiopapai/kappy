@@ -95,6 +95,39 @@
       "engineUrlDesc": "Add to file",
       "engineEnv": "Configure credentials in the engine",
       "engineEnvDesc": "Add to file"
+    },
+    "csv": {
+      "subtitle": "Local CSV files on the server",
+      "warningTitle": "Warning — CSV is not recommended for intensive use",
+      "warningDesc": "Suitable for individual, local use. For teams or frequent use, consider Google Sheets or a database.",
+      "risksTitle": "Known risks",
+      "risks": {
+        "concurrency": {
+          "title": "No concurrency control",
+          "desc": "Multiple users writing simultaneously may corrupt data."
+        },
+        "atomic": {
+          "title": "No atomic transactions",
+          "desc": "A failure mid-write may leave the file in an invalid state."
+        },
+        "relations": {
+          "title": "No relations between files",
+          "desc": "No referential integrity."
+        },
+        "performance": {
+          "title": "Limited performance",
+          "desc": "Each read scans the entire file. With many records, it becomes slow."
+        }
+      },
+      "useCasesTitle": "When it makes sense",
+      "useCases": {
+        "solo": "Single user, local and occasional use",
+        "migration": "Data migration between systems",
+        "backup": "Simple backup and data export"
+      },
+      "setupTitle": "Configuration",
+      "setupDesc": "Set in the file",
+      "filesDesc": "Files will be created automatically in kappy-engine/data/ on first run."
     }
   },
   "marketApis": {
@@ -131,6 +164,10 @@
       "database": {
         "label": "Database",
         "desc": "SQL & NoSQL"
+      },
+      "csv": {
+        "label": "CSV",
+        "desc": "Local files"
       }
     },
     "demo": {
@@ -142,6 +179,39 @@
     "database": {
       "subtitle": "SQL and NoSQL databases",
       "desc": "Database support will be added in future versions of kappy-engine. Each provider will have its own repository implementing the same interface."
+    },
+    "csv": {
+      "subtitle": "Local CSV files on the server",
+      "warningTitle": "Warning — CSV is not recommended for intensive use",
+      "warningDesc": "CSV is suitable for individual, local use. For teams or frequent use, consider Google Sheets or a database.",
+      "risksTitle": "Known risks",
+      "risks": {
+        "concurrency": {
+          "title": "No concurrency control",
+          "desc": "If multiple users or processes write at the same time, data may be corrupted."
+        },
+        "atomic": {
+          "title": "No atomic transactions",
+          "desc": "If the process fails mid-write, the file may be left in an invalid state."
+        },
+        "relations": {
+          "title": "No relations between files",
+          "desc": "Each entity is a separate file. There is no referential integrity — deleting a category does not delete its subcategories."
+        },
+        "performance": {
+          "title": "Limited performance",
+          "desc": "Each read scans the entire file. With thousands of records, queries become slow."
+        }
+      },
+      "useCasesTitle": "When it makes sense",
+      "useCases": {
+        "solo": "Single user, local and occasional use",
+        "migration": "Data migration between systems",
+        "backup": "Simple backup and data export"
+      },
+      "setupTitle": "Configuration",
+      "setupDesc": "Set in the file",
+      "filesDesc": "Files will be created automatically in kappy-engine/data/ on first run."
     }
   },
   "theme": {

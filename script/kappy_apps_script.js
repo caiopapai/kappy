@@ -52,8 +52,8 @@ const SHEETS_CONFIG = {
     types:   ["id",  "str",  "str",  "id"],
   },
   transactions: {
-    headers: ["id", "accountId", "amount", "currency", "date", "subcategoryId", "notes", "type", "recurring"],
-    types:   ["id",  "id",       "num",    "str",      "str",  "id",            "str",   "str",  "bool"],
+    headers: ["id", "accountId", "entityType", "entityId", "amount", "currency", "date", "subcategoryId", "notes", "type", "recurring"],
+    types:   ["id",  "id",       "str",         "str",      "num",    "str",      "str",  "id",            "str",   "str",  "bool"],
   },
   recurring_rules: {
     headers: ["id", "accountId", "amount", "currency", "subcategoryId", "type", "notes", "startDate", "endDate", "hasNoEnd", "active"],
@@ -68,8 +68,16 @@ const SHEETS_CONFIG = {
     types:   ["id",  "str",      "str",    "str",       "str",      "str",    "str",  "str",  "num",      "num",       "num",        "str",      "num",        "num"],
   },
   goals: {
-    headers: ["id", "type", "label", "targetValue", "currency"],
-    types:   ["id",  "str",  "str",   "num",         "str"],
+    headers: ["id", "type", "label", "targetValue", "currentValue", "currency", "accountIds"],
+    types:   ["id",  "str",  "str",   "num",         "num",          "str",      "str"],
+  },
+  credit_cards: {
+    headers: ["id", "name", "bank", "limit", "used", "currency", "due_date", "close_date", "accountId", "color"],
+    types:   ["id",  "str",  "str",  "num",   "num",  "str",      "num",      "num",        "str",       "str"],
+  },
+  loans: {
+    headers: ["id", "name", "bank", "contracted", "paid", "installment", "currency", "start_date", "end_date", "accountId"],
+    types:   ["id",  "str",  "str",  "num",        "num",  "num",         "str",      "str",         "str",      "str"],
   },
   settings: {
     headers: ["id", "key", "value"],

@@ -8,6 +8,8 @@ import { useGoalsStore }        from "./store/goalsStore";
 import { useInvestmentsStore }  from "./store/investmentsStore";
 import { useTransactionsStore } from "./store/transactionsStore";
 import { useBudgetsStore }      from "./store/budgetsStore";
+import { useCreditCardsStore }  from "./store/creditCardsStore";
+import { useLoansStore }        from "./store/loansStore";
 import { useConfigStore }       from "./store/configStore";
 import { useSettingsStore }      from "./store/settingsStore";
 import { IS_CONFIGURED, bootstrapApi } from "./services/sheetsApi";
@@ -32,6 +34,8 @@ function useBootstrap() {
   const setInvestments   = useInvestmentsStore(s => s.setAll);
   const setTransactions  = useTransactionsStore(s => s.setAll);
   const setBudgets       = useBudgetsStore(s => s.setAll);
+  const setCreditCards   = useCreditCardsStore(s => s.setAll);
+  const setLoans         = useLoansStore(s => s.setAll);
 
   useEffect(() => {
     checkConfig()
@@ -53,6 +57,8 @@ function useBootstrap() {
           setInvestments(data.investments || []);
           setTransactions(data.transactions || [], data.recurringRules || []);
           setBudgets(data.budgets       || []);
+          setCreditCards(data.creditCards || []);
+          setLoans(data.loans           || []);
         } catch (err) {
           console.error("[kappy] bootstrap failed:", err.message);
         }
