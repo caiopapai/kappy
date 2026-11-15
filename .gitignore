@@ -1,0 +1,7 @@
+# Cada projeto tem o seu próprio .gitignore; isto cobre apenas a raiz.
+node_modules/
+.env
+.env.local
+*.log
+.DS_Store
+Thumbs.db
