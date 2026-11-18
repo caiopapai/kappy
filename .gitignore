@@ -1,38 +1,7 @@
-# Dependências
-node_modules
-
-# Build
-dist
-dist-ssr
-
-# Variáveis de ambiente — NUNCA versionar
+# Cada projeto tem o seu próprio .gitignore; isto cobre apenas a raiz.
+node_modules/
 .env
 .env.local
-.env*.local
-
-# Vite
-*.local
-
-# Editor
-.vscode/*
-!.vscode/extensions.json
-.idea
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-
-# Sistema operativo
+*.log
 .DS_Store
 Thumbs.db
-
-# Logs
-*.log
-npm-debug.log*
-
-# Playwright — ficheiros gerados pelos testes
-test-results/
-playwright-report/
-blob-report/
-playwright/.cache/
